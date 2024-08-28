@@ -1,0 +1,59 @@
+User Authentication
+
+ - As a nurse/ administrator,
+	so that I can securely access the system,
+	I wish to log in using my credentials.
+	
+Patient Registration
+
+ - As a nurse,
+	so that I can add new patients to the system,
+	I want to create a new patient record with their personal details
+	
+Appointment Scheduling
+
+ - As a nurse,
+	so that a patient can see a doctor,
+	I want to schedule an appointment without allowing double-booking for the same doctor
+
+Routine Check Recording
+
+ - As a nurse,
+	so that I can document patient visit details,
+	I want to record routine check results and patient symptoms during their visit
+	
+Lab Test Management
+
+ - As a doctor/ nurse,
+	so that I can diagnose a patient accurately,
+	I want to order lab tests and record the results in the system
+	
+Visit Information Management
+
+ - As a nurse,
+	so that I can update patient visit records,
+	I want to edit visit information, such as test results and final diagnoses
+	
+Patient Search
+
+ - As a nurse,
+	so that I can quickly find a patient's records,
+	I want to search for a patient by their name or date of birth
+	
+Appointment Editing
+
+ - As a nurse,
+	so that I can make changes to a scheduled appointment,
+	I want to edit appointment details before the appointment date.
+	
+Visit Report Generation
+
+ - As an administrator, 
+	so that I can review patient visits within a specified date range,
+	I want to generate a report of all visits, including detials like diagnoses and test results
+	
+Database Query Interface
+
+ - As an administrator,
+	so that I can perform custom queries,
+	I want to execute SQL queries directly and view the results in a tab format

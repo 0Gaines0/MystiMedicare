@@ -1,0 +1,5 @@
+Project Description
+
+This project involves designing and implementing a healthcare system for a clinic.
+The system will manage the personal and medical information of patients, and operations performed bt nurses and administrators.
+The system must allow for creating and scheduling appointments, managing patient records, performing/ recording routine checks, ordering/ recording lab tests and finally generating reports for administrators.
