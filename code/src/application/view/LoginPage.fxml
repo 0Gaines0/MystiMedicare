@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.LoginPage">
+   <children>
+      <ImageView fitHeight="264.0" fitWidth="379.0" layoutX="23.0" layoutY="-26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/mystimedicare_logo.png" />
+         </image>
+      </ImageView>
+      <BorderPane layoutX="64.0" layoutY="195.0" prefHeight="282.0" prefWidth="274.0" style="-fx-background-color: #34252F;">
+         <center>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="274.0">
+                     <children>
+                        <Text fill="#c99da3" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign In" textAlignment="CENTER">
+                           <font>
+                              <Font name="Modern No. 20" size="33.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="71.0" prefWidth="274.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="102.0" prefWidth="61.0">
+                           <children>
+                              <ImageView fitHeight="38.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/login_img.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <TextField fx:id="userIDTextField" prefHeight="37.0" prefWidth="189.0" promptText="Enter User ID" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="274.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="102.0" prefWidth="61.0">
+                           <children>
+                              <ImageView fitHeight="64.0" fitWidth="168.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/password-icon.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <PasswordField fx:id="passwordTextField" prefHeight="37.0" prefWidth="189.0" promptText="Enter Password" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #5C946E;" text="Log In" textFill="WHITE">
+                     <font>
+                        <Font name="Modern No. 20" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#34252f" height="500.0" layoutX="-69.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="74.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#34252f" height="564.0" layoutX="393.0" layoutY="-64.0" stroke="BLACK" strokeType="INSIDE" width="6.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#34252f" height="84.0" layoutX="-1.0" layoutY="-78.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#34252f" height="5.0" layoutX="-1.0" layoutY="495.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+   </children>
+</AnchorPane>
