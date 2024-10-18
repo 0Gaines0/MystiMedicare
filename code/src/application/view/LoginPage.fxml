@@ -61,7 +61,7 @@
                         <PasswordField fx:id="passwordTextField" prefHeight="37.0" prefWidth="189.0" promptText="Enter Password" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #5C946E;" text="Log In" textFill="WHITE">
+                  <Button fx:id="loginBtn" mnemonicParsing="false" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #5C946E;" text="Log In" textFill="WHITE">
                      <font>
                         <Font name="Modern No. 20" size="15.0" />
                      </font>
