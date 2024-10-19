@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.model.credentials.ActiveUser;
+import application.view.operations.NavigationPage;
 import application.viewModel.LoginPageViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class LoginPage {
 
@@ -34,6 +36,7 @@ public class LoginPage {
 	private Button loginBtn;
 
 	private LoginPageViewModel loginPageViewModel;
+	private NavigationPage navigationPageCodeBehind;
 
 	@FXML
 	void initialize() {
@@ -48,6 +51,7 @@ public class LoginPage {
 	 */
 	public LoginPage() {
 		this.loginPageViewModel = new LoginPageViewModel();
+		this.navigationPageCodeBehind = new NavigationPage();
 	}
 
 	private void setUpLoginBtn() {
@@ -60,9 +64,8 @@ public class LoginPage {
 				// TODO
 				// Use viewmodel to determine if username and password is found in db
 				if (this.loginPageViewModel.userLoginIsSuccessful()) {
-					var errorPopUp = new Alert(AlertType.CONFIRMATION);
-					errorPopUp.setContentText("Login Success");
-					errorPopUp.showAndWait();
+					this.closeWindow();
+					this.navigationPageCodeBehind.openNavigationPage();
 				} else {
 					var errorPopUp = new Alert(AlertType.ERROR);
 					errorPopUp.setContentText("Login failed, incorrect username of password");
@@ -70,6 +73,11 @@ public class LoginPage {
 				}
 			}
 		}));
+	}
+	
+	private void closeWindow() {
+		var stage = (Stage) this.anchorPane.getScene().getWindow();
+		stage.close();
 	}
 
 	private boolean loginFieldsAreNull() {
