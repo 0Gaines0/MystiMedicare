@@ -33,6 +33,7 @@ public class LoginPage {
 	@FXML
 	void initialize() {
 		this.fxmlValidComponents();
+		this.setUpLoginBtn();
 
 	}
 
@@ -42,7 +43,7 @@ public class LoginPage {
 
 	private void setUpLoginBtn() {
 		this.loginBtn.setOnAction(((event) -> {
-			if (this.loginFieldsAreNull()) {
+			if (this.loginFieldsAreNull() || this.loginFieldsAreEmpty()) {
 				var errorPopUp = new Alert(AlertType.ERROR);
 				errorPopUp.setContentText("Login failed, invalid username of password");
 				errorPopUp.showAndWait();
@@ -57,6 +58,13 @@ public class LoginPage {
 	private boolean loginFieldsAreNull() {
 		var userId = this.userIDTextField.textProperty().getValue() == null;
 		var password = this.passwordTextField.textProperty().getValue() == null;
+		
+		return userId || password;
+	}
+	
+	private boolean loginFieldsAreEmpty() {
+		var userId = this.userIDTextField.textProperty().getValue().isBlank();
+		var password = this.passwordTextField.textProperty().getValue().isBlank();
 		
 		return userId || password;
 	}

@@ -17,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            if (checkDatabaseConnection()) {
+            if (this.checkDatabaseConnection()) {
                 System.out.println("Connected to the database successfully.");
             } else {
                 System.out.println("Failed to connect to the database.");
