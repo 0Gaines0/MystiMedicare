@@ -36,6 +36,22 @@ public class CredentialManager {
 		return userId.equals(MOCK_USERID);
 
 	}
+	
+	/**
+	 * Passwords match.
+	 *
+	 * @param userId the user id
+	 * @param password the password
+	 * @return true, if successful
+	 */
+	public boolean passwordsMatch(String userId, String password) {
+		var credential = this.getSpecifiedCredential(userId);
+		if (credential != null) {
+			return credential.getPassword().equals(password);
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * Gets the specified credential.
