@@ -1,5 +1,6 @@
 package application.viewModel;
 
+import application.model.credentials.ActiveUser;
 import application.model.credentials.CredentialManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -31,11 +32,15 @@ public class LoginPageViewModel {
 		// TODO
 		// Implement ability to check if user exist in database
 
-		return this.credManager.userIdExist(userId) && this.credManager.passwordsMatch(userId, password);
+		if (this.credManager.userIdExist(userId) && this.credManager.passwordsMatch(userId, password)) {
+			ActiveUser.setActiveUser(userId, password);
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
-	
 	/**
 	 * Gets the user id property.
 	 *
@@ -44,7 +49,7 @@ public class LoginPageViewModel {
 	public StringProperty getUserIdProperty() {
 		return this.userIdProperty;
 	}
-	
+
 	/**
 	 * Gets the password property.
 	 *
@@ -54,5 +59,4 @@ public class LoginPageViewModel {
 		return this.passwordProperty;
 	}
 
-	
 }

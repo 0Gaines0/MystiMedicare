@@ -3,6 +3,7 @@ package application.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.model.credentials.ActiveUser;
 import application.viewModel.LoginPageViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

@@ -40,6 +40,11 @@ public class User {
 		if (role == null) {
 			throw new IllegalArgumentException("role " + PARAM_MUST_NOT_BE_EMPTY_OR_NULL);
 		}
+		this.id = userId;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+	
 	}
 
 	/**
