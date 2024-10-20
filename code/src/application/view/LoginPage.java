@@ -61,7 +61,6 @@ public class LoginPage {
 				errorPopUp.setContentText("Login failed, invalid username of password");
 				errorPopUp.showAndWait();
 			} else {
-				// Use viewmodel to determine if username and password is found in db
 				try {
 					if (this.loginPageViewModel.userLoginIsSuccessful()) {
 						this.closeWindow();

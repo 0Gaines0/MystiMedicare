@@ -121,4 +121,42 @@ public class PatientDAL {
 			}
 		}
 	}
+	
+	/**
+	 * Updates the patient's information.
+	 *
+	 * @param patientId the patient ID
+	 * @param lastName the last name
+	 * @param firstName the first name
+	 * @param dob the date of birth
+	 * @param gender the gender
+	 * @param addressId the address ID
+	 * @param phone the phone number
+	 * @throws SQLException the SQL exception
+	 */
+	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender,
+			String addressId, String phone) throws SQLException {
+
+		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
+					 + "address_id = ?, phone = ? WHERE id = ?";
+
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			stmt.setString(1, lastName);
+			stmt.setString(2, firstName);
+			stmt.setString(3, dob);
+			stmt.setString(4, gender);
+			stmt.setString(5, addressId);
+			stmt.setString(6, phone);
+			stmt.setString(7, patientId);
+			int rowsAffected = stmt.executeUpdate();
+
+			if (rowsAffected > 0) {
+				System.out.println("Patient information updated successfully.");
+			} else {
+				System.out.println("Patient not found. No update was made.");
+			}
+		}
+	}
 }
