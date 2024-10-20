@@ -24,10 +24,10 @@ public class UserDAL {
 	 * @throws SQLException
 	 */
 	public static User loginUser(String username, String password) throws SQLException {
-	    String query = "SELECT u.id, u.username, CONCAT(n.first_name, ' ', n.last_name) AS full_name " 
+	    String query = "SELECT u.id, u.username, u.role, u.password " 
 	    			 + "FROM `user` u " 
 	    			 + "LEFT JOIN nurse n ON u.id = n.id " 
-	    			 + "WHERE u.username = ? AND u.password = ?";
+	    			 + "WHERE u.id = ? AND u.password = ?";
 	    
 	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 	        PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -38,7 +38,7 @@ public class UserDAL {
 	        ResultSet rs = pstmt.executeQuery();
 	        
 	        if (rs.next()) {
-	            String roleString = rs.getString("role").toUpperCase();
+	        	String roleString = rs.getString("role").toUpperCase();
 	            UserRole role;
 	            try {
 	                role = UserRole.valueOf(roleString);
@@ -91,7 +91,7 @@ public class UserDAL {
 	        	stmt.setString(2, patient.getLastName());
 	        	stmt.setString(3, patient.getFirstName());
 	        	stmt.setString(4, patient.getDob());
-	        	stmt.setString(5, patient.getAddressId());
+	        	stmt.setString(5, patient.getAddress().getId());
 	        	stmt.setString(6, patient.getPhone());
 	        	stmt.setString(7, patient.getStatus());
 	        	stmt.setString(8, patient.getGender());
@@ -116,7 +116,7 @@ public class UserDAL {
 	        	stmt.setString(1, patient.getLastName());
 	        	stmt.setString(2, patient.getFirstName());
 	        	stmt.setString(3, patient.getDob());
-	        	stmt.setString(4, patient.getAddressId());
+	        	stmt.setString(4, patient.getAddress().getId());
 	        	stmt.setString(5, patient.getPhone());
 	        	stmt.setString(6, patient.getStatus());
 	        	stmt.setString(7, patient.getGender());
