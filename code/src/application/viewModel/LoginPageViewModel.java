@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import application.DAL.UserDAL;
 import application.model.credentials.ActiveUser;
-import application.model.credentials.CredentialManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
