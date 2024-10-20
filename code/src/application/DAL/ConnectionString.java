@@ -7,8 +7,8 @@ package application.DAL;
  */
 public class ConnectionString {
 	
-	private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
+	private static final String USERNAME = "drivera3";
+    private static final String PASSWORD = "danielrivera";
     private static final String HOST = "cs-dblab01.uwg.westga.edu";
     private static final String DATABASE = "cs3230f24b";
     private static final int PORT = 3306;
