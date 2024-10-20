@@ -81,21 +81,23 @@ public class UserDAL {
 	 * @throws SQLException
 	 */
 	public void registerPatient(Patient patient) throws SQLException {
-	    String query = "";
-	    
-	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
-	    	PreparedStatement stmt = conn.prepareCall(query)) {
-	         
-	        stmt.setString(1, patient.getLastName());
-	        stmt.setString(2, patient.getFirstName());
-	        stmt.setDate(3, java.sql.Date.valueOf(patient.getDob()));
-	        stmt.setString(4, patient.getGender());
-	        stmt.setString(5, patient.getAddressId());
-	        stmt.setString(6, patient.getPhone());
-	        stmt.setString(7, patient.getStatus());
+		if (ActiveUser.getActiveUser().getRole() == UserRole.NURSE) {
+		    String query = "INSERT INTO patient (id, last_name, first_name, dob, address_id, phone, status, gender) " 
+	    				+  "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-	        stmt.executeQuery();
-	    }
+		    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+		    		PreparedStatement stmt = conn.prepareStatement(query)) {
+		    	stmt.setString(1, patient.getId());
+	        	stmt.setString(2, patient.getLastName());
+	        	stmt.setString(3, patient.getFirstName());
+	        	stmt.setString(4, patient.getDob());
+	        	stmt.setString(5, patient.getAddressId());
+	        	stmt.setString(6, patient.getPhone());
+	        	stmt.setString(7, patient.getStatus());
+	        	stmt.setString(8, patient.getGender());
+	        	stmt.executeUpdate();
+		    }
+		}
 	}
 	
 	/**
@@ -104,21 +106,24 @@ public class UserDAL {
 	 * @throws SQLException
 	 */
 	public void editPatient(Patient patient) throws SQLException {
-	    String query = "";
-	    
-	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
-	    	PreparedStatement stmt = conn.prepareCall(query)) {
-	         
-	        stmt.setString(1, patient.getId());
-	        stmt.setString(2, patient.getFirstName());
-	        stmt.setDate(3, java.sql.Date.valueOf(patient.getDob()));
-	        stmt.setString(4, patient.getGender());
-	        stmt.setString(5, patient.getAddressId());
-	        stmt.setString(6, patient.getPhone());
-	        stmt.setString(7, patient.getStatus());
+		if (ActiveUser.getActiveUser().getRole() == UserRole.NURSE) {
+			String query = "UPDATE patient " 
+	    				+  "SET last_name = ?, first_name = ?, dob = ?, address_id = ?, phone = ?, status = ?, gender = ? " 
+	    				+  "WHERE id = ?";
 
-	        stmt.executeQuery();
-	    }
+	    	try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+	    		PreparedStatement stmt = conn.prepareStatement(query)) {
+	        	stmt.setString(1, patient.getLastName());
+	        	stmt.setString(2, patient.getFirstName());
+	        	stmt.setString(3, patient.getDob());
+	        	stmt.setString(4, patient.getAddressId());
+	        	stmt.setString(5, patient.getPhone());
+	        	stmt.setString(6, patient.getStatus());
+	        	stmt.setString(7, patient.getGender());
+	        	stmt.setString(8, patient.getId());
+	        	stmt.executeUpdate();
+	    	}
+		}
 	}
 	
 	/**
