@@ -9,6 +9,10 @@ import java.sql.*;
 
 import application.DAL.ConnectionString;
 
+/**
+ * main class
+ * @author danielrivera jefferygaines
+ */
 public class Main extends Application {
 
 	public static final String WINDOW_TITLE = "MystiMedicare";
@@ -46,6 +50,10 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * main method
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
