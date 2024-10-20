@@ -1,9 +1,9 @@
 package application.view;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import application.model.credentials.ActiveUser;
 import application.view.operations.NavigationPage;
 import application.viewModel.LoginPageViewModel;
 import javafx.fxml.FXML;
@@ -61,15 +61,17 @@ public class LoginPage {
 				errorPopUp.setContentText("Login failed, invalid username of password");
 				errorPopUp.showAndWait();
 			} else {
-				// TODO
-				// Use viewmodel to determine if username and password is found in db
-				if (this.loginPageViewModel.userLoginIsSuccessful()) {
-					this.closeWindow();
-					this.navigationPageCodeBehind.openNavigationPage();
-				} else {
-					var errorPopUp = new Alert(AlertType.ERROR);
-					errorPopUp.setContentText("Login failed, incorrect username of password");
-					errorPopUp.showAndWait();
+				try {
+					if (this.loginPageViewModel.userLoginIsSuccessful()) {
+						this.closeWindow();
+						this.navigationPageCodeBehind.openNavigationPage();
+					} else {
+						var errorPopUp = new Alert(AlertType.ERROR);
+						errorPopUp.setContentText("Login failed, incorrect username of password");
+						errorPopUp.showAndWait();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
 		}));

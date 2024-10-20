@@ -1,15 +1,20 @@
 package application.viewModel;
 
+import java.sql.SQLException;
+
+import application.DAL.UserDAL;
 import application.model.credentials.ActiveUser;
-import application.model.credentials.CredentialManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * the loginpageviewmodel
+ * @author jeffrey gaines
+ */
 public class LoginPageViewModel {
 
 	private StringProperty userIdProperty;
 	private StringProperty passwordProperty;
-	private CredentialManager credManager;
 
 	/**
 	 * Instantiates a new login page view model.
@@ -17,23 +22,19 @@ public class LoginPageViewModel {
 	public LoginPageViewModel() {
 		this.userIdProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
-		this.credManager = new CredentialManager();
 	}
 
 	/**
 	 * User login is successful.
 	 *
 	 * @return true, if successful
+	 * @throws SQLException 
 	 */
-	public boolean userLoginIsSuccessful() {
+	public boolean userLoginIsSuccessful() throws SQLException {
 		var userId = this.userIdProperty.getValue().trim();
 		var password = this.passwordProperty.getValue().trim();
-
-		// TODO
-		// Implement ability to check if user exist in database
-
-		if (this.credManager.userIdExist(userId) && this.credManager.passwordsMatch(userId, password)) {
-			ActiveUser.setActiveUser(userId, password);
+		if (UserDAL.checkUserId(userId)) {
+			ActiveUser.setActiveUser(UserDAL.loginUser(userId, password));
 			return true;
 		} else {
 			return false;

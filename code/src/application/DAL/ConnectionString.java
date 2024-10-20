@@ -3,7 +3,6 @@ package application.DAL;
 /**
  * Connection string
  * @author drivera
- * @verison 1.0
  */
 public class ConnectionString {
 	
