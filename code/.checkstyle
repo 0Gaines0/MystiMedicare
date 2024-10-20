@@ -4,7 +4,7 @@
   <local-check-config name="CS3230_Checkstyle" location="UWG_Checks.xml" type="project" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
-  <fileset name="all" enabled="true" check-config-name="UWG_checks Orsega" local="false">
+  <fileset name="all" enabled="true" check-config-name="CS3230_Checkstyle" local="true">
     <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
 </fileset-config>
