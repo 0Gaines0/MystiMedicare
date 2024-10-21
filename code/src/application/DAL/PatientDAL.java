@@ -106,7 +106,7 @@ public class PatientDAL {
 			String phone, String status) throws SQLException {
 		if (ActiveUser.getActiveUser().getRole() == UserRole.NURSE) {
 			String query = "INSERT INTO patient (last_name, first_name, dob, gender, address_id, phone, status) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+						 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 			try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 					PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -124,39 +124,40 @@ public class PatientDAL {
 	
 	/**
 	 * Updates the patient's information.
-	 *
-	 * @param patientId the patient ID
-	 * @param lastName the last name
-	 * @param firstName the first name
-	 * @param dob the date of birth
-	 * @param gender the gender
-	 * @param addressId the address ID
-	 * @param phone the phone number
-	 * @throws SQLException the SQL exception
+	 * @param patientId
+	 * @param lastName
+	 * @param firstName
+	 * @param dob
+	 * @param gender
+	 * @param oldAddressId
+	 * @param newAddressId
+	 * @param phone
+	 * @throws SQLException
 	 */
 	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender,
-			String addressId, String phone) throws SQLException {
+			String oldAddressId, String newAddressId, String phone) throws SQLException {
 
-		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
-					 + "address_id = ?, phone = ? WHERE id = ?";
+	    String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
+                	 + "address_id = ?, phone = ? WHERE id = ? AND address_id = ?";
 
-		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
-				PreparedStatement stmt = conn.prepareStatement(query)) {
+	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+	            PreparedStatement stmt = conn.prepareStatement(query)) {
 
-			stmt.setString(1, lastName);
-			stmt.setString(2, firstName);
-			stmt.setString(3, dob);
-			stmt.setString(4, gender);
-			stmt.setString(5, addressId);
-			stmt.setString(6, phone);
-			stmt.setString(7, patientId);
-			int rowsAffected = stmt.executeUpdate();
+	        stmt.setString(1, lastName);
+	        stmt.setString(2, firstName);
+	        stmt.setString(3, dob);
+	        stmt.setString(4, gender);
+	        stmt.setString(5, newAddressId);
+	        stmt.setString(6, phone);
+	        stmt.setString(7, patientId);
+	        stmt.setString(8, oldAddressId);
+	        int rowsAffected = stmt.executeUpdate();
 
-			if (rowsAffected > 0) {
-				System.out.println("Patient information updated successfully.");
-			} else {
-				System.out.println("Patient not found. No update was made.");
-			}
-		}
+	        if (rowsAffected > 0) {
+	            System.out.println("Patient information updated successfully.");
+	        } else {
+	            System.out.println("Patient not found or old address ID did not match. No update was made.");
+	        }
+	    }
 	}
 }
