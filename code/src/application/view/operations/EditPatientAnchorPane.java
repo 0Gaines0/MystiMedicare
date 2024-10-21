@@ -126,6 +126,7 @@ public class EditPatientAnchorPane {
 				var currentPatientId = patient.getId();
 				this.validateTextFields();
 				this.editPatientViewModel.updatePatient(currentPatientId);
+				this.setUpPatientComboBox();
 			}
 			
 		}));
