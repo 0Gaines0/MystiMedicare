@@ -155,20 +155,20 @@ public class PatientDAL {
 	}
 
 	/**
-	 * Updates the patient's information.
+	 * Update patient.
 	 *
-	 * @param patientId the patient ID
-	 * @param lastName  the last name
+	 * @param patientId the patient id
+	 * @param lastName the last name
 	 * @param firstName the first name
-	 * @param dob       the date of birth
-	 * @param gender    the gender
-	 * @param addressId the address ID
-	 * @param phone     the phone number
+	 * @param dob the dob
+	 * @param gender the gender
+	 * @param oldAddressId the old address id
+	 * @param newAddressId the new address id
+	 * @param phone the phone
 	 * @throws SQLException the SQL exception
 	 */
 	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender,
-			String addressId, String phone) throws SQLException {
-
+			String oldAddressId, String newAddressId, String phone) throws SQLException {
 		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
 				+ "address_id = ?, phone = ? WHERE id = ?";
 
@@ -179,15 +179,16 @@ public class PatientDAL {
 			stmt.setString(2, firstName);
 			stmt.setString(3, dob);
 			stmt.setString(4, gender);
-			stmt.setString(5, addressId);
+			stmt.setString(5, newAddressId);
 			stmt.setString(6, phone);
 			stmt.setString(7, patientId);
+			stmt.setString(8, oldAddressId);
 			int rowsAffected = stmt.executeUpdate();
 
 			if (rowsAffected > 0) {
 				System.out.println("Patient information updated successfully.");
 			} else {
-				System.out.println("Patient not found. No update was made.");
+				System.out.println("Patient not found or old address ID did not match. No update was made.");
 			}
 		}
 	}
