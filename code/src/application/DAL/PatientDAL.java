@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import application.model.credentials.ActiveUser;
 import application.model.credentials.Patient;
@@ -12,12 +14,15 @@ import application.model.credentials.UserRole;
 
 /**
  * The Class PatientDAL.
+ * 
  * @author Jeffrey Gaines
  */
 public class PatientDAL {
 
 	private static final String QUERY_FOR_PATIENT = "SELECT * " + "FROM patient p "
 			+ "WHERE p.last_name = ? AND p.first_name = ? AND p.dob = ? AND p.gender = ? AND p.address_id = ?";
+
+	private static final String QUERY_FOR_ALL_PATIENTS = "SELECT * FROM cs3230f24b.patient";
 
 	/**
 	 * Patient exists.
@@ -51,6 +56,33 @@ public class PatientDAL {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Gets the all patients.
+	 *
+	 * @return the all patients
+	 * @throws SQLException the SQL exception
+	 */
+	public static List<Patient> getAllPatients() throws SQLException {
+		String query = QUERY_FOR_ALL_PATIENTS;
+		var patients = new ArrayList<Patient>();
+
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				var address = AddressDAL.getAddressById(rs.getString("address_id"));
+				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
+						rs.getString("dob"), address, rs.getString("phone"), rs.getString("status"),
+						rs.getString("gender"));
+				patients.add(patient);
+			}
+
+			return patients;
+		}
 	}
 
 	/**
@@ -93,13 +125,13 @@ public class PatientDAL {
 	/**
 	 * Register patient.
 	 *
-	 * @param lastName the last name
+	 * @param lastName  the last name
 	 * @param firstName the first name
-	 * @param dob the dob
-	 * @param gender the gender
+	 * @param dob       the dob
+	 * @param gender    the gender
 	 * @param addressId the address id
-	 * @param phone the phone
-	 * @param status the status
+	 * @param phone     the phone
+	 * @param status    the status
 	 * @throws SQLException the SQL exception
 	 */
 	public static void registerPatient(String lastName, String firstName, String dob, String gender, String addressId,
@@ -121,24 +153,24 @@ public class PatientDAL {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the patient's information.
 	 *
 	 * @param patientId the patient ID
-	 * @param lastName the last name
+	 * @param lastName  the last name
 	 * @param firstName the first name
-	 * @param dob the date of birth
-	 * @param gender the gender
+	 * @param dob       the date of birth
+	 * @param gender    the gender
 	 * @param addressId the address ID
-	 * @param phone the phone number
+	 * @param phone     the phone number
 	 * @throws SQLException the SQL exception
 	 */
 	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender,
 			String addressId, String phone) throws SQLException {
 
 		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
-					 + "address_id = ?, phone = ? WHERE id = ?";
+				+ "address_id = ?, phone = ? WHERE id = ?";
 
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(query)) {

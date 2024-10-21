@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -226,5 +227,7 @@
       </VBox>
       <Button fx:id="editBtn" layoutX="714.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="81.0" style="-fx-background-color: #5C946E;" text="Edit" textFill="WHITE" />
       <Button fx:id="cancelBtn" layoutX="625.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="81.0" style="-fx-background-color: #D3D3D3;" text="Cancel" />
+      <Button fx:id="selectBtn" layoutX="680.0" layoutY="26.0" mnemonicParsing="false" text="Select" />
+      <ListView fx:id="patientListView" layoutX="517.0" layoutY="7.0" prefHeight="64.0" prefWidth="149.0" />
    </children>
 </AnchorPane>
