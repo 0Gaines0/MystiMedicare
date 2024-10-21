@@ -78,6 +78,7 @@ public class EditPatientAnchorPane {
     private TextField zipCodeTextField;
     
     private EditPatientAnchorPaneViewModel editPatientViewModel;
+    
 
     @FXML
     void initialize() {
@@ -94,8 +95,7 @@ public class EditPatientAnchorPane {
      * Instantiates a new edits the patient anchor pane.
      */
     public EditPatientAnchorPane() {
-    	this.editPatientViewModel = new EditPatientAnchorPaneViewModel();
-    }
+    	this.editPatientViewModel = new EditPatientAnchorPaneViewModel();    }
     
 	private void setUpGenderComboBox() {
 		this.genderComboBox.getItems().add("Male");
@@ -121,8 +121,13 @@ public class EditPatientAnchorPane {
 
 	private void setUpEditBtn() {
 		this.editBtn.setOnAction(((event) -> {
-			this.validateTextFields();
-			this.editPatientViewModel.updatePatient();
+			var patient = this.patientListView.getSelectionModel().getSelectedItem();
+			if (patient != null) {
+				var currentPatientId = patient.getId();
+				this.validateTextFields();
+				this.editPatientViewModel.updatePatient(currentPatientId);
+			}
+			
 		}));
 	}
 	

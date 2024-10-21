@@ -23,6 +23,8 @@ public class PatientDAL {
 			+ "WHERE p.last_name = ? AND p.first_name = ? AND p.dob = ? AND p.gender = ? AND p.address_id = ?";
 
 	private static final String QUERY_FOR_ALL_PATIENTS = "SELECT * FROM cs3230f24b.patient";
+	
+	private static final String QUERY_FOR_PATIENT_ID = "SELECT * FROM cs3230f24b.patient p WHERE p.id = ?";
 
 	/**
 	 * Patient exists.
@@ -121,6 +123,34 @@ public class PatientDAL {
 
 		return null;
 	}
+	
+	/**
+	 * Gets the patient using id.
+	 *
+	 * @param id the id
+	 * @return the patient using id
+	 * @throws SQLException the SQL exception
+	 */
+	public static Patient getPatientUsingId(String id) throws SQLException {
+		String query = QUERY_FOR_PATIENT_ID;
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, id);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				var address = AddressDAL.getAddressById(rs.getString("address_id"));
+				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
+						rs.getString("dob"), address, rs.getString("gender"), rs.getString("phone"),
+						rs.getString("status"));
+				return patient;
+			}
+		}
+
+		return null;
+	}
 
 	/**
 	 * Register patient.
@@ -154,6 +184,7 @@ public class PatientDAL {
 		}
 	}
 
+	
 	/**
 	 * Update patient.
 	 *
@@ -162,13 +193,11 @@ public class PatientDAL {
 	 * @param firstName the first name
 	 * @param dob the dob
 	 * @param gender the gender
-	 * @param oldAddressId the old address id
 	 * @param newAddressId the new address id
 	 * @param phone the phone
 	 * @throws SQLException the SQL exception
 	 */
-	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender,
-			String oldAddressId, String newAddressId, String phone) throws SQLException {
+	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender, String newAddressId, String phone) throws SQLException {
 		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
 				+ "address_id = ?, phone = ? WHERE id = ?";
 
@@ -182,7 +211,6 @@ public class PatientDAL {
 			stmt.setString(5, newAddressId);
 			stmt.setString(6, phone);
 			stmt.setString(7, patientId);
-			stmt.setString(8, oldAddressId);
 			int rowsAffected = stmt.executeUpdate();
 
 			if (rowsAffected > 0) {
