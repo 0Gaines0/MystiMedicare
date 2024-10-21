@@ -26,7 +26,6 @@ public class EditPatientAnchorPaneViewModel {
 	private StringProperty patientStreetTextProperty;
 	private StringProperty patientZipCodeTextProperty;
 
-	private Patient currentPatient;
 
 	/**
 	 * Instantiates a new Edit Patient view model.
@@ -46,29 +45,12 @@ public class EditPatientAnchorPaneViewModel {
 		this.patientDateOfBirthTextProperty = new SimpleStringProperty();
 	}
 
+	
 	/**
-	 * Loads the patient information into the view model for editing.
+	 * Update patient.
 	 *
 	 * @param currentPatientId the current patient id
 	 */
-//	public void loadPatient(Patient patient) {
-//		this.currentPatient = patient;
-//		this.patientFirstNameTextProperty.set(patient.getFirstName());
-//		this.patientLastNameTextProperty.set(patient.getLastName());
-//		this.patientDateOfBirthTextProperty.set(patient.getDob());
-//		this.selectedGenderProperty.set(patient.getGender());
-//		this.patientMobileNumberTextProperty.set(patient.getPhone());
-//		try {
-//			var address = AddressDAL.getAddressById(patient.getAddress().toString());
-//			this.patientStreetTextProperty.set(address.getStreet());
-//			this.cityTextProperty.set(address.getCity());
-//			this.selectedStateProperty.set(address.getState());
-//			this.patientZipCodeTextProperty.set(address.getZipCode());
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	public void updatePatient(String currentPatientId) {
 		Patient currentPatientRow;
 		try {
@@ -89,7 +71,6 @@ public class EditPatientAnchorPaneViewModel {
 		var phone = this.getPatientMobileNumberTextProperty().get();
 
 		try {
-			this.currentPatient = PatientDAL.getPatient(firstName, lastName, dob, gender, oldAddressId);
 			PatientDAL.updatePatient(patientId, lastName, firstName, dob, gender, addressId, phone);
 		} catch (SQLException e) {
 			e.printStackTrace();

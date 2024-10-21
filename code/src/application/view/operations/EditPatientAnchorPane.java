@@ -104,6 +104,7 @@ public class EditPatientAnchorPane {
 	
 	private void setUpPatientComboBox() {
 		try {
+			this.patientListView.getItems().clear();
 			List<Patient> patients = PatientDAL.getAllPatients();
 			this.patientListView.getItems().addAll(patients);
 		} catch (SQLException e) {
