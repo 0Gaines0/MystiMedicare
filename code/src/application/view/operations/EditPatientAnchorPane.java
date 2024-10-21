@@ -2,15 +2,20 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import application.DAL.PatientDAL;
+import application.model.credentials.Patient;
 import application.viewModel.operations.EditPatientAnchorPaneViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -62,18 +67,27 @@ public class EditPatientAnchorPane {
 
     @FXML
     private ComboBox<String> stateComboBox;
+    
+    @FXML
+    private ListView<Patient> patientListView;
+    
+    @FXML
+    private Button selectBtn;
 
     @FXML
     private TextField zipCodeTextField;
     
     private EditPatientAnchorPaneViewModel editPatientViewModel;
+    
 
     @FXML
     void initialize() {
     	this.validateFXMLComponents();
     	this.setUpGenderComboBox();
     	this.setUpStateComboBox();
+    	this.setUpPatientComboBox();
     	this.setUpEditBtn();
+    	this.setUpSelectBtn();
     	this.bindToViewModel();
     }
     
@@ -81,12 +95,21 @@ public class EditPatientAnchorPane {
      * Instantiates a new edits the patient anchor pane.
      */
     public EditPatientAnchorPane() {
-    	this.editPatientViewModel = new EditPatientAnchorPaneViewModel();
-    }
+    	this.editPatientViewModel = new EditPatientAnchorPaneViewModel();    }
     
 	private void setUpGenderComboBox() {
 		this.genderComboBox.getItems().add("Male");
 		this.genderComboBox.getItems().add("Female");
+	}
+	
+	private void setUpPatientComboBox() {
+		try {
+			this.patientListView.getItems().clear();
+			List<Patient> patients = PatientDAL.getAllPatients();
+			this.patientListView.getItems().addAll(patients);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void setUpStateComboBox() {
@@ -99,8 +122,31 @@ public class EditPatientAnchorPane {
 
 	private void setUpEditBtn() {
 		this.editBtn.setOnAction(((event) -> {
-			this.validateTextFields();
-			this.editPatientViewModel.updatePatient();
+			var patient = this.patientListView.getSelectionModel().getSelectedItem();
+			if (patient != null) {
+				var currentPatientId = patient.getId();
+				this.validateTextFields();
+				this.editPatientViewModel.updatePatient(currentPatientId);
+				this.setUpPatientComboBox();
+			}
+			
+		}));
+	}
+	
+	private void setUpSelectBtn() {
+		this.selectBtn.setOnAction(((event) -> {
+			var patient = this.patientListView.getSelectionModel().getSelectedItem();
+			if (patient != null) {
+				this.patientFirstNameTextField.textProperty().set(patient.getFirstName());
+				this.patientLastNameTextField.textProperty().set(patient.getLastName());
+				this.genderComboBox.setValue(patient.getGender());
+				this.patientDateOfBirthTextField.textProperty().set(patient.getDob());
+				this.patientMobileNumberTextField.textProperty().set(patient.getPhone());
+				this.patientStreetTextField.textProperty().set(patient.getAddress().getStreet());
+				this.stateComboBox.setValue(patient.getAddress().getState());
+				this.cityTextField.textProperty().setValue(patient.getAddress().getCity());
+				this.zipCodeTextField.textProperty().setValue(patient.getAddress().getZipCode());
+			}
 		}));
 	}
 	

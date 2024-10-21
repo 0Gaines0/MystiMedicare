@@ -3,6 +3,7 @@ package application.viewModel.operations;
 import java.sql.SQLException;
 import application.DAL.AddressDAL;
 import application.DAL.PatientDAL;
+
 import application.model.credentials.Address;
 import application.model.credentials.Patient;
 import javafx.beans.property.ObjectProperty;
@@ -25,7 +26,6 @@ public class EditPatientAnchorPaneViewModel {
 	private StringProperty patientStreetTextProperty;
 	private StringProperty patientZipCodeTextProperty;
 
-	private Patient currentPatient;
 
 	/**
 	 * Instantiates a new Edit Patient view model.
@@ -45,37 +45,25 @@ public class EditPatientAnchorPaneViewModel {
 		this.patientDateOfBirthTextProperty = new SimpleStringProperty();
 	}
 
-	/**
-	 * Loads the patient information into the view model for editing.
-	 * @param patient
-	 */
-//	public void loadPatient(Patient patient) {
-//		this.currentPatient = patient;
-//		this.patientFirstNameTextProperty.set(patient.getFirstName());
-//		this.patientLastNameTextProperty.set(patient.getLastName());
-//		this.patientDateOfBirthTextProperty.set(patient.getDob());
-//		this.selectedGenderProperty.set(patient.getGender());
-//		this.patientMobileNumberTextProperty.set(patient.getPhone());
-//		try {
-//			var address = AddressDAL.getAddressById(patient.getAddress().toString());
-//			this.patientStreetTextProperty.set(address.getStreet());
-//			this.cityTextProperty.set(address.getCity());
-//			this.selectedStateProperty.set(address.getState());
-//			this.patientZipCodeTextProperty.set(address.getZipCode());
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	/**
-	 * Updates the patient information in the database.
-	 */
-	public void updatePatient() {
-		var address = this.handleUpdatingAndFindingAddress();
-		this.handleUpdatingPatient(address.getId());
-	}
 	
-	private void handleUpdatingPatient(String addressId) {
+	/**
+	 * Update patient.
+	 *
+	 * @param currentPatientId the current patient id
+	 */
+	public void updatePatient(String currentPatientId) {
+		Patient currentPatientRow;
+		try {
+			currentPatientRow = PatientDAL.getPatientUsingId(currentPatientId);
+			var address = this.handleUpdatingAndFindingAddress();
+			this.handleUpdatingPatient(currentPatientId, address.getId(), currentPatientRow.getAddress().getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void handleUpdatingPatient(String patientId, String addressId, String oldAddressId) {
 		var lastName = this.getPatientLastNameTextProperty().get();
 		var firstName = this.getPatientFirstNameTextProperty().get();
 		var dob = this.getPatientDateOfBirthTextProperty().get();
@@ -83,13 +71,12 @@ public class EditPatientAnchorPaneViewModel {
 		var phone = this.getPatientMobileNumberTextProperty().get();
 
 		try {
-			this.currentPatient = PatientDAL.getPatient(firstName, lastName, dob, gender, addressId);
-			PatientDAL.updatePatient(this.currentPatient.getId(), lastName, firstName, dob, gender, this.currentPatient.getAddress().getId(), addressId, phone);
+			PatientDAL.updatePatient(patientId, lastName, firstName, dob, gender, addressId, phone);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Address handleUpdatingAndFindingAddress() {
 		var street = this.getPatientStreetTextProperty().get();
 		var city = this.getCityTextProperty().get();
@@ -109,6 +96,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets gender property
+	 * 
 	 * @return gender property
 	 */
 	public ObjectProperty<String> getSelectedGenderProperty() {
@@ -117,6 +105,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets selected state
+	 * 
 	 * @return selected state
 	 */
 	public ObjectProperty<String> getSelectedStateProperty() {
@@ -125,6 +114,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets city
+	 * 
 	 * @return city
 	 */
 	public StringProperty getCityTextProperty() {
@@ -133,6 +123,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets address one
+	 * 
 	 * @return address one
 	 */
 	public StringProperty getPatientAddressOneTextProperty() {
@@ -141,6 +132,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets address two
+	 * 
 	 * @return address two
 	 */
 	public StringProperty getPatientAddressTwoTextProperty() {
@@ -149,6 +141,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets email
+	 * 
 	 * @return email
 	 */
 	public StringProperty getPatientEmailTextProperty() {
@@ -157,6 +150,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets first name
+	 * 
 	 * @return first name
 	 */
 	public StringProperty getPatientFirstNameTextProperty() {
@@ -165,7 +159,8 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets dob
-	 * @return dob 
+	 * 
+	 * @return dob
 	 */
 	public StringProperty getPatientDateOfBirthTextProperty() {
 		return this.patientDateOfBirthTextProperty;
@@ -173,6 +168,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets last name
+	 * 
 	 * @return last name
 	 */
 	public StringProperty getPatientLastNameTextProperty() {
@@ -181,6 +177,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets mobile number
+	 * 
 	 * @return mobile number
 	 */
 	public StringProperty getPatientMobileNumberTextProperty() {
@@ -189,6 +186,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets street property
+	 * 
 	 * @return street
 	 */
 	public StringProperty getPatientStreetTextProperty() {
@@ -197,6 +195,7 @@ public class EditPatientAnchorPaneViewModel {
 
 	/**
 	 * gets zip code property
+	 * 
 	 * @return zip code
 	 */
 	public StringProperty getPatientZipCodeTextProperty() {
