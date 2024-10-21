@@ -49,23 +49,23 @@ public class EditPatientAnchorPaneViewModel {
 	 * Loads the patient information into the view model for editing.
 	 * @param patient
 	 */
-	public void loadPatient(Patient patient) {
-		this.currentPatient = patient;
-		this.patientFirstNameTextProperty.set(patient.getFirstName());
-		this.patientLastNameTextProperty.set(patient.getLastName());
-		this.patientDateOfBirthTextProperty.set(patient.getDob());
-		this.selectedGenderProperty.set(patient.getGender());
-		this.patientMobileNumberTextProperty.set(patient.getPhone());
-		try {
-			var address = AddressDAL.getAddressById(patient.getAddress().toString());
-			this.patientStreetTextProperty.set(address.getStreet());
-			this.cityTextProperty.set(address.getCity());
-			this.selectedStateProperty.set(address.getState());
-			this.patientZipCodeTextProperty.set(address.getZipCode());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void loadPatient(Patient patient) {
+//		this.currentPatient = patient;
+//		this.patientFirstNameTextProperty.set(patient.getFirstName());
+//		this.patientLastNameTextProperty.set(patient.getLastName());
+//		this.patientDateOfBirthTextProperty.set(patient.getDob());
+//		this.selectedGenderProperty.set(patient.getGender());
+//		this.patientMobileNumberTextProperty.set(patient.getPhone());
+//		try {
+//			var address = AddressDAL.getAddressById(patient.getAddress().toString());
+//			this.patientStreetTextProperty.set(address.getStreet());
+//			this.cityTextProperty.set(address.getCity());
+//			this.selectedStateProperty.set(address.getState());
+//			this.patientZipCodeTextProperty.set(address.getZipCode());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Updates the patient information in the database.
@@ -83,8 +83,8 @@ public class EditPatientAnchorPaneViewModel {
 		var phone = this.getPatientMobileNumberTextProperty().get();
 
 		try {
-			this.currentPatient = PatientDAL.getPatient(addressId, lastName, dob, gender, phone);
-			PatientDAL.updatePatient(this.currentPatient.getId(), lastName, firstName, dob, gender, addressId, phone);
+			this.currentPatient = PatientDAL.getPatient(firstName, lastName, dob, gender, addressId);
+			PatientDAL.updatePatient(this.currentPatient.getId(), lastName, firstName, dob, gender, this.currentPatient.getAddress().getId(), addressId, phone);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
