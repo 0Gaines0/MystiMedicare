@@ -1,5 +1,9 @@
 package application.model.credentials;
 
+/**
+ * user class
+ * @author jeffrey gaines
+ */
 public class User {
 
 	private String id;

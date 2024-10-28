@@ -8,9 +8,6 @@ public class ActiveUser {
 	
 	private static User activeUser;
 	
-	//TODO remove temp credentialManager
-	private static CredentialManager credManager;
-	
 	/**
 	 * Gets the active user.
 	 *
@@ -24,16 +21,9 @@ public class ActiveUser {
 	/**
 	 * Sets the active user.
 	 *
-	 * @param userId the user id
-	 * @param password the password
+	 * @param user the user
 	 */
-	public static void setActiveUser(String userId, String password) {
-		//TODO 
-		// Reach out to database and query for the user credentials and then create a user object
-		// we will likely have to use polymorphism
-		credManager = new CredentialManager();
-		var cred = credManager.getSpecifiedCredential(userId);
-		var user = new User(cred.getUserId(), cred.getUsername(), cred.getPassword(), UserRole.ADMIN);
+	public static void setActiveUser(User user) {
 		ActiveUser.activeUser = user;
 	}
 }
