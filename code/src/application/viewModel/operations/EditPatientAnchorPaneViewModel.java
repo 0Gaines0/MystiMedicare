@@ -1,6 +1,8 @@
 package application.viewModel.operations;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 import application.DAL.AddressDAL;
 import application.DAL.PatientDAL;
 
@@ -16,11 +18,8 @@ public class EditPatientAnchorPaneViewModel {
 	private ObjectProperty<String> selectedGenderProperty;
 	private ObjectProperty<String> selectedStateProperty;
 	private StringProperty cityTextProperty;
-	private StringProperty patientAddressOneTextProperty;
-	private StringProperty patientAddressTwoTextProperty;
-	private StringProperty patientEmailTextProperty;
 	private StringProperty patientFirstNameTextProperty;
-	private StringProperty patientDateOfBirthTextProperty;
+	private ObjectProperty<LocalDate> patientDateOfBirthProperty;
 	private StringProperty patientLastNameTextProperty;
 	private StringProperty patientMobileNumberTextProperty;
 	private StringProperty patientStreetTextProperty;
@@ -34,15 +33,12 @@ public class EditPatientAnchorPaneViewModel {
 		this.selectedGenderProperty = new SimpleObjectProperty<String>();
 		this.selectedStateProperty = new SimpleObjectProperty<String>();
 		this.cityTextProperty = new SimpleStringProperty();
-		this.patientAddressOneTextProperty = new SimpleStringProperty();
-		this.patientAddressTwoTextProperty = new SimpleStringProperty();
-		this.patientEmailTextProperty = new SimpleStringProperty();
 		this.patientFirstNameTextProperty = new SimpleStringProperty();
 		this.patientLastNameTextProperty = new SimpleStringProperty();
 		this.patientMobileNumberTextProperty = new SimpleStringProperty();
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
-		this.patientDateOfBirthTextProperty = new SimpleStringProperty();
+		this.patientDateOfBirthProperty = new SimpleObjectProperty<LocalDate>();
 	}
 
 	
@@ -66,7 +62,7 @@ public class EditPatientAnchorPaneViewModel {
 	private void handleUpdatingPatient(String patientId, String addressId, String oldAddressId) {
 		var lastName = this.getPatientLastNameTextProperty().get();
 		var firstName = this.getPatientFirstNameTextProperty().get();
-		var dob = this.getPatientDateOfBirthTextProperty().get();
+		var dob = this.getPatientDateOfBirthTextProperty().get().toString();
 		var gender = this.getSelectedGenderProperty().get();
 		var phone = this.getPatientMobileNumberTextProperty().get();
 
@@ -121,32 +117,6 @@ public class EditPatientAnchorPaneViewModel {
 		return this.cityTextProperty;
 	}
 
-	/**
-	 * gets address one
-	 * 
-	 * @return address one
-	 */
-	public StringProperty getPatientAddressOneTextProperty() {
-		return this.patientAddressOneTextProperty;
-	}
-
-	/**
-	 * gets address two
-	 * 
-	 * @return address two
-	 */
-	public StringProperty getPatientAddressTwoTextProperty() {
-		return this.patientAddressTwoTextProperty;
-	}
-
-	/**
-	 * gets email
-	 * 
-	 * @return email
-	 */
-	public StringProperty getPatientEmailTextProperty() {
-		return this.patientEmailTextProperty;
-	}
 
 	/**
 	 * gets first name
@@ -162,8 +132,8 @@ public class EditPatientAnchorPaneViewModel {
 	 * 
 	 * @return dob
 	 */
-	public StringProperty getPatientDateOfBirthTextProperty() {
-		return this.patientDateOfBirthTextProperty;
+	public ObjectProperty<LocalDate> getPatientDateOfBirthTextProperty() {
+		return this.patientDateOfBirthProperty;
 	}
 
 	/**

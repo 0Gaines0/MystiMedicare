@@ -228,16 +228,10 @@ public class EditPatientAnchorPane {
 	private void bindToViewModel() {
 		this.cityTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getCityTextProperty());
-		this.patientAddressOneTextField.textProperty()
-				.bindBidirectional(this.editPatientViewModel.getPatientAddressOneTextProperty());
-		this.patientAddressTwoTextField.textProperty()
-				.bindBidirectional(this.editPatientViewModel.getPatientAddressTwoTextProperty());
-		this.patientEmailTextField.textProperty()
-				.bindBidirectional(this.editPatientViewModel.getPatientEmailTextProperty());
 		this.patientFirstNameTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientFirstNameTextProperty());
-		this.patientDateOfBirthTextField.textProperty()
-				.bindBidirectional(this.editPatientViewModel.getPatientDateOfBirthTextProperty());
+		
+		//TODO 
 		this.patientLastNameTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientLastNameTextProperty());
 		this.patientMobileNumberTextField.textProperty()

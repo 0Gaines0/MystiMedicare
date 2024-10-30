@@ -1,12 +1,14 @@
 package application.viewModel.operations;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import application.DAL.AddressDAL;
 import application.DAL.PatientDAL;
 import application.model.credentials.Address;
 import application.model.credentials.Patient;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,7 +22,7 @@ public class RegisterPatientAnchorPaneViewModel {
 	private StringProperty patientAddressTwoTextProperty;
 	private StringProperty patientEmailTextProperty;
 	private StringProperty patientFirstNameTextProperty;
-	private StringProperty patientDateOfBirthTextProperty;
+	private ObjectProperty<LocalDate> patientDateOfBirthTextProperty;
 	private StringProperty patientLastNameTextProperty;
 	private StringProperty patientMoblieNumberTextProperty;
 	private StringProperty patientStreetTextProperty;
@@ -41,7 +43,7 @@ public class RegisterPatientAnchorPaneViewModel {
 		this.patientMoblieNumberTextProperty = new SimpleStringProperty();
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
-		this.patientDateOfBirthTextProperty = new SimpleStringProperty();
+		this.patientDateOfBirthTextProperty = new SimpleObjectProperty<LocalDate>();
 	}
 
 	/**
@@ -56,7 +58,7 @@ public class RegisterPatientAnchorPaneViewModel {
 	private Patient handleAddingAndFindingPatient(String addressId) {
 		var lastName = this.getPatientLastNameTextProperty().get();
 		var firstName = this.getPatientFirstNameTextProperty().get();
-		var dob = this.getPatientDateOfBirthTextProperty().get();
+		var dob = this.getPatientDateOfBirthTextProperty().get().toString();
 		var gender = this.getSelectedGenderProperty().get();
 		var phone = this.getPatientMoblieNumberTextProperty().get();
 		var status = "active";
@@ -159,7 +161,7 @@ public class RegisterPatientAnchorPaneViewModel {
 	 *
 	 * @return the patient date of birth text property
 	 */
-	public StringProperty getPatientDateOfBirthTextProperty() {
+	public ObjectProperty<LocalDate> getPatientDateOfBirthTextProperty() {
 		return this.patientDateOfBirthTextProperty;
 	}
 
