@@ -2,6 +2,7 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -34,19 +36,10 @@ public class RegisterPatientAnchorPane {
 	private ComboBox<String> genderComboBox;
 
 	@FXML
-	private TextField patientAddressOneTextField;
-
-	@FXML
-	private TextField patientAddressTwoTextField;
-
-	@FXML
-	private TextField patientEmailTextField;
+	private DatePicker patientDateOfBirthPicker;
 
 	@FXML
 	private TextField patientFirstNameTextField;
-
-	@FXML
-	private TextField patientDateOfBirthTextField;
 
 	@FXML
 	private TextField patientLastNameTextField;
@@ -102,6 +95,8 @@ public class RegisterPatientAnchorPane {
 			error.getMessage();
 		}
 	}
+	
+	
 
 	private void setUpGenderComboBox() {
 		this.genderComboBox.getItems().add("Male");
@@ -110,20 +105,22 @@ public class RegisterPatientAnchorPane {
 
 	private void setUpStateComboBox() {
 		String[] stateAbbreviations = { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
-			"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-			"NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
-			"WV", "WI", "WY" };
+				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+				"NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
+				"WV", "WI", "WY" };
 		this.stateComboBox.getItems().addAll(stateAbbreviations);
 	}
 
 	private void setUpRegisterBtn() {
 		this.registerBtn.setOnAction(((event) -> {
-			this.validateTextFields();
-			this.registerPatientViewModel.addPatient();
+			if (this.validateTextFields()) {
+				this.registerPatientViewModel.addPatient();
+				this.popUpConformation("This patient was successfully added!");
+			}
 		}));
 	}
 
-	private void validateTextFields() {
+	private boolean validateTextFields() {
 		var letterPattern = Pattern.compile("^[a-zA-Z]+$");
 		var dateOfBirthPattern = Pattern.compile("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$");
 		var emailPattern = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
@@ -133,63 +130,79 @@ public class RegisterPatientAnchorPane {
 		var firstName = this.patientFirstNameTextField.textProperty().getValue();
 		var lastName = this.patientLastNameTextField.textProperty().getValue();
 		var gender = this.genderComboBox.getSelectionModel().getSelectedItem();
-		var dateOfBirth = this.patientDateOfBirthTextField.textProperty().getValue();
-		var email = this.patientEmailTextField.textProperty().getValue();
+		var dateOfBirth = this.patientDateOfBirthPicker.valueProperty().getValue();
 		var mobile = this.patientMobileNumberTextField.textProperty().getValue();
-		var primaryAddress = this.patientAddressOneTextField.textProperty().getValue();
 		var street = this.patientStreetTextField.textProperty().getValue();
 		var state = this.stateComboBox.getSelectionModel().getSelectedItem();
 		var city = this.cityTextField.textProperty().getValue();
 		var zipCode = this.zipCodeTextField.textProperty().getValue();
 
-		this.validateNameFields(letterPattern, firstName, lastName);
-		this.validateComboBoxes(gender, state);
-		this.validateDateOfBirth(dateOfBirthPattern, dateOfBirth);
-		this.validateAddress(letterPattern, zipCodePattern, primaryAddress, street, city, zipCode);
-		this.validateContactInfo(emailPattern, mobilePattern, email, mobile);
-	}
-
-	private void validateDateOfBirth(Pattern dateOfBirthPattern, String dateOfBirth) {
-		if (dateOfBirth.isBlank() || !dateOfBirthPattern.matcher(dateOfBirth).matches()) {
-			this.popUpError("Date of Birth is not entered correct, please follow this structure yyyy-MM-dd");
+		var nameFields = this.validateNameFields(letterPattern, firstName, lastName);
+		var comboFields = this.validateComboBoxes(gender, state);
+		var dateOfBirthFields = this.validateDateOfBirth(dateOfBirthPattern, dateOfBirth);
+		var addressFields = this.validateAddress(letterPattern, zipCodePattern, street, city, zipCode);
+		var contactFields = this.validateContactInfo(emailPattern, mobilePattern, mobile);
+		
+		var validationResult = nameFields + comboFields + dateOfBirthFields + addressFields + contactFields;
+		if (validationResult.isBlank()) {
+			return true;
 		}
+		this.popUpError(validationResult);
+		return false;
+		
 	}
 
-	private void validateContactInfo(Pattern emailPattern, Pattern mobilePattern, String email, String mobile) {
-		if (email.isBlank() || !emailPattern.matcher(email).matches()) {
-			this.popUpError("Email is invalid, please try again");
-		} else if (mobile.isBlank() || !mobilePattern.matcher(mobile).matches()) {
-			this.popUpError("Mobile Number is invalid, please follow this structure 123-456-7890");
+	private String validateDateOfBirth(Pattern dateOfBirthPattern, LocalDate dateOfBirth) {
+		var result = "";
+		if (dateOfBirth == null) {
+			result += "Date of Birth is not entered correct, please follow this structure yyyy-MM-dd" + System.lineSeparator();
 		}
+		return result;
 	}
 
-	private void validateAddress(Pattern letterPattern, Pattern zipCodePattern, String primaryAddress, String street,
-			String city, String zipCode) {
-		if (primaryAddress.isBlank()) {
-			this.popUpError("Primary Address is empty, please add an address");
-		} else if (city.isBlank() || !letterPattern.matcher(city).matches()) {
-			this.popUpError("City is invalid, please try again");
-		} else if (zipCode.isBlank() || !zipCodePattern.matcher(zipCode).matches()) {
-			this.popUpError("Zip Code is invalid, please enter a 5 digit number");
-		} else if (street.isBlank()) {
-			this.popUpError("Street is invalid, please try again");
+	private String validateContactInfo(Pattern emailPattern, Pattern mobilePattern, String mobile) {
+		var result = "";
+		if (mobile == null || mobile.isBlank() || !mobilePattern.matcher(mobile).matches()) {
+			result += "Mobile Number is invalid, please follow this structure 123-456-7890" + System.lineSeparator();
 		}
+		return result;
 	}
 
-	private void validateComboBoxes(String gender, String state) {
+	private String validateAddress(Pattern letterPattern, Pattern zipCodePattern, String street, String city,
+			String zipCode) {
+		var result = "";
+		if (city == null || city.isBlank() || !letterPattern.matcher(city).matches()) {
+			result += "City is invalid, please try again";
+		} 
+		if (zipCode == null || zipCode.isBlank() || !zipCodePattern.matcher(zipCode).matches()) {
+			result += "Zip Code is invalid, please enter a 5 digit number" + System.lineSeparator();
+		} 
+		if (street == null || street.isBlank()) {
+			result += "Street is invalid, please try again" + System.lineSeparator();
+		}
+		return result;
+	}
+
+	private String validateComboBoxes(String gender, String state) {
+		var result = "";
 		if (gender == null) {
-			this.popUpError("Gender was not selected, please select a gender");
-		} else if (state == null) {
-			this.popUpError("State was not selected, please select a state");
+			result += "Gender was not selected, please select a gender" + System.lineSeparator();
 		}
+		if (state == null) {
+			result += "State was not selected, please select a state" + System.lineSeparator();
+		}
+		return result;
 	}
 
-	private void validateNameFields(Pattern letterPattern, String firstName, String lastName) {
+	private String validateNameFields(Pattern letterPattern, String firstName, String lastName) {
+		var result = "";
 		if (firstName == null || firstName.isBlank() || !letterPattern.matcher(firstName).matches()) {
-			this.popUpError("First Name is invalid, please try again");
-		} else if (lastName == null || lastName.isBlank() || !letterPattern.matcher(lastName).matches()) {
-			this.popUpError("Last Name is invalid, please try again");
+			result += "First Name is invalid, please try again" + System.lineSeparator();
+		} 
+		if (lastName == null || lastName.isBlank() || !letterPattern.matcher(lastName).matches()) {
+			result += "Last Name is invalid, please try again" + System.lineSeparator();
 		}
+		return result;
 	}
 
 	private void popUpError(String reasonForError) {
@@ -197,19 +210,17 @@ public class RegisterPatientAnchorPane {
 		errorPopUp.setContentText(reasonForError);
 		errorPopUp.showAndWait();
 	}
+	
+	private void popUpConformation(String reasonForConfirm) {
+		var errorPopUp = new Alert(AlertType.CONFIRMATION);
+		errorPopUp.setContentText(reasonForConfirm);
+		errorPopUp.showAndWait();
+	}
 
 	private void bindToViewModel() {
 		this.cityTextField.textProperty().bindBidirectional(this.registerPatientViewModel.getCityTextProperty());
-		this.patientAddressOneTextField.textProperty()
-				.bindBidirectional(this.registerPatientViewModel.getPatientAddressOneTextProperty());
-		this.patientAddressTwoTextField.textProperty()
-				.bindBidirectional(this.registerPatientViewModel.getPatientAddressTwoTextProperty());
-		this.patientEmailTextField.textProperty()
-				.bindBidirectional(this.registerPatientViewModel.getPatientEmailTextProperty());
 		this.patientFirstNameTextField.textProperty()
 				.bindBidirectional(this.registerPatientViewModel.getPatientFirstNameTextProperty());
-		this.patientDateOfBirthTextField.textProperty()
-				.bindBidirectional(this.registerPatientViewModel.getPatientDateOfBirthTextProperty());
 		this.patientLastNameTextField.textProperty()
 				.bindBidirectional(this.registerPatientViewModel.getPatientLastNameTextProperty());
 		this.patientMobileNumberTextField.textProperty()
@@ -218,7 +229,7 @@ public class RegisterPatientAnchorPane {
 				.bindBidirectional(this.registerPatientViewModel.getPatientStreetTextProperty());
 		this.zipCodeTextField.textProperty()
 				.bindBidirectional(this.registerPatientViewModel.getPatientZipCodeTextProperty());
-
+		this.registerPatientViewModel.getPatientDateOfBirthTextProperty().bindBidirectional(this.patientDateOfBirthPicker.valueProperty());
 		this.genderComboBox.valueProperty()
 				.bindBidirectional(this.registerPatientViewModel.getSelectedGenderProperty());
 		this.stateComboBox.valueProperty().bindBidirectional(this.registerPatientViewModel.getSelectedStateProperty());
@@ -231,16 +242,6 @@ public class RegisterPatientAnchorPane {
 				: "fx:id=\"cityTextField\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
 		assert this.genderComboBox != null
 				: "fx:id=\"genderComboBox\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
-		assert this.patientAddressOneTextField != null
-				: "fx:id=\"patientAddressOneTextField\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
-		assert this.patientAddressTwoTextField != null
-				: "fx:id=\"patientAddressTwoTextField\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
-		assert this.patientEmailTextField != null
-				: "fx:id=\"patientEmailTextField\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
-		assert this.patientFirstNameTextField != null
-				: "fx:id=\"patientFirstNameTextField\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
-		assert this.patientDateOfBirthTextField != null
-				: "fx:id=\"patientFirstNameTextField2\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
 		assert this.patientLastNameTextField != null
 				: "fx:id=\"patientLastNameTextField\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
 		assert this.patientMobileNumberTextField != null

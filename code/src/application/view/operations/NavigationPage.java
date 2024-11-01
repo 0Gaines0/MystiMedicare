@@ -5,10 +5,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.Main;
+import application.model.credentials.ActiveUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -42,14 +44,21 @@ public class NavigationPage {
     @FXML
     private BorderPane parentBorderPane;
     
+    @FXML
+    private Label fullNameLabel;
+	
+	@FXML
+    private Label usernameLabel;
+    
     private RegisterPatientAnchorPane registerPatientCodeBehind;
     private EditPatientAnchorPane editPatientCodeBehind;
     private SearchPatientAnchorPane searchPatientCodeBehind;
 
     @FXML
     void initialize() {
-        this.validateFXMLComponents();
-		this.setUpSideBarButtons();
+      this.validateFXMLComponents();
+		  this.setUpSideBarButtons();
+		  this.setUpUsernameLabel();
     }
     
     /**
@@ -80,6 +89,10 @@ public class NavigationPage {
 			error.printStackTrace();
 		}
     }
+    
+    private void setUpUsernameLabel() {
+		this.usernameLabel.setText(ActiveUser.getActiveUser().getUsername());
+	}
     
     private void setUpSideBarButtons() {
     	this.setUpRegisterPatientHBox();

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.RegisterPatientAnchorPane">
+<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.RegisterPatientAnchorPane">
    <children>
       <Label layoutX="35.0" layoutY="13.0" style="-fx-text-fill: #000000;" text="Add Patient">
          <font>
@@ -66,7 +67,7 @@
                               <Font name="Modern No. 20" size="17.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="patientDateOfBirthTextField" prefHeight="38.0" prefWidth="373.0" promptText="Enter Patient's Date of Birth" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+                        <DatePicker fx:id="patientDateOfBirthPicker" prefHeight="26.0" prefWidth="386.0" promptText="Select Patient's Date of Birth" />
                      </children>
                   </VBox>
                </children>
@@ -76,26 +77,12 @@
                <children>
                   <VBox prefHeight="0.0" prefWidth="373.0">
                      <children>
-                        <Label prefHeight="33.0" prefWidth="107.0" style="-fx-text-fill: #000000;" text="Email" textFill="#c99da3">
-                           <font>
-                              <Font name="Modern No. 20" size="17.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="patientEmailTextField" prefHeight="38.0" prefWidth="373.0" promptText="Enter Patient's Email Address" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="71.0" prefWidth="372.0">
-               <children>
-                  <VBox prefHeight="0.0" prefWidth="373.0">
-                     <children>
                         <Label prefHeight="33.0" prefWidth="107.0" style="-fx-text-fill: #000000;" text="Mobile" textFill="#c99da3">
                            <font>
                               <Font name="Modern No. 20" size="17.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="patientMobileNumberTextField" prefHeight="38.0" prefWidth="373.0" promptText="Enter Patient's Mobile Number" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+                        <TextField fx:id="patientMobileNumberTextField" prefHeight="38.0" prefWidth="373.0" promptText="Enter Patient's Mobile Number (123-456-7890)" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
                      </children>
                   </VBox>
                </children>
@@ -138,38 +125,6 @@
                </children>
             </HBox>
             <Separator prefHeight="15.0" prefWidth="360.0" style="-fx-background-color: #3B5249;" />
-            <HBox alignment="CENTER" prefHeight="64.0" prefWidth="360.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="75.0" prefWidth="360.0">
-                     <children>
-                        <VBox prefHeight="59.0" prefWidth="360.0">
-                           <children>
-                              <Label prefHeight="33.0" prefWidth="129.0" style="-fx-text-fill: #000000;" text="Primary Address *" textFill="#c99da3">
-                                 <font>
-                                    <Font name="Modern No. 20" size="17.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="patientAddressOneTextField" prefHeight="38.0" prefWidth="360.0" promptText="Enter Patient's Address" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="360.0">
-               <children>
-                  <VBox prefHeight="68.0" prefWidth="360.0">
-                     <children>
-                        <Label prefHeight="33.0" prefWidth="129.0" style="-fx-text-fill: #000000;" text="Secondary Address" textFill="#c99da3">
-                           <font>
-                              <Font name="Modern No. 20" size="17.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="patientAddressTwoTextField" prefHeight="36.0" prefWidth="360.0" promptText="Enter Patient's Address" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
             <HBox alignment="CENTER" prefHeight="64.0" prefWidth="360.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="75.0" prefWidth="360.0">
