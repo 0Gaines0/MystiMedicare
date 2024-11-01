@@ -37,16 +37,19 @@ public class NavigationPage {
     private HBox registerPatientHBox;
     
     @FXML
+    private HBox searchPatientHBox;
+    
+    @FXML
     private BorderPane parentBorderPane;
     
     private RegisterPatientAnchorPane registerPatientCodeBehind;
     private EditPatientAnchorPane editPatientCodeBehind;
+    private SearchPatientAnchorPane searchPatientCodeBehind;
 
     @FXML
     void initialize() {
         this.validateFXMLComponents();
 		this.setUpSideBarButtons();
-
     }
     
     /**
@@ -55,6 +58,7 @@ public class NavigationPage {
     public NavigationPage() {
     	this.registerPatientCodeBehind = new RegisterPatientAnchorPane();
     	this.editPatientCodeBehind = new EditPatientAnchorPane();
+    	this.searchPatientCodeBehind = new SearchPatientAnchorPane();
     }
     
     /**
@@ -80,6 +84,7 @@ public class NavigationPage {
     private void setUpSideBarButtons() {
     	this.setUpRegisterPatientHBox();
     	this.setUpEditPatientHBox();
+    	this.setUpSearchPatientHBox();
 	}
 
 	private void setUpEditPatientHBox() {
@@ -93,10 +98,17 @@ public class NavigationPage {
 			this.registerPatientCodeBehind.openAnchorPane(this.parentBorderPane, Main.REGISTER_PATIENT_ANCHOR_PANE);
 		}));
 	}
+	
+	private void setUpSearchPatientHBox() {
+		this.searchPatientHBox.setOnMouseClicked(((event) -> {
+			this.searchPatientCodeBehind.openAnchorPane(this.parentBorderPane, Main.SEARCH_PATIENT_ANCHOR_PANE);
+		}));
+	}
 
 	private void validateFXMLComponents() {
 		assert this.baseAnchorPane != null : "fx:id=\"baseAnchorPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.editPatientHBox != null : "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.searchPatientHBox != null : "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.registerPatientHBox != null : "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
 	}
 

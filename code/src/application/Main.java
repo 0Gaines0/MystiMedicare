@@ -20,6 +20,7 @@ public class Main extends Application {
 	public static final String NAVIGATION_PAGE = "../operations/NavigationPage.fxml";
 	public static final String REGISTER_PATIENT_ANCHOR_PANE = "../operations/RegisterPatientAnchorPane.fxml";
 	public static final String EDIT_PATIENT_ANCHOR_PANE = "../operations/EditPatientAnchorPane.fxml";
+	public static final String SEARCH_PATIENT_ANCHOR_PANE = "../operations/SearchPatientAnchorPane.fxml";
 
 	@Override
 	public void start(Stage primaryStage) {
