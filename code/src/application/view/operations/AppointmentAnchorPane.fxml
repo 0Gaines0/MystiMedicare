@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+   <children>
+      <Label layoutX="45.0" layoutY="23.0" style="-fx-text-fill: #000000;" text="Book Appointment">
+         <font>
+            <Font name="Modern No. 20" size="48.0" />
+         </font>
+      </Label>
+      <VBox layoutX="75.0" layoutY="100.0" prefHeight="481.0" prefWidth="313.0">
+         <children>
+            <VBox prefHeight="61.0" prefWidth="313.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="123.0" style="-fx-text-fill: #000000;" text="Patient *" textFill="#c99da3">
+                     <font>
+                        <Font name="Modern No. 20" size="17.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="patientComboBox" prefHeight="25.0" prefWidth="312.0" promptText="Patient List" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+               </children>
+            </VBox>
+            <Separator prefHeight="46.0" prefWidth="313.0" />
+            <VBox prefHeight="73.0" prefWidth="313.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="143.0" style="-fx-text-fill: #000000;" text="Appointment Date *" textFill="#c99da3">
+                     <font>
+                        <Font name="Modern No. 20" size="17.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="appointmentDatePicker" prefHeight="25.0" prefWidth="310.0" promptText="Select an Appointment Date" />
+               </children>
+            </VBox>
+            <Separator prefHeight="59.0" prefWidth="313.0" />
+            <VBox prefHeight="126.0" prefWidth="313.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="173.0" style="-fx-text-fill: #000000;" text="Reason for Appointment" textFill="#c99da3">
+                     <font>
+                        <Font name="Modern No. 20" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="reasonTextArea" prefHeight="94.0" prefWidth="313.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="73.0" prefWidth="313.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="93.0" style="-fx-text-fill: #000000;" text="Status *" textFill="#c99da3">
+                     <font>
+                        <Font name="Modern No. 20" size="17.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="patientStatusTextField" prefHeight="38.0" prefWidth="373.0" promptText="Enter Patient's Status" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <VBox layoutX="413.0" layoutY="100.0" prefHeight="451.0" prefWidth="325.0">
+         <children>
+            <VBox prefHeight="61.0" prefWidth="313.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="123.0" style="-fx-text-fill: #000000;" text="Select a Doctor *" textFill="#c99da3">
+                     <font>
+                        <Font name="Modern No. 20" size="17.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="doctorComboBox" prefHeight="25.0" prefWidth="312.0" promptText="Doctor List" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
