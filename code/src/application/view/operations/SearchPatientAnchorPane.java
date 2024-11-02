@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import application.model.credentials.Patient;
 import application.viewModel.operations.SearchPatientAnchorPageViewModel;
 import javafx.fxml.FXML;
@@ -45,12 +46,14 @@ public class SearchPatientAnchorPane {
     private Button selectPatientButton;
     
     private SearchPatientAnchorPageViewModel viewModel;
+    private EditAppointmentAnchorPane editApptCodeBehind;
     
     /**
      * the search patient anchor pane
      */
     public SearchPatientAnchorPane() {
     	this.viewModel = new SearchPatientAnchorPageViewModel();
+    	this.editApptCodeBehind = new EditAppointmentAnchorPane();
     }
     
 	/**
@@ -83,7 +86,7 @@ public class SearchPatientAnchorPane {
     		this.patientListview.getItems().setAll(this.viewModel.searchPatients());
     	});
     	this.selectPatientButton.setOnAction((event) -> {
-    		//will nav to the appointments page
+    		this.editApptCodeBehind.openAnchorPane((BorderPane) this.searchAnchorPane.getParent(), Main.EDIT_APPOINTMENT_ANCHOR_PANE, this.patientListview.getSelectionModel().getSelectedItem());
     	});
     }
     

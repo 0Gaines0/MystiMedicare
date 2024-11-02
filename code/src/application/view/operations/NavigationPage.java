@@ -41,9 +41,6 @@ public class NavigationPage {
 
 	@FXML
 	private HBox searchPatientHBox;
-	
-	@FXML
-	private HBox editAppointmentHBox;
 
 	@FXML
 	private BorderPane parentBorderPane;
@@ -61,7 +58,6 @@ public class NavigationPage {
 	private EditPatientAnchorPane editPatientCodeBehind;
 	private SearchPatientAnchorPane searchPatientCodeBehind;
 	private AppointmentAnchorPane createAppointmentCodeBehind;
-	private EditAppointmentAnchorPane editAppointmentCodeBehind;
 
 
 	/**
@@ -72,7 +68,6 @@ public class NavigationPage {
 		this.editPatientCodeBehind = new EditPatientAnchorPane();
 		this.searchPatientCodeBehind = new SearchPatientAnchorPane();
 		this.createAppointmentCodeBehind = new AppointmentAnchorPane();
-		this.editAppointmentCodeBehind = new EditAppointmentAnchorPane();
 	}
 
     void initialize() {
@@ -111,19 +106,12 @@ public class NavigationPage {
 		this.setUpEditPatientHBox();
 		this.setUpSearchPatientHBox();
 		this.setUpCreateAppointmentHBox();
-		this.setUpEditAppointmentHBox();
 	}
 
 	private void setUpCreateAppointmentHBox() {
 		this.createAppointmentHBox.setOnMouseClicked(((event) -> {
 			this.createAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.CREATE_APPOINTMENT_ANCHOR_PANE);
 		}));
-	}
-	
-	private void setUpEditAppointmentHBox() {
-		this.editAppointmentHBox.setOnMouseClicked((event) -> {
-			this.editAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.EDIT_APPOINTMENT_ANCHOR_PANE);
-		});
 	}
 
 	private void setUpEditPatientHBox() {
@@ -153,8 +141,6 @@ public class NavigationPage {
 				: "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
 		assert this.registerPatientHBox != null
 				: "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        assert this.editAppointmentHBox != null 
-        		: "fx:id=\"editAppointmentHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         
 	}
 

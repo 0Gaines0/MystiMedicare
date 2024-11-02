@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
+import application.viewModel.operations.EditAppointmentAnchorPaneViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -47,6 +48,18 @@ public class EditAppointmentAnchorPane {
 
     @FXML
     private ComboBox<String> timePickerComboBox;
+    
+    private EditAppointmentAnchorPaneViewModel viewmodel;
+    private Patient selectedPatient;
+    
+    
+    /**
+     * the edit appointment anchor pane
+     */
+    public EditAppointmentAnchorPane() {
+    	this.viewmodel = new EditAppointmentAnchorPaneViewModel();
+    	this.selectedPatient = new Patient();
+    }
 
     @FXML
     void initialize() {
@@ -58,14 +71,16 @@ public class EditAppointmentAnchorPane {
 	 *
 	 * @param parent        the parent
 	 * @param newAnchorPath the new anchor path
+	 * @param patient 		the patient to edit
 	 */
-	public void openAnchorPane(BorderPane parent, String newAnchorPath) {
+	public void openAnchorPane(BorderPane parent, String newAnchorPath, Patient patient) {
 		try {
 			AnchorPane currentAnchor = (AnchorPane) parent.getCenter();
 			var loader = new FXMLLoader(getClass().getResource(newAnchorPath));
 			AnchorPane newAnchor = loader.load();
 			parent.setCenter(newAnchor);
 			parent.getChildren().remove(currentAnchor);
+			this.selectedPatient = patient;
 		} catch (IOException error) {
 			error.getMessage();
 		}
