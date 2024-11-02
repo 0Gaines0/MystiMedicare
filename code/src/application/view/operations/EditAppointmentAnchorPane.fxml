@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.AppointmentAnchorPane">
    <children>
-      <Label layoutX="45.0" layoutY="23.0" style="-fx-text-fill: #000000;" text="Book Appointment">
+      <Label layoutX="45.0" layoutY="23.0" style="-fx-text-fill: #000000;" text="Edit Appointment">
          <font>
             <Font name="Modern No. 20" size="48.0" />
          </font>
@@ -91,5 +91,6 @@
       </VBox>
       <Button fx:id="createAppointmentBtn" layoutX="716.0" layoutY="533.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="81.0" style="-fx-background-color: #5C946E;" text="Book" textFill="WHITE" />
       <Button fx:id="cancelBtn" layoutX="625.0" layoutY="533.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="81.0" style="-fx-background-color: #D3D3D3;" text="Cancel" />
+      <ComboBox layoutX="426.0" layoutY="36.0" prefHeight="26.0" prefWidth="188.0" promptText="Select Appointment to Edit" />
    </children>
 </AnchorPane>

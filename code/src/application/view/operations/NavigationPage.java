@@ -19,62 +19,73 @@ import javafx.stage.Stage;
 
 /**
  * The Class NavigationPage.
+ * 
  * @author Jeffrey
  */
 public class NavigationPage {
 
-    @FXML
-    private ResourceBundle resources;
+	@FXML
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
+	@FXML
+	private URL location;
 
-    @FXML
-    private AnchorPane baseAnchorPane;
+	@FXML
+	private AnchorPane baseAnchorPane;
 
-    @FXML
-    private HBox editPatientHBox;
+	@FXML
+	private HBox editPatientHBox;
 
-    @FXML
-    private HBox registerPatientHBox;
-    
-    @FXML
-    private HBox searchPatientHBox;
-    
-    @FXML
-    private BorderPane parentBorderPane;
-    
-    @FXML
-    private Label fullNameLabel;
+	@FXML
+	private HBox registerPatientHBox;
+
+	@FXML
+	private HBox searchPatientHBox;
 	
 	@FXML
-    private Label usernameLabel;
-    
-    private RegisterPatientAnchorPane registerPatientCodeBehind;
-    private EditPatientAnchorPane editPatientCodeBehind;
-    private SearchPatientAnchorPane searchPatientCodeBehind;
+	private HBox editAppointmentHBox;
 
+	@FXML
+	private BorderPane parentBorderPane;
+
+	@FXML
+	private Label fullNameLabel;
+
+	@FXML
+	private Label usernameLabel;
+	
     @FXML
-    void initialize() {
-      this.validateFXMLComponents();
-		  this.setUpSideBarButtons();
-		  this.setUpUsernameLabel();
-    }
-    
-    /**
-     * Instantiates a new navigation page.
-     */
-    public NavigationPage() {
-    	this.registerPatientCodeBehind = new RegisterPatientAnchorPane();
-    	this.editPatientCodeBehind = new EditPatientAnchorPane();
-    	this.searchPatientCodeBehind = new SearchPatientAnchorPane();
-    }
-    
-    /**
-     * Open navigation page.
-     */
-    public void openNavigationPage() {
-    	var newStage = new Stage();
+    private HBox createAppointmentHBox;
+
+	private RegisterPatientAnchorPane registerPatientCodeBehind;
+	private EditPatientAnchorPane editPatientCodeBehind;
+	private SearchPatientAnchorPane searchPatientCodeBehind;
+	private AppointmentAnchorPane createAppointmentCodeBehind;
+	private EditAppointmentAnchorPane editAppointmentCodeBehind;
+
+	@FXML
+	void initialize() {
+		this.validateFXMLComponents();
+		this.setUpSideBarButtons();
+		this.setUpUsernameLabel();
+	}
+
+	/**
+	 * Instantiates a new navigation page.
+	 */
+	public NavigationPage() {
+		this.registerPatientCodeBehind = new RegisterPatientAnchorPane();
+		this.editPatientCodeBehind = new EditPatientAnchorPane();
+		this.searchPatientCodeBehind = new SearchPatientAnchorPane();
+		this.createAppointmentCodeBehind = new AppointmentAnchorPane();
+		this.editAppointmentCodeBehind = new EditAppointmentAnchorPane();
+	}
+
+	/**
+	 * Open navigation page.
+	 */
+	public void openNavigationPage() {
+		var newStage = new Stage();
 		try {
 			var loader = new FXMLLoader(getClass().getResource(Main.NAVIGATION_PAGE));
 			Parent parent = loader.load();
@@ -88,16 +99,30 @@ public class NavigationPage {
 		} catch (IOException error) {
 			error.printStackTrace();
 		}
-    }
-    
-    private void setUpUsernameLabel() {
+	}
+
+	private void setUpUsernameLabel() {
 		this.usernameLabel.setText(ActiveUser.getActiveUser().getUsername());
 	}
-    
-    private void setUpSideBarButtons() {
-    	this.setUpRegisterPatientHBox();
-    	this.setUpEditPatientHBox();
-    	this.setUpSearchPatientHBox();
+
+	private void setUpSideBarButtons() {
+		this.setUpRegisterPatientHBox();
+		this.setUpEditPatientHBox();
+		this.setUpSearchPatientHBox();
+		this.setUpCreateAppointmentHBox();
+		this.setUpEditAppointmentHBox();
+	}
+
+	private void setUpCreateAppointmentHBox() {
+		this.createAppointmentHBox.setOnMouseClicked(((event) -> {
+			this.createAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.CREATE_APPOINTMENT_ANCHOR_PANE);
+		}));
+	}
+	
+	private void setUpEditAppointmentHBox() {
+		this.editAppointmentHBox.setOnMouseClicked((event) -> {
+			this.editAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.EDIT_APPOINTMENT_ANCHOR_PANE);
+		});
 	}
 
 	private void setUpEditPatientHBox() {
@@ -111,7 +136,7 @@ public class NavigationPage {
 			this.registerPatientCodeBehind.openAnchorPane(this.parentBorderPane, Main.REGISTER_PATIENT_ANCHOR_PANE);
 		}));
 	}
-	
+
 	private void setUpSearchPatientHBox() {
 		this.searchPatientHBox.setOnMouseClicked(((event) -> {
 			this.searchPatientCodeBehind.openAnchorPane(this.parentBorderPane, Main.SEARCH_PATIENT_ANCHOR_PANE);
@@ -119,10 +144,17 @@ public class NavigationPage {
 	}
 
 	private void validateFXMLComponents() {
-		assert this.baseAnchorPane != null : "fx:id=\"baseAnchorPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        assert this.editPatientHBox != null : "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        assert this.searchPatientHBox != null : "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        assert this.registerPatientHBox != null : "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+		assert this.baseAnchorPane != null
+				: "fx:id=\"baseAnchorPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+		assert this.editPatientHBox != null
+				: "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+		assert this.searchPatientHBox != null
+				: "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+		assert this.registerPatientHBox != null
+				: "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.editAppointmentHBox != null 
+        		: "fx:id=\"editAppointmentHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        
 	}
 
 }

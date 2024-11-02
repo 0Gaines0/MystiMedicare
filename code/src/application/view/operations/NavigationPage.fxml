@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.NavigationPage">
+<AnchorPane prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.NavigationPage">
    <children>
       <BorderPane fx:id="parentBorderPane" prefHeight="600.0" prefWidth="1028.0" style="-fx-background-color: #FFFFFF;">
          <left>
@@ -54,7 +54,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="registerPatientHBox" alignment="CENTER" prefHeight="70.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                  <HBox fx:id="registerPatientHBox" alignment="CENTER" prefHeight="69.0" prefWidth="208.0" stylesheets="@assets/styles.css">
                      <children>
                         <VBox alignment="CENTER" prefHeight="61.0" prefWidth="47.0">
                            <children>
@@ -76,7 +76,7 @@
                         <String fx:value="select-border" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="editPatientHBox" alignment="CENTER" prefHeight="70.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                  <HBox fx:id="editPatientHBox" alignment="CENTER" prefHeight="69.0" prefWidth="208.0" stylesheets="@assets/styles.css">
                      <children>
                         <VBox alignment="CENTER" prefHeight="100.0" prefWidth="0.0">
                            <children>
@@ -98,7 +98,7 @@
                         <String fx:value="select-border" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="searchPatientHBox" alignment="CENTER" prefHeight="87.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                  <HBox fx:id="searchPatientHBox" alignment="CENTER" prefHeight="69.0" prefWidth="208.0" stylesheets="@assets/styles.css">
                      <children>
                         <VBox alignment="CENTER" prefHeight="100.0" prefWidth="0.0">
                            <children>
@@ -120,7 +120,7 @@
                         <String fx:value="select-border" />
                      </styleClass>
                   </HBox>
-                  <HBox fx:id="createAppointment" alignment="CENTER" prefHeight="87.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                  <HBox fx:id="createAppointmentHBox" alignment="CENTER" prefHeight="69.0" prefWidth="208.0" stylesheets="@assets/styles.css">
                      <children>
                         <VBox alignment="CENTER" prefHeight="87.0" prefWidth="49.0">
                            <children>
@@ -132,6 +132,28 @@
                            </children>
                         </VBox>
                         <Label prefHeight="33.0" prefWidth="132.0" style="-fx-text-fill: #c99da3;" text="Create Appointment" textFill="#c99da3">
+                           <font>
+                              <Font name="Modern No. 20" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="selected" />
+                        <String fx:value="select-border" />
+                     </styleClass>
+                  </HBox>
+                  <HBox fx:id="editAppointmentHBox" alignment="CENTER" prefHeight="69.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="87.0" prefWidth="49.0">
+                           <children>
+                              <ImageView fitHeight="48.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../assets/calendar-pen-svgrepo-com.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <Label prefHeight="33.0" prefWidth="132.0" style="-fx-text-fill: #c99da3;" text="Edit Appointment" textFill="#c99da3">
                            <font>
                               <Font name="Modern No. 20" size="15.0" />
                            </font>

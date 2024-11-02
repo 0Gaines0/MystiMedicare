@@ -7,6 +7,8 @@ import java.time.LocalDate;
  * @author Jeffrey Gaines
  */
 public class Doctor {
+	
+	private String id;
 
 	/** The last name. */
 	private String lastName;
@@ -36,6 +38,27 @@ public class Doctor {
 		this.addressId = "";
 		this.phoneNumber = "";
 		this.gender = "";
+	}
+	
+	/**
+	 * Instantiates a new doctor.
+	 *
+	 * @param id the id
+	 * @param fName the f name
+	 * @param lName the l name
+	 * @param date the date
+	 * @param addressId the address id
+	 * @param phone the phone
+	 * @param gender the gender
+	 */
+	public Doctor(String id, String fName, String lName, LocalDate date, String addressId, String phone, String gender) {
+		this.setId(id);
+		this.setFirstName(fName);
+		this.setLastName(lName);
+		this.setDateOfBirth(date);
+		this.setAddressId(addressId);
+		this.setPhoneNumber(phone);
+		this.setGender(gender);
 	}
 	
 	/**
@@ -112,7 +135,7 @@ public class Doctor {
 	 * @param phoneNumber the new phone number
 	 */
 	public void setPhoneNumber(String phoneNumber) {
-		if (phoneNumber == null || !phoneNumber.matches("\\d{10}")) {
+		if (phoneNumber == null) {
 			throw new IllegalArgumentException("Phone number must be a 10-digit number");
 		}
 		this.phoneNumber = phoneNumber;
@@ -182,5 +205,31 @@ public class Doctor {
 	 */
 	public String getGender() {
 		return this.gender;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public String getId() {
+		return this.id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(String id) {
+		if (id == null || id.trim().isEmpty()) {
+			throw new IllegalArgumentException("id must be valid");
+		}
+		this.id = id;
+	}
+	
+	@Override
+	public String toString() {
+		return this.firstName + " " + this.lastName;
 	}
 }
