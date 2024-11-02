@@ -3,6 +3,9 @@ package application.view.operations;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import application.model.credentials.Patient;
+import application.viewModel.operations.SearchPatientAnchorPageViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -30,13 +33,25 @@ public class SearchPatientAnchorPane {
     private TextField lnameField;
 
     @FXML
-    private ListView<?> patientListview;
+    private ListView<Patient> patientListview;
 
     @FXML
     private AnchorPane searchAnchorPane;
 
     @FXML
     private Button searchButton;
+    
+    @FXML
+    private Button selectPatientButton;
+    
+    private SearchPatientAnchorPageViewModel viewModel;
+    
+    /**
+     * the search patient anchor pane
+     */
+    public SearchPatientAnchorPane() {
+    	this.viewModel = new SearchPatientAnchorPageViewModel();
+    }
     
 	/**
 	 * Open anchor pane.
@@ -58,13 +73,34 @@ public class SearchPatientAnchorPane {
 
     @FXML
     void initialize() {
-        assert this.dobPicker != null : "fx:id=\"dobPicker\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
+        this.validateFXML();
+        this.setupButtons();
+        this.bindToViewModel();
+    }
+    
+    private void setupButtons() {
+    	this.searchButton.setOnAction((event) -> {
+    		this.patientListview.getItems().setAll(this.viewModel.searchPatients());
+    	});
+    	this.selectPatientButton.setOnAction((event) -> {
+    		//will nav to the appointments page
+    	});
+    }
+    
+    private void bindToViewModel() {
+		this.fnameField.textProperty().bindBidirectional(this.viewModel.getPatientFirstNameTextProperty());
+		this.lnameField.textProperty().bindBidirectional(this.viewModel.getPatientLastNameTextProperty());
+		this.viewModel.getPatientDateOfBirthTextProperty().bindBidirectional(this.dobPicker.valueProperty());
+    }
+
+	private void validateFXML() {
+		assert this.dobPicker != null : "fx:id=\"dobPicker\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.fnameField != null : "fx:id=\"fnameField\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.lnameField != null : "fx:id=\"lnameField\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.patientListview != null : "fx:id=\"patientListview\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.searchAnchorPane != null : "fx:id=\"searchAnchorPane\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
-
-    }
+        assert this.selectPatientButton != null : "fx:id=\"selectPatientButton\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
+	}
 
 }

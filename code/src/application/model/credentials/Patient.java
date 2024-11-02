@@ -1,5 +1,7 @@
 package application.model.credentials;
 
+import java.time.LocalDate;
+
 /**
  * The Patient class represents a patient in the system.
  * 
@@ -10,7 +12,7 @@ public class Patient {
 	private String id;
 	private String lastName;
 	private String firstName;
-	private String dob;
+	private LocalDate dob;
 	private Address address;
 	private String phone;
 	private String status;
@@ -25,7 +27,7 @@ public class Patient {
 		this.id = "";
 		this.lastName = "";
 		this.firstName = "";
-		this.dob = "";
+		this.dob = null;
 		this.address = null;
 		this.phone = "";
 		this.status = "active";
@@ -43,7 +45,7 @@ public class Patient {
 	 * @param status the status
 	 * @param gender the gender
 	 */
-	public Patient(String lastName, String firstName, String dob, Address address, String phone,
+	public Patient(String lastName, String firstName, LocalDate dob, Address address, String phone,
 			String status, String gender) {
 		if (lastName == null || lastName.isBlank()) {
 			throw new IllegalArgumentException("lastName " + PARAM_MUST_NOT_BE_EMPTY_OR_NULL);
@@ -51,7 +53,7 @@ public class Patient {
 		if (firstName == null || firstName.isBlank()) {
 			throw new IllegalArgumentException("firstName " + PARAM_MUST_NOT_BE_EMPTY_OR_NULL);
 		}
-		if (dob == null || dob.isBlank()) {
+		if (dob == null) {
 			throw new IllegalArgumentException("dob " + PARAM_MUST_NOT_BE_EMPTY_OR_NULL);
 		}
 		if (address == null) {
@@ -88,7 +90,7 @@ public class Patient {
 	 * @param status the status
 	 * @param gender the gender
 	 */
-	public Patient(String id, String lastName, String firstName, String dob, Address address, String phone,
+	public Patient(String id, String lastName, String firstName, LocalDate dob, Address address, String phone,
 			String status, String gender) {
 		this(lastName, firstName, dob, address, phone, status, gender);
 		if (id == null || id.isBlank()) {
@@ -165,7 +167,7 @@ public class Patient {
 	 * 
 	 * @return the date of birth (dob)
 	 */
-	public String getDob() {
+	public LocalDate getDob() {
 		return this.dob;
 	}
 
@@ -174,7 +176,7 @@ public class Patient {
 	 * 
 	 * @param dob the new date of birth
 	 */
-	public void setDob(String dob) {
+	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
 

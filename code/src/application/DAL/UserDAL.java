@@ -90,7 +90,7 @@ public class UserDAL {
 		    	stmt.setString(1, patient.getId());
 	        	stmt.setString(2, patient.getLastName());
 	        	stmt.setString(3, patient.getFirstName());
-	        	stmt.setString(4, patient.getDob());
+	        	stmt.setString(4, patient.getDob().toString());
 	        	stmt.setString(5, patient.getAddress().getId());
 	        	stmt.setString(6, patient.getPhone());
 	        	stmt.setString(7, patient.getStatus());
@@ -115,7 +115,7 @@ public class UserDAL {
 	    		PreparedStatement stmt = conn.prepareStatement(query)) {
 	        	stmt.setString(1, patient.getLastName());
 	        	stmt.setString(2, patient.getFirstName());
-	        	stmt.setString(3, patient.getDob());
+	        	stmt.setString(3, patient.getDob().toString());
 	        	stmt.setString(4, patient.getAddress().getId());
 	        	stmt.setString(5, patient.getPhone());
 	        	stmt.setString(6, patient.getStatus());
@@ -133,7 +133,7 @@ public class UserDAL {
 	 */
 	public void adminAddNurse(User nurse) throws SQLException {
 		if (ActiveUser.getActiveUser().getRole() == UserRole.ADMIN) {
-			
+			//TODO
 		}
 	}
 }

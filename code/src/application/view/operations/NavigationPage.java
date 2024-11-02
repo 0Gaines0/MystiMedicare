@@ -56,9 +56,9 @@ public class NavigationPage {
 
     @FXML
     void initialize() {
-      this.validateFXMLComponents();
-		  this.setUpSideBarButtons();
-		  this.setUpUsernameLabel();
+    	this.validateFXMLComponents();
+    	this.setUpSideBarButtons();
+		this.setUpUsernameLabel();
     }
     
     /**
