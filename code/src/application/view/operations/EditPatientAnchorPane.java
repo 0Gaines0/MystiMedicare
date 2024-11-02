@@ -107,9 +107,9 @@ public class EditPatientAnchorPane {
 
 	private void setUpStateComboBox() {
 		String[] stateAbbreviations = { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
-				"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-				"NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
-				"WV", "WI", "WY" };
+			"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+			"NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
+			"WV", "WI", "WY" };
 		this.stateComboBox.getItems().addAll(stateAbbreviations);
 	}
 
@@ -134,7 +134,7 @@ public class EditPatientAnchorPane {
 			if (patient != null) {
 				this.patientFirstNameTextField.textProperty().set(patient.getFirstName());
 				this.patientLastNameTextField.textProperty().set(patient.getLastName());
-				var date = LocalDate.parse(patient.getDob());
+				LocalDate date = patient.getDob();
 				this.genderComboBox.setValue(patient.getGender());
 				this.patientDateOfBirthPicker.setValue(date);
 				this.patientMobileNumberTextField.textProperty().set(patient.getPhone());
@@ -243,8 +243,6 @@ public class EditPatientAnchorPane {
 		this.cityTextField.textProperty().bindBidirectional(this.editPatientViewModel.getCityTextProperty());
 		this.patientFirstNameTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientFirstNameTextProperty());
-
-		// TODO
 		this.patientLastNameTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientLastNameTextProperty());
 		this.patientMobileNumberTextField.textProperty()

@@ -1,14 +1,17 @@
 package application.DAL;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import application.model.credentials.ActiveUser;
+import application.model.credentials.Address;
 import application.model.credentials.Patient;
 import application.model.credentials.UserRole;
 
@@ -25,6 +28,16 @@ public class PatientDAL {
 	private static final String QUERY_FOR_ALL_PATIENTS = "SELECT * FROM cs3230f24b.patient";
 	
 	private static final String QUERY_FOR_PATIENT_ID = "SELECT * FROM cs3230f24b.patient p WHERE p.id = ?";
+	
+	private static final String QUERY_FOR_PATIENT_SEARCH = "SELECT * FROM patient p " 
+			+  "LEFT JOIN address a ON p.address_id = a.address_id " 
+			+  "LEFT JOIN visit v ON p.id = v.patient_id " 
+			+  "LEFT JOIN diagnosis d ON v.diagnosis_id = d.id " 
+			+  "LEFT JOIN test_result tr ON v.testresults_id = tr.id " 
+			+  "LEFT JOIN lab_test lt ON tr.lab_code = lt.labe_code " 
+			+  "WHERE (p.first_name LIKE ? OR ? IS NULL) " 
+            +  "AND (p.last_name LIKE ? OR ? IS NULL) " 
+            +  "AND (p.dob = ? OR ? IS NULL)";
 
 	/**
 	 * Patient exists.
@@ -59,6 +72,49 @@ public class PatientDAL {
 		}
 		return false;
 	}
+	
+    /**
+     * searches patients 
+     * 
+     * @param fName
+     * @param lName
+     * @param dob
+     * @return patients that match desc
+     */
+    public static List<Patient> handleSearch(String fName, String lName, LocalDate dob) {
+        String query = QUERY_FOR_PATIENT_SEARCH;
+        List<Patient> patients = new ArrayList<Patient>();
+
+        try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+        	
+            stmt.setString(1, fName == null ? null : "%" + fName + "%");
+            stmt.setString(2, fName);
+            stmt.setString(3, lName == null ? null : "%" + lName + "%");
+            stmt.setString(4, lName);
+            stmt.setDate(5, dob == null ? null : Date.valueOf(dob));
+            stmt.setDate(6, dob == null ? null : Date.valueOf(dob));
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String lastName = rs.getString("last_name");
+                String firstName = rs.getString("first_name");
+                LocalDate patientDob = LocalDate.parse(rs.getString("dob"));
+                Address address = AddressDAL.getAddressById(rs.getString("address_id"));
+                String phone = rs.getString("phone");
+                String status = rs.getString("status");
+                String gender = rs.getString("gender");
+
+                Patient patient = new Patient(id, lastName, firstName, patientDob, address, phone, status, gender);
+                patients.add(patient);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patients;
+    }
 
 	/**
 	 * Gets the all patients.
@@ -78,7 +134,7 @@ public class PatientDAL {
 			while (rs.next()) {
 				var address = AddressDAL.getAddressById(rs.getString("address_id"));
 				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
-						rs.getString("dob"), address, rs.getString("phone"), rs.getString("status"),
+						LocalDate.parse(rs.getString("dob")), address, rs.getString("phone"), rs.getString("status"),
 						rs.getString("gender"));
 				patients.add(patient);
 			}
@@ -115,7 +171,7 @@ public class PatientDAL {
 			if (rs.next()) {
 				var address = AddressDAL.getAddressById(rs.getString("address_id"));
 				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
-						rs.getString("dob"), address, rs.getString("gender"), rs.getString("phone"),
+						LocalDate.parse(rs.getString("dob")), address, rs.getString("gender"), rs.getString("phone"),
 						rs.getString("status"));
 				return patient;
 			}
@@ -143,7 +199,7 @@ public class PatientDAL {
 			if (rs.next()) {
 				var address = AddressDAL.getAddressById(rs.getString("address_id"));
 				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
-						rs.getString("dob"), address, rs.getString("gender"), rs.getString("phone"),
+						LocalDate.parse(rs.getString("dob")), address, rs.getString("gender"), rs.getString("phone"),
 						rs.getString("status"));
 				return patient;
 			}
