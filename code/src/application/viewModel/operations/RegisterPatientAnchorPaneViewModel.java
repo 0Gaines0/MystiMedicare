@@ -8,7 +8,6 @@ import application.DAL.PatientDAL;
 import application.model.credentials.Address;
 import application.model.credentials.Patient;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -40,10 +39,10 @@ public class RegisterPatientAnchorPaneViewModel {
 		this.patientEmailTextProperty = new SimpleStringProperty();
 		this.patientFirstNameTextProperty = new SimpleStringProperty();
 		this.patientLastNameTextProperty = new SimpleStringProperty();
+		this.patientDateOfBirthTextProperty = new SimpleObjectProperty<LocalDate>();
 		this.patientMoblieNumberTextProperty = new SimpleStringProperty();
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
-		this.patientDateOfBirthTextProperty = new SimpleObjectProperty<LocalDate>();
 	}
 
 	/**

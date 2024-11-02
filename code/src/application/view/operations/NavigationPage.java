@@ -63,12 +63,6 @@ public class NavigationPage {
 	private AppointmentAnchorPane createAppointmentCodeBehind;
 	private EditAppointmentAnchorPane editAppointmentCodeBehind;
 
-	@FXML
-	void initialize() {
-		this.validateFXMLComponents();
-		this.setUpSideBarButtons();
-		this.setUpUsernameLabel();
-	}
 
 	/**
 	 * Instantiates a new navigation page.
@@ -81,11 +75,18 @@ public class NavigationPage {
 		this.editAppointmentCodeBehind = new EditAppointmentAnchorPane();
 	}
 
-	/**
-	 * Open navigation page.
-	 */
-	public void openNavigationPage() {
-		var newStage = new Stage();
+    void initialize() {
+    	this.validateFXMLComponents();
+    	this.setUpSideBarButtons();
+		this.setUpUsernameLabel();
+    }
+    
+    
+    /**
+     * Open navigation page.
+     */
+    public void openNavigationPage() {
+    	var newStage = new Stage();
 		try {
 			var loader = new FXMLLoader(getClass().getResource(Main.NAVIGATION_PAGE));
 			Parent parent = loader.load();
