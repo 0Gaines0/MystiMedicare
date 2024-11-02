@@ -52,8 +52,7 @@ public class EditAppointmentAnchorPane {
 
     @FXML
     private ComboBox<String> timePickerComboBox;
-    
-    private SearchPatientAnchorPane searchAnchor;
+  
     private EditAppointmentAnchorPaneViewModel viewmodel;
     private Patient selectedPatient;
     
@@ -62,7 +61,6 @@ public class EditAppointmentAnchorPane {
      * the edit appointment anchor pane
      */
     public EditAppointmentAnchorPane() {
-    	this.searchAnchor = new SearchPatientAnchorPane();
     	this.viewmodel = new EditAppointmentAnchorPaneViewModel();
     	this.selectedPatient = new Patient();
     }
@@ -78,7 +76,7 @@ public class EditAppointmentAnchorPane {
     
     private void setupButtons() {
     	this.cancelBtn.setOnAction((event) -> {
-    		this.searchAnchor.openAnchorPane((BorderPane) this.editAnchorPane.getParent(), Main.SEARCH_PATIENT_ANCHOR_PANE);
+    		//cancel and go back to the search
     	});
     	this.updateBtn.setOnAction((event) -> {
     		//update appointment dal call
