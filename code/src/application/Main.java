@@ -23,6 +23,8 @@ public class Main extends Application {
 	public static final String REGISTER_PATIENT_ANCHOR_PANE = "../operations/RegisterPatientAnchorPane.fxml";
 	public static final String EDIT_PATIENT_ANCHOR_PANE = "../operations/EditPatientAnchorPane.fxml";
 	public static final String SEARCH_PATIENT_ANCHOR_PANE = "../operations/SearchPatientAnchorPane.fxml";
+	public static final String CREATE_APPOINTMENT_ANCHOR_PANE = "../operations/AppointmentAnchorPane.fxml";
+	public static final String EDIT_APPOINTMENT_ANCHOR_PANE = "../operations/EditAppointmentAnchorPane.fxml";
 
 	@Override
 	public void start(Stage primaryStage) {

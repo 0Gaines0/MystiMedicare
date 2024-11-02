@@ -2,28 +2,30 @@ package application.model.credentials;
 
 import java.time.LocalDate;
 
-
 /**
  * The Class Appointment.
+ * 
  * @author Jeffrey Gaines
  */
 public class Appointment {
 
 	/** The id. */
 	private String id;
-	
+
 	/** The patient. */
 	private Patient patient;
-	
+
 	/** The doctor. */
 	private Doctor doctor;
-	
+
 	/** The date of appointment. */
 	private LocalDate dateOfAppointment;
-	
+
+	private String timeOfAppointment;
+
 	/** The reason. */
 	private String reason;
-	
+
 	/** The status. */
 	private String status;
 
@@ -37,27 +39,70 @@ public class Appointment {
 		this.dateOfAppointment = null;
 		this.reason = "";
 		this.status = "";
+		this.timeOfAppointment = "";
 	}
 
 	/**
-	 * Instantiates a new appointment with given parameters.
+	 * Instantiates a new appointment.
 	 *
-	 * @param id                the appointment ID
+	 * @param id                the id
 	 * @param patient           the patient
 	 * @param doctor            the doctor
 	 * @param dateOfAppointment the date of appointment
-	 * @param reason            the reason for the appointment
-	 * @param status            the status of the appointment
-	 * @throws IllegalArgumentException if any parameter is invalid
+	 * @param reason            the reason
+	 * @param status            the status
+	 * @param time              the time
 	 */
 	public Appointment(String id, Patient patient, Doctor doctor, LocalDate dateOfAppointment, String reason,
-			String status) {
+			String status, String time) {
 		this.setId(id);
 		this.setPatient(patient);
 		this.setDoctor(doctor);
 		this.setDateOfAppointment(dateOfAppointment);
 		this.setReason(reason);
 		this.setStatus(status);
+		this.setTime(time);
+	}
+
+	/**
+	 * Instantiates a new appointment.
+	 *
+	 * @param patient           the patient
+	 * @param doctor            the doctor
+	 * @param dateOfAppointment the date of appointment
+	 * @param reason            the reason
+	 * @param status            the status
+	 * @param time              the time
+	 */
+	public Appointment(Patient patient, Doctor doctor, LocalDate dateOfAppointment, String reason, String status,
+			String time) {
+		this.setPatient(patient);
+		this.setDoctor(doctor);
+		this.setDateOfAppointment(dateOfAppointment);
+		this.setReason(reason);
+		this.setStatus(status);
+		this.setTime(time);
+	}
+
+	/**
+	 * Gets the time of appointment.
+	 *
+	 * @return the time of appointment
+	 */
+	public String getTimeOfAppointment() {
+		return this.timeOfAppointment;
+	}
+
+	/**
+	 * Sets the time.
+	 *
+	 * @param time the new time
+	 */
+	public void setTime(String time) {
+		if (time == null || time.trim().isEmpty()) {
+			throw new IllegalArgumentException("Time cannot be empty");
+		}
+		this.timeOfAppointment = time;
 	}
 
 	/**
