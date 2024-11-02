@@ -41,9 +41,6 @@ public class NavigationPage {
 
 	@FXML
 	private HBox searchPatientHBox;
-	
-	@FXML
-	private HBox editAppointmentHBox;
 
 	@FXML
 	private BorderPane parentBorderPane;
@@ -55,13 +52,18 @@ public class NavigationPage {
 	private Label usernameLabel;
 	
     @FXML
+    private HBox usernameHBox;
+
+    @FXML
+    private HBox usernameHBox1;
+	
+    @FXML
     private HBox createAppointmentHBox;
 
 	private RegisterPatientAnchorPane registerPatientCodeBehind;
 	private EditPatientAnchorPane editPatientCodeBehind;
 	private SearchPatientAnchorPane searchPatientCodeBehind;
 	private AppointmentAnchorPane createAppointmentCodeBehind;
-	private EditAppointmentAnchorPane editAppointmentCodeBehind;
 
 
 	/**
@@ -72,15 +74,14 @@ public class NavigationPage {
 		this.editPatientCodeBehind = new EditPatientAnchorPane();
 		this.searchPatientCodeBehind = new SearchPatientAnchorPane();
 		this.createAppointmentCodeBehind = new AppointmentAnchorPane();
-		this.editAppointmentCodeBehind = new EditAppointmentAnchorPane();
 	}
 
+	@FXML
     void initialize() {
     	this.validateFXMLComponents();
     	this.setUpSideBarButtons();
 		this.setUpUsernameLabel();
     }
-    
     
     /**
      * Open navigation page.
@@ -111,19 +112,12 @@ public class NavigationPage {
 		this.setUpEditPatientHBox();
 		this.setUpSearchPatientHBox();
 		this.setUpCreateAppointmentHBox();
-		this.setUpEditAppointmentHBox();
 	}
 
 	private void setUpCreateAppointmentHBox() {
 		this.createAppointmentHBox.setOnMouseClicked(((event) -> {
 			this.createAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.CREATE_APPOINTMENT_ANCHOR_PANE);
 		}));
-	}
-	
-	private void setUpEditAppointmentHBox() {
-		this.editAppointmentHBox.setOnMouseClicked((event) -> {
-			this.editAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.EDIT_APPOINTMENT_ANCHOR_PANE);
-		});
 	}
 
 	private void setUpEditPatientHBox() {
@@ -145,17 +139,16 @@ public class NavigationPage {
 	}
 
 	private void validateFXMLComponents() {
-		assert this.baseAnchorPane != null
-				: "fx:id=\"baseAnchorPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-		assert this.editPatientHBox != null
-				: "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-		assert this.searchPatientHBox != null
-				: "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-		assert this.registerPatientHBox != null
-				: "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        assert this.editAppointmentHBox != null 
-        		: "fx:id=\"editAppointmentHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        
+        assert this.baseAnchorPane != null : "fx:id=\"baseAnchorPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.createAppointmentHBox != null : "fx:id=\"createAppointmentHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.editPatientHBox != null : "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.fullNameLabel != null : "fx:id=\"fullNameLabel\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.parentBorderPane != null : "fx:id=\"parentBorderPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.usernameHBox != null : "fx:id=\"usernameHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.usernameHBox1 != null : "fx:id=\"usernameHBox1\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.registerPatientHBox != null : "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.searchPatientHBox != null : "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.usernameLabel != null : "fx:id=\"usernameLabel\" was not injected: check your FXML file 'NavigationPage.fxml'.";   
 	}
 
 }
