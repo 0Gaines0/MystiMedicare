@@ -41,7 +41,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox fx:id="usernameHBox1" alignment="CENTER" prefHeight="38.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                  <HBox alignment="CENTER" prefHeight="38.0" prefWidth="208.0" stylesheets="@assets/styles.css">
                      <styleClass>
                         <String fx:value="selected" />
                         <String fx:value="select-border" />

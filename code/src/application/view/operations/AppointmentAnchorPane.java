@@ -10,17 +10,20 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import application.DAL.DoctorDAL;
+import application.DAL.PatientDAL;
 import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
 import application.viewModel.operations.AppointmentAnchorPaneViewModel;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -65,6 +68,7 @@ public class AppointmentAnchorPane {
 		this.populateTimePicker();
 		this.setUpCreateAppointmentBtn();
 		this.setUpDoctorsComboBox();
+		this.setUpPatientsComboBox();
 
 	}
 
@@ -77,13 +81,32 @@ public class AppointmentAnchorPane {
 
 	private void setUpCreateAppointmentBtn() {
 		this.createAppointmentBtn.setOnAction(((event) -> {
-
+			if (this.viewModel.addAppointment()) {
+				//TODO
+				// validate page javafx
+				// make appointmentDAL to check for appointment
+				this.popUpConformation("Appointment was added!");
+			} else {
+				this.popUpError("That date and time was already book, try another time");
+			}
 		}));
 	}
 
+	private void popUpError(String reasonForError) {
+		var errorPopUp = new Alert(AlertType.ERROR);
+		errorPopUp.setContentText(reasonForError);
+		errorPopUp.showAndWait();
+	}
+
+	private void popUpConformation(String reasonForConfirm) {
+		var errorPopUp = new Alert(AlertType.CONFIRMATION);
+		errorPopUp.setContentText(reasonForConfirm);
+		errorPopUp.showAndWait();
+	}
+
 	private void bindToViewModel() {
-		this.doctorComboBox.itemsProperty().bindBidirectional(this.viewModel.getDoctorListProperty());
-		this.patientComboBox.itemsProperty().bindBidirectional(this.viewModel.getPatientListProperty());
+		this.doctorComboBox.valueProperty().bindBidirectional(this.viewModel.getDoctorListProperty());
+		this.patientComboBox.valueProperty().bindBidirectional(this.viewModel.getPatientListProperty());
 
 		this.appointmentDatePicker.valueProperty().bindBidirectional(this.viewModel.getAppointmentDate());
 
@@ -114,9 +137,17 @@ public class AppointmentAnchorPane {
 
 	private void setUpDoctorsComboBox() {
 		try {
-			//this.doctorComboBox.getItems().clear();
 			List<Doctor> doctors = DoctorDAL.getAllDoctor();
 			this.doctorComboBox.setItems(FXCollections.observableArrayList(doctors));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setUpPatientsComboBox() {
+		try {
+			List<Patient> patients = PatientDAL.getAllPatients();
+			this.patientComboBox.setItems(FXCollections.observableArrayList(patients));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -2,6 +2,7 @@ package application.viewModel.operations;
 
 import java.time.LocalDate;
 
+import application.model.credentials.AppointmentsManager;
 import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
 import javafx.beans.property.ListProperty;
@@ -17,24 +18,42 @@ import javafx.beans.property.StringProperty;
  */
 public class AppointmentAnchorPaneViewModel {
 
-	private ListProperty<Patient> patientListProperty;
-	private ListProperty<Doctor> doctorListProperty;
+	private ObjectProperty<Patient> patientListProperty;
+	private ObjectProperty<Doctor> doctorListProperty;
 	private ObjectProperty<LocalDate> appointmentDate;
 	private StringProperty reasonForAppointment;
 	private StringProperty patientStatus;
 	private ObjectProperty<String> selectedTime;
+	private AppointmentsManager appointmentManager;
 	
 	/**
 	 * Instantiates a new appointment anchor pane view model.
 	 */
 	public AppointmentAnchorPaneViewModel() {
-		this.patientListProperty = new SimpleListProperty<Patient>();
-		this.doctorListProperty = new SimpleListProperty<Doctor>();
+		this.patientListProperty = new SimpleObjectProperty<Patient>();
+		this.doctorListProperty = new SimpleObjectProperty<Doctor>();
 		this.appointmentDate = new SimpleObjectProperty<LocalDate>();
 		this.reasonForAppointment = new SimpleStringProperty();
 		this.patientStatus = new SimpleStringProperty();
 		this.selectedTime = new SimpleObjectProperty<String>();
+		this.appointmentManager = new AppointmentsManager();
 		
+	}
+	
+	/**
+	 * Adds the appointment.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean addAppointment() {
+		var patient = this.getPatientListProperty().getValue();
+		var doctor = this.getDoctorListProperty().getValue();
+		var date = this.getAppointmentDate().getValue();
+		var time = this.getSelectedTime().getValue();
+		var reason = this.getReasonForAppointment().getValue();
+		var status = this.getPatientStatus().getValue();
+		
+		return this.appointmentManager.createAppointment(patient, doctor, date, time, reason, status);
 	}
 
 	/**
@@ -42,7 +61,7 @@ public class AppointmentAnchorPaneViewModel {
 	 *
 	 * @return the patient list property
 	 */
-	public ListProperty<Patient> getPatientListProperty() {
+	public ObjectProperty<Patient> getPatientListProperty() {
 		return this.patientListProperty;
 	}
 
@@ -51,7 +70,7 @@ public class AppointmentAnchorPaneViewModel {
 	 *
 	 * @return the doctor list property
 	 */
-	public ListProperty<Doctor> getDoctorListProperty() {
+	public ObjectProperty<Doctor> getDoctorListProperty() {
 		return this.doctorListProperty;
 	}
 
