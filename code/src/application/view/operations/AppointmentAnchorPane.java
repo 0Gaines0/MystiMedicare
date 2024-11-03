@@ -45,7 +45,7 @@ public class AppointmentAnchorPane {
 	private ComboBox<Patient> patientComboBox;
 
 	@FXML
-	private TextField patientStatusTextField;
+	private ComboBox<String> patientStatusComboBox;
 
 	@FXML
 	private TextArea reasonTextArea;
@@ -69,6 +69,7 @@ public class AppointmentAnchorPane {
 		this.setUpCreateAppointmentBtn();
 		this.setUpDoctorsComboBox();
 		this.setUpPatientsComboBox();
+		this.setUpStatusComboBox();
 
 	}
 
@@ -78,13 +79,19 @@ public class AppointmentAnchorPane {
 	public AppointmentAnchorPane() {
 		this.viewModel = new AppointmentAnchorPaneViewModel();
 	}
+	
+	private void setUpStatusComboBox() {
+		this.patientStatusComboBox.getItems().add("Scheduled");
+		this.patientStatusComboBox.getItems().add("Completed");
+		this.patientStatusComboBox.getItems().add("Canncelled");
+		this.patientStatusComboBox.setValue("Scheduled");
+
+
+	}
 
 	private void setUpCreateAppointmentBtn() {
 		this.createAppointmentBtn.setOnAction(((event) -> {
 			if (this.viewModel.addAppointment()) {
-				//TODO
-				// validate page javafx
-				// make appointmentDAL to check for appointment
 				this.popUpConformation("Appointment was added!");
 			} else {
 				this.popUpError("That date and time was already book, try another time");
@@ -114,7 +121,7 @@ public class AppointmentAnchorPane {
 
 		this.reasonTextArea.textProperty().bindBidirectional(this.viewModel.getReasonForAppointment());
 
-		this.patientStatusTextField.textProperty().bindBidirectional(this.viewModel.getPatientStatus());
+		this.patientStatusComboBox.valueProperty().bindBidirectional(this.viewModel.getPatientStatus());
 	}
 
 	/**
@@ -134,6 +141,8 @@ public class AppointmentAnchorPane {
 			error.getMessage();
 		}
 	}
+	
+	
 
 	private void setUpDoctorsComboBox() {
 		try {
@@ -171,8 +180,8 @@ public class AppointmentAnchorPane {
 				: "fx:id=\"doctorComboBox\" was not injected: check your FXML file 'AppointmentAnchorPane.fxml'.";
 		assert this.patientComboBox != null
 				: "fx:id=\"patientComboBox\" was not injected: check your FXML file 'AppointmentAnchorPane.fxml'.";
-		assert this.patientStatusTextField != null
-				: "fx:id=\"patientStatusTextField\" was not injected: check your FXML file 'AppointmentAnchorPane.fxml'.";
+		assert this.patientStatusComboBox != null
+				: "fx:id=\"patientStatusComboBox\" was not injected: check your FXML file 'AppointmentAnchorPane.fxml'.";
 		assert this.reasonTextArea != null
 				: "fx:id=\"reasonTextArea\" was not injected: check your FXML file 'AppointmentAnchorPane.fxml'.";
 	}

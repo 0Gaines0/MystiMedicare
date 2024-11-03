@@ -1,7 +1,11 @@
 package application.viewModel.operations;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
+import application.DAL.AppointmentDAL;
 import application.model.credentials.AppointmentsManager;
 import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
@@ -14,6 +18,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  * The Class AppointmentAnchorPaneViewModel.
+ * 
  * @author Jeffrey Gaines
  */
 public class AppointmentAnchorPaneViewModel {
@@ -25,7 +30,7 @@ public class AppointmentAnchorPaneViewModel {
 	private StringProperty patientStatus;
 	private ObjectProperty<String> selectedTime;
 	private AppointmentsManager appointmentManager;
-	
+
 	/**
 	 * Instantiates a new appointment anchor pane view model.
 	 */
@@ -37,9 +42,9 @@ public class AppointmentAnchorPaneViewModel {
 		this.patientStatus = new SimpleStringProperty();
 		this.selectedTime = new SimpleObjectProperty<String>();
 		this.appointmentManager = new AppointmentsManager();
-		
+
 	}
-	
+
 	/**
 	 * Adds the appointment.
 	 *
@@ -49,11 +54,29 @@ public class AppointmentAnchorPaneViewModel {
 		var patient = this.getPatientListProperty().getValue();
 		var doctor = this.getDoctorListProperty().getValue();
 		var date = this.getAppointmentDate().getValue();
-		var time = this.getSelectedTime().getValue();
+		var time = this.convertTo24HourFormat(this.getSelectedTime().getValue());
 		var reason = this.getReasonForAppointment().getValue();
 		var status = this.getPatientStatus().getValue();
-		
-		return this.appointmentManager.createAppointment(patient, doctor, date, time, reason, status);
+
+		try {
+			if (AppointmentDAL.appointmentExists(date, time, doctor)) {
+				return false;
+			}
+			return AppointmentDAL.createAppointment(patient, doctor, date, time, reason, status);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	private String convertTo24HourFormat(String time) {
+		DateTimeFormatter twelveHourFormatter = DateTimeFormatter.ofPattern("h:mm a");
+		DateTimeFormatter twentyFourHourFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+		LocalTime localTime = LocalTime.parse(time, twelveHourFormatter);
+		return localTime.format(twentyFourHourFormatter);
 	}
 
 	/**

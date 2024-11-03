@@ -44,6 +44,7 @@ public class SearchPatientAnchorPane {
     
     @FXML
     private Button selectPatientButton;
+    private static Patient selectedPatient;
     
     private SearchPatientAnchorPageViewModel viewModel;
     private EditAppointmentAnchorPane editApptCodeBehind;
@@ -86,7 +87,8 @@ public class SearchPatientAnchorPane {
     		this.patientListview.getItems().setAll(this.viewModel.searchPatients());
     	});
     	this.selectPatientButton.setOnAction((event) -> {
-    		this.editApptCodeBehind.openAnchorPane((BorderPane) this.searchAnchorPane.getParent(), Main.EDIT_APPOINTMENT_ANCHOR_PANE, this.patientListview.getSelectionModel().getSelectedItem());
+    		selectedPatient = this.patientListview.getSelectionModel().getSelectedItem();
+    		this.editApptCodeBehind.openAnchorPane((BorderPane) this.searchAnchorPane.getParent(), Main.EDIT_APPOINTMENT_ANCHOR_PANE);
     	});
     }
     
@@ -104,6 +106,15 @@ public class SearchPatientAnchorPane {
         assert this.searchAnchorPane != null : "fx:id=\"searchAnchorPane\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.searchButton != null : "fx:id=\"searchButton\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
         assert this.selectPatientButton != null : "fx:id=\"selectPatientButton\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
+	}
+
+	/**
+	 * Gets the selected patient.
+	 *
+	 * @return the selected patient
+	 */
+	public static Patient getSelectedPatient() {
+		return selectedPatient;
 	}
 
 }

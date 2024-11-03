@@ -15,6 +15,8 @@ import application.model.credentials.Patient;
 public class DoctorDAL {
 
 	private static final String QUERY_FOR_ALL_DOCTORS = "SELECT * FROM cs3230f24b.doctor";
+	private static final String QUERY_FOR_DOCTOR_ID = "SELECT * FROM cs3230f24b.doctor WHERE id = ?";
+
 
 	/**
 	 * Gets the all doctor.
@@ -43,4 +45,33 @@ public class DoctorDAL {
 			return doctors;
 		}
 	}
+	
+	/**
+	 * Gets the patient using id.
+	 *
+	 * @param id the id
+	 * @return the patient using id
+	 * @throws SQLException the SQL exception
+	 */
+	public static Doctor getDoctorUsingId(String id) throws SQLException {
+		String query = QUERY_FOR_DOCTOR_ID;
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+			pstmt.setString(1, id);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				var address = AddressDAL.getAddressById(rs.getString("address_id"));
+				var doctor = new Doctor(rs.getString("id"), rs.getString("first_name"), rs.getString("last_name"),
+						LocalDate.parse(rs.getString("dob")), address.getId(), rs.getString("phone"), rs.getString("gender"));
+				return doctor;
+			}
+		}
+
+		return null;
+	}
+	
+	
 }
