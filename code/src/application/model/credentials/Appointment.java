@@ -9,6 +9,11 @@ import java.time.LocalDate;
  */
 public class Appointment {
 
+	@Override
+	public String toString() {
+		return "Appointment [" + this.dateOfAppointment.toString() + " " + this.timeOfAppointment + "]";
+	}
+
 	/** The id. */
 	private String id;
 
