@@ -3,6 +3,7 @@ package application.view.operations;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -79,24 +80,75 @@ public class AppointmentAnchorPane {
 	public AppointmentAnchorPane() {
 		this.viewModel = new AppointmentAnchorPaneViewModel();
 	}
-	
+
 	private void setUpStatusComboBox() {
 		this.patientStatusComboBox.getItems().add("Scheduled");
 		this.patientStatusComboBox.getItems().add("Completed");
 		this.patientStatusComboBox.getItems().add("Canncelled");
 		this.patientStatusComboBox.setValue("Scheduled");
 
-
 	}
 
 	private void setUpCreateAppointmentBtn() {
 		this.createAppointmentBtn.setOnAction(((event) -> {
-			if (this.viewModel.addAppointment()) {
+			var result = this.validateAllFields();
+			if (!result.isBlank()) {
+				this.popUpError(result);
+			} else if (this.viewModel.addAppointment()) {
 				this.popUpConformation("Appointment was added!");
 			} else {
 				this.popUpError("That date and time was already book, try another time");
 			}
 		}));
+	}
+
+	private String validateAllFields() {
+		var result = "";
+		result += this.validateComboBoxes();
+		result += this.validateDatePicker();
+		result += this.validateReasonForAppointment();
+
+		return result;
+	}
+
+	private String validateReasonForAppointment() {
+		var result = "";
+
+		if (this.reasonTextArea.textProperty().getValue() == null
+				|| this.reasonTextArea.textProperty().getValue().isBlank()) {
+			result += "Reason must be inputted" + System.lineSeparator();
+		}
+
+		return result;
+	}
+
+	private String validateDatePicker() {
+		var result = "";
+
+		if (this.appointmentDatePicker.getValue() == null) {
+			result += "Date for appointment must be selected" + System.lineSeparator();
+		} else if (this.appointmentDatePicker.getValue().isBefore(LocalDate.now())) {
+			result += "Date must be after the current date" + System.lineSeparator();
+		}
+
+		return result;
+	}
+
+	private String validateComboBoxes() {
+		var result = "";
+		if (this.patientComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Patient must be selected" + System.lineSeparator();
+		}
+		if (this.doctorComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Doctor must be selected" + System.lineSeparator();
+		}
+		if (this.timePickerComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Time for appointment must be selected" + System.lineSeparator();
+		}
+		if (this.patientStatusComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Status for appointment must be selected" + System.lineSeparator();
+		}
+		return result;
 	}
 
 	private void popUpError(String reasonForError) {
@@ -141,8 +193,6 @@ public class AppointmentAnchorPane {
 			error.getMessage();
 		}
 	}
-	
-	
 
 	private void setUpDoctorsComboBox() {
 		try {
