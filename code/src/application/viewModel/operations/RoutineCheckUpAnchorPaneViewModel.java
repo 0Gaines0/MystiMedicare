@@ -1,9 +1,14 @@
 package application.viewModel.operations;
 
+import java.sql.SQLException;
+
+import application.DAL.VisitDAL;
 import application.model.credentials.ActiveUser;
+import application.view.operations.SelectAppointmentAnchorPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class RoutineCheckUpAnchorPaneViewModel.
  * @author Jeffrey Gaines
@@ -25,9 +30,14 @@ public class RoutineCheckUpAnchorPaneViewModel {
 	/** The diastolic blood pressure property. */
 	private StringProperty diastolicBloodPressureProperty;
 	
+	/** The symptoms property. */
 	private StringProperty symptomsProperty;
 	
+	/** The temp property. */
 	private StringProperty tempProperty;
+	
+	/** The visit DAL. */
+	private VisitDAL visitDAL;
 	
 	/**
 	 * Instantiates a new routine check up anchor pane view model.
@@ -39,14 +49,37 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		this.weightProperty = new SimpleStringProperty();
 		this.diastolicBloodPressureProperty = new SimpleStringProperty();
 		this.symptomsProperty = new SimpleStringProperty();
+		this.tempProperty = new SimpleStringProperty();
+		this.visitDAL = new VisitDAL();
 	}
 	
+
 	/**
 	 * Upload routine check up.
+	 *
+	 * @return true, if successful
 	 */
-	public void uploadRoutineCheckUp() {
+	public boolean uploadRoutineCheckUp() {
+		var appointment = SelectAppointmentAnchorPane.getSelectedAppointment();
 		var nurseID = ActiveUser.getActiveUser().getId();
+		var doctorID = appointment.getDoctor().getId();
+		var patientID = appointment.getPatient().getId();
+		var date = appointment.getDateOfAppointment() + " " + appointment.getTimeOfAppointment();
+		var sysBP = this.getSystolicPressureProperty().getValue();
+		var diastoBP = this.getDiastolicBloodPressureProperty().getValue();
+		var temp = this.getTempProperty().getValue();
+		var pulse = this.getPulseProperty().getValue();
+		var height = this.getHeightProperty().getValue();
+		var weight = this.getWeightProperty().getValue();
+		var symptoms = this.getSymptomsProperty().getValue();
 		
+		try {
+			this.visitDAL.addRoutineCheckUpVisit(appointment.getId(), nurseID, doctorID, patientID, date, sysBP, diastoBP, temp, pulse, height, weight, symptoms);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**

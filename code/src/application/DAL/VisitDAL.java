@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class VisitDAL {
 
-	private static final String INSERT_TO_VISIT = "INSERT INTO your_table_name (appointment_id, nurse_id, doctor_id, patient_id, date, systolic_bp, diastolic_bp, temp, pulse, height, weight, symptoms, is_editable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_TO_VISIT = "INSERT INTO visit (appointment_id, nurse_id, doctor_id, patient_id, date, systolic_bp, diastolic_bp, temp, pulse, height, weight, symptoms, is_editable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	
 	/**
@@ -31,9 +31,9 @@ public class VisitDAL {
 	 * @param symptoms the symptoms
 	 * @throws SQLException the SQL exception
 	 */
-	public void addRoutineCheckUpVisit(String appointment_id, String nurse_id, String doctor_id,
-			String patient_id, String date, String systolic_bp, String diastolic_bp, String temp, String pulse,
-			String height, String weight, String symptoms) throws SQLException {
+	public void addRoutineCheckUpVisit(String appointment_id, String nurse_id, String doctor_id, String patient_id,
+			String date, String systolic_bp, String diastolic_bp, String temp, String pulse, String height,
+			String weight, String symptoms) throws SQLException {
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement pstmt = conn.prepareStatement(INSERT_TO_VISIT)) {
 
@@ -42,17 +42,17 @@ public class VisitDAL {
 			pstmt.setString(3, doctor_id);
 			pstmt.setString(4, patient_id);
 			pstmt.setString(5, date);
-			pstmt.setString(6, systolic_bp);
-			pstmt.setString(7, diastolic_bp);
-			pstmt.setString(8, temp);
-			pstmt.setString(9, pulse);
-			pstmt.setString(10, height);
-			pstmt.setString(11, weight);
+			pstmt.setInt(6, Integer.parseInt(systolic_bp));
+			pstmt.setInt(7, Integer.parseInt(diastolic_bp));
+			pstmt.setDouble(8, Double.parseDouble(temp));
+			pstmt.setInt(9, Integer.parseInt(pulse));
+			pstmt.setDouble(10, Double.parseDouble(height));
+			pstmt.setDouble(11, Double.parseDouble(weight));
 			pstmt.setString(12, symptoms);
 			pstmt.setInt(13, 1);
 
 			pstmt.executeUpdate();
-			
+
 		}
 	}
 
