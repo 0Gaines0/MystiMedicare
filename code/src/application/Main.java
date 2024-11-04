@@ -19,6 +19,7 @@ public class Main extends Application {
 
 	public static final String WINDOW_TITLE = "MystiMedicare";
 	public static final String LOGIN_WINDOW = "view/LoginPage.fxml";
+	public static final String LOGIN_WINDOW_FROM_NAV = "../LoginPage.fxml";
 	public static final String NAVIGATION_PAGE = "../operations/NavigationPage.fxml";
 	public static final String REGISTER_PATIENT_ANCHOR_PANE = "../operations/RegisterPatientAnchorPane.fxml";
 	public static final String EDIT_PATIENT_ANCHOR_PANE = "../operations/EditPatientAnchorPane.fxml";
@@ -36,7 +37,6 @@ public class Main extends Application {
 			} else {
 				System.out.println("Failed to connect to the database.");
 			}
-
 			Parent parent = FXMLLoader.load(getClass().getResource(Main.LOGIN_WINDOW));
 			Scene scene = new Scene(parent);
 			primaryStage.setTitle(WINDOW_TITLE);
