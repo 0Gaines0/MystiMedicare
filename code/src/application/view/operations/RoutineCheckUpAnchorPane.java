@@ -51,6 +51,7 @@ public class RoutineCheckUpAnchorPane {
     @FXML
     void initialize() {
         this.validateFXMLComponents();
+        this.bindToViewModel();
         this.setUpUploadResultsBtn();
 
     }
@@ -86,7 +87,12 @@ public class RoutineCheckUpAnchorPane {
     		if (!result.isBlank()) {
     			this.popUpError(result);
     		} else {
-    			
+    			var uploaded = this.routineViewModel.uploadRoutineCheckUp();
+    			if (uploaded) {
+    				this.popUpConformation("Visit data uploaded");
+    			} else {
+    				this.popUpError("Visit data was not uploaded, try again");
+    			}
     		}
     	}));
     }
@@ -148,6 +154,17 @@ public class RoutineCheckUpAnchorPane {
 
         return result;
     }
+    
+    private void bindToViewModel() {
+        this.systolicPressureTextField.textProperty().bindBidirectional(this.routineViewModel.getSystolicPressureProperty());
+        this.diastolicBloodPressureTextField.textProperty().bindBidirectional(this.routineViewModel.getDiastolicBloodPressureProperty());
+        this.pulseTextField.textProperty().bindBidirectional(this.routineViewModel.getPulseProperty());
+        this.heightTextField.textProperty().bindBidirectional(this.routineViewModel.getHeightProperty());
+        this.weightTextField.textProperty().bindBidirectional(this.routineViewModel.getWeightProperty());
+        this.symptomsTextField.textProperty().bindBidirectional(this.routineViewModel.getSymptomsProperty());
+        this.tempTextField.textProperty().bindBidirectional(this.routineViewModel.getTempProperty());
+    }
+
 
     private boolean isInteger(String value) {
         try {
