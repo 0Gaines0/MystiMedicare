@@ -71,6 +71,7 @@ public class EditPatientAnchorPane {
 	private TextField zipCodeTextField;
 
 	private EditPatientAnchorPaneViewModel editPatientViewModel;
+	private PatientDAL patientDAL;
 
 	@FXML
 	void initialize() {
@@ -88,6 +89,7 @@ public class EditPatientAnchorPane {
 	 */
 	public EditPatientAnchorPane() {
 		this.editPatientViewModel = new EditPatientAnchorPaneViewModel();
+		this.patientDAL = new PatientDAL();
 	}
 
 	private void setUpGenderComboBox() {
@@ -98,7 +100,7 @@ public class EditPatientAnchorPane {
 	private void setUpPatientComboBox() {
 		try {
 			this.patientListView.getItems().clear();
-			List<Patient> patients = PatientDAL.getAllPatients();
+			List<Patient> patients = this.patientDAL.getAllPatients();
 			this.patientListView.getItems().addAll(patients);
 		} catch (SQLException e) {
 			e.printStackTrace();

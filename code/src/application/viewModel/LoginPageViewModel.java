@@ -15,6 +15,7 @@ public class LoginPageViewModel {
 
 	private StringProperty userIdProperty;
 	private StringProperty passwordProperty;
+	private UserDAL userDAL;
 
 	/**
 	 * Instantiates a new login page view model.
@@ -22,6 +23,7 @@ public class LoginPageViewModel {
 	public LoginPageViewModel() {
 		this.userIdProperty = new SimpleStringProperty();
 		this.passwordProperty = new SimpleStringProperty();
+		this.userDAL = new UserDAL();
 	}
 
 	/**
@@ -33,8 +35,8 @@ public class LoginPageViewModel {
 	public boolean userLoginIsSuccessful() throws SQLException {
 		var userId = this.userIdProperty.getValue().trim();
 		var password = this.passwordProperty.getValue().trim();
-		if (UserDAL.checkUserId(userId)) {
-			ActiveUser.setActiveUser(UserDAL.loginUser(userId, password));
+		if (this.userDAL.checkUserId(userId)) {
+			ActiveUser.setActiveUser(this.userDAL.loginUser(userId, password));
 			return true;
 		} else {
 			return false;

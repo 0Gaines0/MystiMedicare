@@ -24,6 +24,8 @@ public class EditPatientAnchorPaneViewModel {
 	private StringProperty patientMobileNumberTextProperty;
 	private StringProperty patientStreetTextProperty;
 	private StringProperty patientZipCodeTextProperty;
+	private PatientDAL patientDAL;
+	private AddressDAL addressDAL;
 
 
 	/**
@@ -39,6 +41,8 @@ public class EditPatientAnchorPaneViewModel {
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
 		this.patientDateOfBirthProperty = new SimpleObjectProperty<LocalDate>();
+		this.patientDAL = new PatientDAL();
+		this.addressDAL = new AddressDAL();
 	}
 
 	
@@ -50,7 +54,7 @@ public class EditPatientAnchorPaneViewModel {
 	public void updatePatient(String currentPatientId) {
 		Patient currentPatientRow;
 		try {
-			currentPatientRow = PatientDAL.getPatientUsingId(currentPatientId);
+			currentPatientRow = this.patientDAL.getPatientUsingId(currentPatientId);
 			var address = this.handleUpdatingAndFindingAddress();
 			this.handleUpdatingPatient(currentPatientId, address.getId(), currentPatientRow.getAddress().getId());
 		} catch (SQLException e) {
@@ -67,7 +71,7 @@ public class EditPatientAnchorPaneViewModel {
 		var phone = this.getPatientMobileNumberTextProperty().get();
 
 		try {
-			PatientDAL.updatePatient(patientId, lastName, firstName, dob, gender, addressId, phone);
+			this.patientDAL.updatePatient(patientId, lastName, firstName, dob, gender, addressId, phone);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -79,10 +83,10 @@ public class EditPatientAnchorPaneViewModel {
 		var state = this.getSelectedStateProperty().get();
 		var zipCode = this.getPatientZipCodeTextProperty().get();
 		try {
-			if (!AddressDAL.addressExists(street, city, state, zipCode)) {
-				AddressDAL.addAddress(street, city, state, zipCode);
+			if (!this.addressDAL.addressExists(street, city, state, zipCode)) {
+				this.addressDAL.addAddress(street, city, state, zipCode);
 			}
-			var address = AddressDAL.getAddress(street, city, state, zipCode);
+			var address = this.addressDAL.getAddress(street, city, state, zipCode);
 			return address;
 		} catch (SQLException e) {
 			e.printStackTrace();

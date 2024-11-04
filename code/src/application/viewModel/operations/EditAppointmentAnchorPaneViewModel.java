@@ -11,7 +11,6 @@ import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -26,6 +25,7 @@ public class EditAppointmentAnchorPaneViewModel {
 	private ObjectProperty<String> selectedTime;
 	private ListProperty<Appointment> appointmentListProperty;
 	private ObjectProperty<Appointment> selectedAppointmentProperty;
+	private AppointmentDAL appointmentDAL;
 
 	/**
 	 * The edit appt anchor pane view model
@@ -38,6 +38,7 @@ public class EditAppointmentAnchorPaneViewModel {
 		this.patientStatus = new SimpleStringProperty();
 		this.selectedTime = new SimpleObjectProperty<String>();
 		this.selectedAppointmentProperty = new SimpleObjectProperty<Appointment>();
+		this.appointmentDAL = new AppointmentDAL();
 	}
 	
 	/**
@@ -128,7 +129,7 @@ public class EditAppointmentAnchorPaneViewModel {
 			var status = this.getPatientStatus().getValue();
 			
 			
-			return AppointmentDAL.updateAppointment(id, patient, doctor, date, time, reason, status);
+			return this.appointmentDAL.updateAppointment(id, patient, doctor, date, time, reason, status);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

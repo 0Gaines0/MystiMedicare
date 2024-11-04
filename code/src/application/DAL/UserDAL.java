@@ -17,13 +17,20 @@ import application.model.credentials.UserRole;
 public class UserDAL {
 	
 	/**
+	 * userdal
+	 */
+	public UserDAL() {
+		
+	}
+	
+	/**
 	 * login for user
 	 * @param username
 	 * @param password
 	 * @return the user logged in
 	 * @throws SQLException
 	 */
-	public static User loginUser(String username, String password) throws SQLException {
+	public User loginUser(String username, String password) throws SQLException {
 	    String query = "SELECT u.id, u.username, u.role, u.password " 
 	    			 + "FROM `user` u " 
 	    			 + "LEFT JOIN nurse n ON u.id = n.id " 
@@ -58,7 +65,7 @@ public class UserDAL {
 	 * @return true if the id exist
 	 * @throws SQLException
 	 */
-	public static boolean checkUserId(String userId) throws SQLException {
+	public boolean checkUserId(String userId) throws SQLException {
 	    String query = "SELECT EXISTS(SELECT 1 FROM `user` WHERE id = ?);";
 	    
 	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
@@ -125,6 +132,45 @@ public class UserDAL {
 	    	}
 		}
 	}
+	
+	/**
+	 * gets the users full name
+	 * 
+	 * @param userId
+	 * @return the users full name
+	 * @throws SQLException
+	 */
+	public String retrieveUserFullName(int userId) throws SQLException {
+	    String query = """ 
+	    		SELECT u.id, CASE u.role
+	    			WHEN 'nurse' THEN CONCAT(n.first_name, ' ', n.last_name)
+	    			WHEN 'doctor' THEN CONCAT(d.first_name, ' ', d.last_name)
+	    			WHEN 'admin' THEN CONCAT(a.first_name, ' ', a.last_name)
+	    			ELSE ''
+	    		END AS full_name FROM
+	    			user u
+	    				LEFT JOIN
+	    			nurse n ON u.id = n.id
+	    				LEFT JOIN
+	    			doctor d ON u.id = d.id
+	    				LEFT JOIN
+	    			admin a ON u.id = a.id
+	    		WHERE u.id = ?""";
+	    String fullName = "";
+	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+	        stmt.setInt(1, userId);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            fullName = rs.getString("full_name");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    }
+	    return fullName != null ? fullName : "";
+	}
+
 	
 	/**
 	 * adds nurse

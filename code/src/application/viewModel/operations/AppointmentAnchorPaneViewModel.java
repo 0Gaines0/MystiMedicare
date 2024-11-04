@@ -6,12 +6,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import application.DAL.AppointmentDAL;
-import application.model.credentials.AppointmentsManager;
 import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,7 +26,7 @@ public class AppointmentAnchorPaneViewModel {
 	private StringProperty reasonForAppointment;
 	private StringProperty patientStatus;
 	private ObjectProperty<String> selectedTime;
-	private AppointmentsManager appointmentManager;
+	private AppointmentDAL appointmentDAL;
 
 	/**
 	 * Instantiates a new appointment anchor pane view model.
@@ -41,8 +38,7 @@ public class AppointmentAnchorPaneViewModel {
 		this.reasonForAppointment = new SimpleStringProperty();
 		this.patientStatus = new SimpleStringProperty();
 		this.selectedTime = new SimpleObjectProperty<String>();
-		this.appointmentManager = new AppointmentsManager();
-
+		this.appointmentDAL = new AppointmentDAL();
 	}
 
 	/**
@@ -59,10 +55,10 @@ public class AppointmentAnchorPaneViewModel {
 		var status = this.getPatientStatus().getValue();
 
 		try {
-			if (AppointmentDAL.appointmentExists(date, time, doctor)) {
+			if (this.appointmentDAL.appointmentExists(date, time, doctor)) {
 				return false;
 			}
-			return AppointmentDAL.createAppointment(patient, doctor, date, time, reason, status);
+			return this.appointmentDAL.createAppointment(patient, doctor, date, time, reason, status);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
