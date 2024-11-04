@@ -26,6 +26,7 @@ public class AppointmentDAL {
 	private static final String QUERY_FOR_APPOINTMENT = "SELECT * FROM cs3230f24b.appointment WHERE date = ? AND doctor_id = ?";
 	private static final String UPDATE_FOR_APPOINTMENT = "UPDATE appointment" + " SET patient_id = ?,"
 			+ "doctor_id = ?," + "date = ?," + "reason = ?," + "status = ?" + " WHERE id = ?";
+	private static final String QUERY_APPOINTMENT_FOR_TODAY = "SELECT * FROM cs3230f24b.appointment WHERE DATE(date) = ?";
 
 	/**
 	 * Appointment exists.
@@ -76,7 +77,7 @@ public class AppointmentDAL {
 			try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 					PreparedStatement stmt = conn.prepareStatement(UPDATE_FOR_APPOINTMENT)) {
 				var dateConvert = date.toString() + " " + timeOfAppointment;
-				
+
 				stmt.setString(1, patient.getId());
 				stmt.setString(2, doctor.getId());
 				stmt.setString(3, dateConvert);
@@ -94,6 +95,42 @@ public class AppointmentDAL {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Select appointments from today.
+	 *
+	 * @param date the date
+	 * @return the list
+	 * @throws SQLException 
+	 */
+	public static List<Appointment> selectAppointmentsFromToday(LocalDate date) throws SQLException {
+		var result = new ArrayList<Appointment>();
+
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(QUERY_APPOINTMENT_FOR_TODAY)) {
+			
+			stmt.setString(1, date.toString());
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				var id = rs.getString("id");
+				var currPatient = PatientDAL.getPatientUsingId(rs.getString("patient_id"));
+				var currDoctor = DoctorDAL.getDoctorUsingId(rs.getString("doctor_id"));
+				var dateArray = rs.getString("date").split(" ");
+				var apptDate = LocalDate.parse(dateArray[0]);
+				var time = dateArray[1];
+				var reason = rs.getString("reason");
+				var status = rs.getString("status");
+				if (!date.isBefore(LocalDate.now())) {
+					var appointment = new Appointment(id, currPatient, currDoctor, apptDate, reason, status, time);
+					result.add(appointment);
+				}
+
+			}
+		}
+
+		return result;
 	}
 
 	/**

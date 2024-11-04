@@ -59,11 +59,15 @@ public class NavigationPage {
 	
     @FXML
     private HBox createAppointmentHBox;
+    
+    @FXML
+    private HBox beginAppointmentHBox;
 
 	private RegisterPatientAnchorPane registerPatientCodeBehind;
 	private EditPatientAnchorPane editPatientCodeBehind;
 	private SearchPatientAnchorPane searchPatientCodeBehind;
 	private AppointmentAnchorPane createAppointmentCodeBehind;
+	private SelectAppointmentAnchorPane selectAppointmentCodeBehind;
 
 
 	/**
@@ -74,6 +78,7 @@ public class NavigationPage {
 		this.editPatientCodeBehind = new EditPatientAnchorPane();
 		this.searchPatientCodeBehind = new SearchPatientAnchorPane();
 		this.createAppointmentCodeBehind = new AppointmentAnchorPane();
+		this.selectAppointmentCodeBehind = new SelectAppointmentAnchorPane();
 	}
 
 	@FXML
@@ -112,6 +117,13 @@ public class NavigationPage {
 		this.setUpEditPatientHBox();
 		this.setUpSearchPatientHBox();
 		this.setUpCreateAppointmentHBox();
+		this.setUpBeginAppointmentHBox();
+	}
+	
+	private void setUpBeginAppointmentHBox() {
+		this.beginAppointmentHBox.setOnMouseClicked(((event) -> {
+			this.selectAppointmentCodeBehind.openAnchorPane(this.parentBorderPane, Main.SELECT_APPOINTMENT_ANCHOR_PANE);
+		}));
 	}
 
 	private void setUpCreateAppointmentHBox() {
