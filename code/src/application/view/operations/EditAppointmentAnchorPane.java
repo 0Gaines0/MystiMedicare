@@ -24,7 +24,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -68,12 +67,16 @@ public class EditAppointmentAnchorPane {
 	private ComboBox<Appointment> patientAppointments;
 
 	private EditAppointmentAnchorPaneViewModel viewmodel;
+	private AppointmentDAL appointmentDAL;
+	private DoctorDAL doctorDAL;
 
 	/**
 	 * the edit appointment anchor pane
 	 */
 	public EditAppointmentAnchorPane() {
 		this.viewmodel = new EditAppointmentAnchorPaneViewModel();
+		this.appointmentDAL = new AppointmentDAL();
+		this.doctorDAL = new DoctorDAL();
 	}
 
 	@FXML
@@ -142,7 +145,7 @@ public class EditAppointmentAnchorPane {
 
 	private void setUpAppointmentComboBox() {
 		try {
-			var appointments = AppointmentDAL.getAppointmentsForPatient(SearchPatientAnchorPane.getSelectedPatient());
+			var appointments = this.appointmentDAL.getAppointmentsForPatient(SearchPatientAnchorPane.getSelectedPatient());
 			this.patientAppointments.setItems(FXCollections.observableArrayList(appointments));
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -186,7 +189,7 @@ public class EditAppointmentAnchorPane {
 
 	private void setUpDoctorsComboBox(Doctor doctor) {
 		try {
-			List<Doctor> doctors = DoctorDAL.getAllDoctor();
+			List<Doctor> doctors = this.doctorDAL.getAllDoctor();
 			this.doctorComboBox.setItems(FXCollections.observableArrayList(doctors));
 			this.doctorComboBox.setValue(doctor);
 		} catch (SQLException e) {

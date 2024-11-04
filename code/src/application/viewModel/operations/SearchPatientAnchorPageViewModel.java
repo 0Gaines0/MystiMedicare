@@ -15,6 +15,7 @@ public class SearchPatientAnchorPageViewModel {
 	private StringProperty patientFirstNameTextProperty;
 	private StringProperty patientLastNameTextProperty;
 	private ObjectProperty<LocalDate> patientDateOfBirthTextProperty;
+	private PatientDAL patientDAL;
 	
 	/**
 	 * the search patient anchor page view model 
@@ -23,6 +24,7 @@ public class SearchPatientAnchorPageViewModel {
 		this.patientFirstNameTextProperty = new SimpleStringProperty();
 		this.patientLastNameTextProperty = new SimpleStringProperty();
 		this.patientDateOfBirthTextProperty = new SimpleObjectProperty<LocalDate>();
+		this.patientDAL = new PatientDAL();
 	}
 	
 	/**
@@ -31,7 +33,7 @@ public class SearchPatientAnchorPageViewModel {
 	 * @return an arraylist of patients
 	 */
 	public List<Patient> searchPatients() {
-		return PatientDAL.handleSearch(this.getPatientFirstNameTextProperty().getValue(), 
+		return this.patientDAL.handleSearch(this.getPatientFirstNameTextProperty().getValue(), 
 									   this.getPatientLastNameTextProperty().getValue(), 
 									   this.getPatientDateOfBirthTextProperty().getValue());
 	}
