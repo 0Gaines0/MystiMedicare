@@ -26,6 +26,8 @@ public class RegisterPatientAnchorPaneViewModel {
 	private StringProperty patientMoblieNumberTextProperty;
 	private StringProperty patientStreetTextProperty;
 	private StringProperty patientZipCodeTextProperty;
+	private PatientDAL patientDAL;
+	private AddressDAL addressDAL;
 
 	/**
 	 * Instantiates a new register patient anchor pane view model.
@@ -43,6 +45,8 @@ public class RegisterPatientAnchorPaneViewModel {
 		this.patientMoblieNumberTextProperty = new SimpleStringProperty();
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
+		this.patientDAL = new PatientDAL();
+		this.addressDAL = new AddressDAL();
 	}
 
 	/**
@@ -63,10 +67,10 @@ public class RegisterPatientAnchorPaneViewModel {
 		var status = "active";
 		
 		try {
-			if (!PatientDAL.patientExists(firstName, lastName, dob, gender, addressId)) {
-				PatientDAL.registerPatient(lastName, firstName, dob, gender, addressId, phone, status);
+			if (!this.patientDAL.patientExists(firstName, lastName, dob, gender, addressId)) {
+				this.patientDAL.registerPatient(lastName, firstName, dob, gender, addressId, phone, status);
 			}
-			var patient = PatientDAL.getPatient(firstName, lastName, dob, gender, addressId);
+			var patient = this.patientDAL.getPatient(firstName, lastName, dob, gender, addressId);
 			return patient;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,10 +85,10 @@ public class RegisterPatientAnchorPaneViewModel {
 		var state = this.getSelectedStateProperty().get();
 		var zipCode = this.getPatientZipCodeTextProperty().get();
 		try {
-			if (!AddressDAL.addressExists(street, city, state, zipCode)) {
-				AddressDAL.addAddress(street, city, state, zipCode);
+			if (!this.addressDAL.addressExists(street, city, state, zipCode)) {
+				this.addressDAL.addAddress(street, city, state, zipCode);
 			}
-			var address = AddressDAL.getAddress(street, city, state, zipCode);
+			var address = this.addressDAL.getAddress(street, city, state, zipCode);
 			return address;
 		} catch (SQLException e) {
 			e.printStackTrace();

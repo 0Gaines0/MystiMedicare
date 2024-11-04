@@ -2,9 +2,11 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import application.Main;
+import application.DAL.UserDAL;
 import application.model.credentials.ActiveUser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,6 +71,8 @@ public class NavigationPage {
 	private AppointmentAnchorPane createAppointmentCodeBehind;
 	private SelectAppointmentAnchorPane selectAppointmentCodeBehind;
 
+	private UserDAL userDAL;
+
 
 	/**
 	 * Instantiates a new navigation page.
@@ -78,7 +82,11 @@ public class NavigationPage {
 		this.editPatientCodeBehind = new EditPatientAnchorPane();
 		this.searchPatientCodeBehind = new SearchPatientAnchorPane();
 		this.createAppointmentCodeBehind = new AppointmentAnchorPane();
+
 		this.selectAppointmentCodeBehind = new SelectAppointmentAnchorPane();
+
+		this.userDAL = new UserDAL();
+
 	}
 
 	@FXML
@@ -86,6 +94,7 @@ public class NavigationPage {
     	this.validateFXMLComponents();
     	this.setUpSideBarButtons();
 		this.setUpUsernameLabel();
+		this.setUpFullNameLabel();
     }
     
     /**
@@ -110,6 +119,14 @@ public class NavigationPage {
 
 	private void setUpUsernameLabel() {
 		this.usernameLabel.setText(ActiveUser.getActiveUser().getUsername());
+	}
+	
+	private void setUpFullNameLabel() {
+		try {
+			this.fullNameLabel.setText(this.userDAL.retrieveUserFullName(Integer.parseInt(ActiveUser.getActiveUser().getId())));
+		} catch (NumberFormatException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setUpSideBarButtons() {

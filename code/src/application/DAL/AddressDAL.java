@@ -20,6 +20,13 @@ public class AddressDAL {
             + "WHERE a.street = ? AND a.city = ? AND a.state = ? AND a.zip_code = ?";
 
 	/**
+	 * addressdaL
+	 */
+	public AddressDAL() {
+		
+	}
+	
+	/**
 	 * Address exists.
 	 *
 	 * @param street  the street
@@ -29,7 +36,7 @@ public class AddressDAL {
 	 * @return true, if successful
 	 * @throws SQLException the SQL exception
 	 */
-	public static boolean addressExists(String street, String city, String state, String zipCode) throws SQLException {
+	public boolean addressExists(String street, String city, String state, String zipCode) throws SQLException {
 		String query = QUERY_FOR_ADDRESS;
 
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
@@ -59,8 +66,8 @@ public class AddressDAL {
 	 * @param zipCode the zip code
 	 * @throws SQLException the SQL exception
 	 */
-	public static void addAddress(String street, String city, String state, String zipCode) throws SQLException {
-		if (!addressExists(street, city, state, zipCode)) {
+	public void addAddress(String street, String city, String state, String zipCode) throws SQLException {
+		if (!this.addressExists(street, city, state, zipCode)) {
 			String query = "INSERT INTO address (street, city, state, zip_code) " + "VALUES (?, ?, ?, ?)";
 			try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 					PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -84,7 +91,7 @@ public class AddressDAL {
 	 * @return the address
 	 * @throws SQLException the SQL exception
 	 */
-	public static Address getAddress(String street, String city, String state, String zipCode) throws SQLException {
+	public Address getAddress(String street, String city, String state, String zipCode) throws SQLException {
 		String query = QUERY_FOR_ADDRESS;
 
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
@@ -113,7 +120,7 @@ public class AddressDAL {
 	 * @return the address
 	 * @throws SQLException the SQL exception
 	 */
-	public static Address getAddressById(String addressId) throws SQLException {
+	public Address getAddressById(String addressId) throws SQLException {
 	    String query = "SELECT address_id, street, city, state, zip_code FROM address WHERE address_id = ?";
 
 	    try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);

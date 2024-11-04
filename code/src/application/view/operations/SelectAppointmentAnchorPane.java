@@ -36,6 +36,7 @@ public class SelectAppointmentAnchorPane {
 
 	@FXML
 	private Button selectAppointmentBtn;
+	private AppointmentDAL appointmentDAL;
 	
 	private static Appointment selectedAppointment;
 	private RoutineCheckUpAnchorPane routineCheckUpCodeBehind;
@@ -52,6 +53,8 @@ public class SelectAppointmentAnchorPane {
 	 */
 	public SelectAppointmentAnchorPane() {
 		this.routineCheckUpCodeBehind = new RoutineCheckUpAnchorPane();
+		this.appointmentDAL = new AppointmentDAL();
+		
 	}
 
 	private void setUpSelectBtn() {
@@ -84,7 +87,7 @@ public class SelectAppointmentAnchorPane {
 		try {
 			var todayDate = LocalDate.now();
 			ObservableList<Appointment> obsList;
-			obsList = FXCollections.observableArrayList(AppointmentDAL.selectAppointmentsFromToday(todayDate));
+			obsList = FXCollections.observableArrayList(this.appointmentDAL.selectAppointmentsFromToday(todayDate));
 			this.appointmentListView.setItems(obsList);
 
 		} catch (SQLException e) {

@@ -38,7 +38,15 @@ public class PatientDAL {
 			+  "WHERE (p.first_name LIKE ? OR ? IS NULL) " 
             +  "AND (p.last_name LIKE ? OR ? IS NULL) " 
             +  "AND (p.dob = ? OR ? IS NULL)";
-
+	private AddressDAL addressDAL;
+	
+	/**
+	 * patientdal
+	 */
+	public PatientDAL() {
+		this.addressDAL = new AddressDAL();
+	}
+	
 	/**
 	 * Patient exists.
 	 *
@@ -50,7 +58,7 @@ public class PatientDAL {
 	 * @return true, if successful
 	 * @throws SQLException the SQL exception
 	 */
-	public static boolean patientExists(String firstName, String lastName, String dob, String gender, String addessID)
+	public boolean patientExists(String firstName, String lastName, String dob, String gender, String addessID)
 			throws SQLException {
 
 		String query = QUERY_FOR_PATIENT;
@@ -81,7 +89,7 @@ public class PatientDAL {
      * @param dob
      * @return patients that match desc
      */
-    public static List<Patient> handleSearch(String fName, String lName, LocalDate dob) {
+    public List<Patient> handleSearch(String fName, String lName, LocalDate dob) {
         String query = QUERY_FOR_PATIENT_SEARCH;
         List<Patient> patients = new ArrayList<Patient>();
 
@@ -101,7 +109,7 @@ public class PatientDAL {
                 String lastName = rs.getString("last_name");
                 String firstName = rs.getString("first_name");
                 LocalDate patientDob = LocalDate.parse(rs.getString("dob"));
-                Address address = AddressDAL.getAddressById(rs.getString("address_id"));
+                Address address = this.addressDAL.getAddressById(rs.getString("address_id"));
                 String phone = rs.getString("phone");
                 String status = rs.getString("status");
                 String gender = rs.getString("gender");
@@ -122,7 +130,7 @@ public class PatientDAL {
 	 * @return the all patients
 	 * @throws SQLException the SQL exception
 	 */
-	public static List<Patient> getAllPatients() throws SQLException {
+	public List<Patient> getAllPatients() throws SQLException {
 		String query = QUERY_FOR_ALL_PATIENTS;
 		var patients = new ArrayList<Patient>();
 
@@ -132,7 +140,7 @@ public class PatientDAL {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				var address = AddressDAL.getAddressById(rs.getString("address_id"));
+				var address = this.addressDAL.getAddressById(rs.getString("address_id"));
 				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
 						LocalDate.parse(rs.getString("dob")), address, rs.getString("phone"), rs.getString("status"),
 						rs.getString("gender"));
@@ -154,7 +162,7 @@ public class PatientDAL {
 	 * @return the patient
 	 * @throws SQLException the SQL exception
 	 */
-	public static Patient getPatient(String firstName, String lastName, String dob, String gender, String addessID)
+	public Patient getPatient(String firstName, String lastName, String dob, String gender, String addessID)
 			throws SQLException {
 		String query = QUERY_FOR_PATIENT;
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
@@ -169,7 +177,7 @@ public class PatientDAL {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				var address = AddressDAL.getAddressById(rs.getString("address_id"));
+				var address = this.addressDAL.getAddressById(rs.getString("address_id"));
 				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
 						LocalDate.parse(rs.getString("dob")), address, rs.getString("gender"), rs.getString("phone"),
 						rs.getString("status"));
@@ -187,7 +195,7 @@ public class PatientDAL {
 	 * @return the patient using id
 	 * @throws SQLException the SQL exception
 	 */
-	public static Patient getPatientUsingId(String id) throws SQLException {
+	public Patient getPatientUsingId(String id) throws SQLException {
 		String query = QUERY_FOR_PATIENT_ID;
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -197,7 +205,7 @@ public class PatientDAL {
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				var address = AddressDAL.getAddressById(rs.getString("address_id"));
+				var address = this.addressDAL.getAddressById(rs.getString("address_id"));
 				var patient = new Patient(rs.getString("id"), rs.getString("last_name"), rs.getString("first_name"),
 						LocalDate.parse(rs.getString("dob")), address, rs.getString("gender"), rs.getString("phone"),
 						rs.getString("status"));
@@ -220,7 +228,7 @@ public class PatientDAL {
 	 * @param status    the status
 	 * @throws SQLException the SQL exception
 	 */
-	public static void registerPatient(String lastName, String firstName, String dob, String gender, String addressId,
+	public void registerPatient(String lastName, String firstName, String dob, String gender, String addressId,
 			String phone, String status) throws SQLException {
 		if (ActiveUser.getActiveUser().getRole() == UserRole.NURSE) {
 			String query = "INSERT INTO patient (last_name, first_name, dob, gender, address_id, phone, status) "
@@ -253,7 +261,7 @@ public class PatientDAL {
 	 * @param phone the phone
 	 * @throws SQLException the SQL exception
 	 */
-	public static void updatePatient(String patientId, String lastName, String firstName, String dob, String gender, String newAddressId, String phone) throws SQLException {
+	public void updatePatient(String patientId, String lastName, String firstName, String dob, String gender, String newAddressId, String phone) throws SQLException {
 		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
 				+ "address_id = ?, phone = ? WHERE id = ?";
 
