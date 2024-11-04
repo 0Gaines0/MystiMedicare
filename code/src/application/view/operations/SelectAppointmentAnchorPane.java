@@ -58,7 +58,7 @@ public class SelectAppointmentAnchorPane {
 	}
 
 	private void setUpSelectBtn() {
-		if (this.appointmentListView.getSelectionModel().getSelectedItem() == null) {
+		if (this.appointmentListView.getSelectionModel().getSelectedItem() != null) {
 			this.selectAppointmentBtn.setOnAction(((event) -> {
 				this.popUpConformation("Appointment selected!");
 				selectedAppointment = this.appointmentListView.getSelectionModel().getSelectedItem();

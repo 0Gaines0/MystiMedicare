@@ -253,6 +253,7 @@ public class EditPatientAnchorPane {
 				.bindBidirectional(this.editPatientViewModel.getPatientStreetTextProperty());
 		this.zipCodeTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientZipCodeTextProperty());
+		this.editPatientViewModel.getPatientDateOfBirthTextProperty().bindBidirectional(this.patientDateOfBirthPicker.valueProperty());
 		this.genderComboBox.valueProperty().bindBidirectional(this.editPatientViewModel.getSelectedGenderProperty());
 		this.stateComboBox.valueProperty().bindBidirectional(this.editPatientViewModel.getSelectedStateProperty());
 	}
