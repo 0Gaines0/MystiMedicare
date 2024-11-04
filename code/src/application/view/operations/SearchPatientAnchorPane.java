@@ -86,13 +86,7 @@ public class SearchPatientAnchorPane {
 
 	private void setupButtons() {
 		this.searchButton.setOnAction((event) -> {
-			var result = this.validateAllFields();
-			if (!result.isBlank()) {
-				this.popUpError(result);
-			} else {
-				this.patientListview.getItems().setAll(this.viewModel.searchPatients());
-				this.popUpConformation("Searching for patient");
-			}
+			this.patientListview.getItems().setAll(this.viewModel.searchPatients());
 
 		});
 		this.selectPatientButton.setOnAction((event) -> {
@@ -107,22 +101,6 @@ public class SearchPatientAnchorPane {
 		});
 	}
 
-	private String validateAllFields() {
-		var result = "";
-
-		if (this.fnameField.textProperty().getValue() == null || this.fnameField.textProperty().getValue().isBlank()) {
-			result += "First name must be inputted and valid" + System.lineSeparator();
-		}
-		if (this.lnameField.textProperty().getValue() == null || this.lnameField.textProperty().getValue().isBlank()) {
-			result += "Last name must be inputted and valid" + System.lineSeparator();
-		}
-		if (this.dobPicker.getValue() == null) {
-			result += "Date of Birth must be selected" + System.lineSeparator();
-		}
-
-		return result;
-	}
-
 	private void bindToViewModel() {
 		this.fnameField.textProperty().bindBidirectional(this.viewModel.getPatientFirstNameTextProperty());
 		this.lnameField.textProperty().bindBidirectional(this.viewModel.getPatientLastNameTextProperty());
@@ -132,12 +110,6 @@ public class SearchPatientAnchorPane {
 	private void popUpError(String reasonForError) {
 		var errorPopUp = new Alert(AlertType.ERROR);
 		errorPopUp.setContentText(reasonForError);
-		errorPopUp.showAndWait();
-	}
-
-	private void popUpConformation(String reasonForConfirm) {
-		var errorPopUp = new Alert(AlertType.CONFIRMATION);
-		errorPopUp.setContentText(reasonForConfirm);
 		errorPopUp.showAndWait();
 	}
 
