@@ -31,7 +31,7 @@ public class VisitDAL {
 	 * @param symptoms the symptoms
 	 * @throws SQLException the SQL exception
 	 */
-	public static void addRoutineCheckUpVisit(String appointment_id, String nurse_id, String doctor_id,
+	public void addRoutineCheckUpVisit(String appointment_id, String nurse_id, String doctor_id,
 			String patient_id, String date, String systolic_bp, String diastolic_bp, String temp, String pulse,
 			String height, String weight, String symptoms) throws SQLException {
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
