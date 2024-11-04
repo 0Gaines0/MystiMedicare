@@ -35,6 +35,9 @@ public class NavigationPage {
 	@FXML
 	private AnchorPane baseAnchorPane;
 
+    @FXML
+    private HBox logoutHBox;
+
 	@FXML
 	private HBox editPatientHBox;
 
@@ -135,6 +138,33 @@ public class NavigationPage {
 		this.setUpSearchPatientHBox();
 		this.setUpCreateAppointmentHBox();
 		this.setUpBeginAppointmentHBox();
+		this.setUpLogoutHBox();
+	}
+	
+	private void setUpLogoutHBox() {
+		this.logoutHBox.setOnMouseClicked((event) -> {
+			var newStage = new Stage();
+			try {
+				var loader = new FXMLLoader(getClass().getResource(Main.LOGIN_WINDOW_FROM_NAV));
+				Parent parent = loader.load();
+				var scene = new Scene(parent);
+				newStage.initModality(Modality.WINDOW_MODAL);
+				newStage.initOwner(((Stage) (parent.getScene().getWindow())));
+				newStage.setTitle(Main.WINDOW_TITLE);
+				newStage.setScene(scene);
+				newStage.setResizable(false);
+				newStage.show();
+			} catch (IOException error) {
+				error.printStackTrace();
+			}
+			ActiveUser.setActiveUser(null);
+	        this.closePage();
+		});
+	}
+
+	private void closePage() {
+		Stage stage = (Stage) this.parentBorderPane.getScene().getWindow();
+		stage.close();
 	}
 	
 	private void setUpBeginAppointmentHBox() {
@@ -172,6 +202,7 @@ public class NavigationPage {
         assert this.createAppointmentHBox != null : "fx:id=\"createAppointmentHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.editPatientHBox != null : "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.fullNameLabel != null : "fx:id=\"fullNameLabel\" was not injected: check your FXML file 'NavigationPage.fxml'.";
+        assert this.logoutHBox != null : "fx:id=\"logoutHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.parentBorderPane != null : "fx:id=\"parentBorderPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.registerPatientHBox != null : "fx:id=\"registerPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.searchPatientHBox != null : "fx:id=\"searchPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
