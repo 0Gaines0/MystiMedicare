@@ -105,6 +105,34 @@ public class EditAppointmentAnchorPane {
 				});
 	}
 
+	private String validateAllFields() {
+		var result = "";
+
+		if (this.patientComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Patient must be selected" + System.lineSeparator();
+		}
+		if (this.doctorComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Doctor must be selected" + System.lineSeparator();
+		}
+		if (this.appointmentDatePicker.getValue() == null) {
+			result += "Date for appointment must be selected" + System.lineSeparator();
+		} else if (this.appointmentDatePicker.getValue().isBefore(LocalDate.now())) {
+			result += "Date must be after the current date" + System.lineSeparator();
+		}
+		if (this.timePickerComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Time for appointment must be selected" + System.lineSeparator();
+		}
+		if (this.reasonTextArea.textProperty().getValue() == null
+				|| this.reasonTextArea.textProperty().getValue().isBlank()) {
+			result += "Reason must be inputted" + System.lineSeparator();
+		}
+		if (this.patientStatusComboBox.getSelectionModel().getSelectedItem() == null) {
+			result += "Status for appointment must be selected" + System.lineSeparator();
+		}
+
+		return result;
+	}
+
 	private void setUpStatusComboBox() {
 		this.patientStatusComboBox.getItems().add("Scheduled");
 		this.patientStatusComboBox.getItems().add("Completed");
@@ -171,11 +199,17 @@ public class EditAppointmentAnchorPane {
 			this.openAnchorPane((BorderPane) this.editAnchorPane.getParent(), Main.SEARCH_PATIENT_ANCHOR_PANE);
 		});
 		this.updateBtn.setOnAction((event) -> {
-			var result = this.viewmodel.updateAppointment();
-			if (result) {
-				this.popUpConformation("Appointment was updated");
+			var validateResult = this.validateAllFields();
+			if (!validateResult.isBlank()) {
+				this.popUpError(validateResult);
 			} else {
-				this.popUpError("Appointment time already exist, please try another");
+				var result = this.viewmodel.updateAppointment();
+				if (result) {
+					this.popUpConformation("Appointment was updated");
+					this.setUpAppointmentComboBox();
+				} else {
+					this.popUpError("Appointment time already exist, please try another");
+				}
 			}
 		});
 	}
