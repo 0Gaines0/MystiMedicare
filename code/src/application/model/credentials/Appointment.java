@@ -11,7 +11,7 @@ public class Appointment {
 
 	@Override
 	public String toString() {
-		return "Appointment [" + this.dateOfAppointment.toString() + " " + this.timeOfAppointment + "]";
+		return "Appointment [" + this.dateOfAppointment.toString() + " " + this.timeOfAppointment + "] | Patient: " + this.patient.getFirstName() + " " + this.patient.getLastName();
 	}
 
 	/** The id. */
