@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.AllAppointmentsAnchorPane">
+   <children>
+      <Label layoutX="55.0" layoutY="33.0" style="-fx-text-fill: #000000;" text="All Appointments">
+         <font>
+            <Font name="Modern No. 20" size="48.0" />
+         </font>
+      </Label>
+      <VBox layoutX="55.0" layoutY="100.0" prefHeight="492.0" prefWidth="358.0">
+         <children>
+            <VBox prefHeight="61.0" prefWidth="313.0">
+               <children>
+                  <Label prefHeight="33.0" prefWidth="123.0" style="-fx-text-fill: #000000;" text="Patient" textFill="#c99da3">
+                     <font>
+                        <Font name="Modern No. 20" size="17.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="patientComboBox" prefHeight="26.0" prefWidth="356.0" style="-fx-background-color: #C99DA3;" />
+               </children>
+            </VBox>
+            <Separator prefHeight="51.0" prefWidth="358.0" />
+            <ListView fx:id="appointmentsListView" prefHeight="374.0" prefWidth="358.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
