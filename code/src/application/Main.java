@@ -28,6 +28,8 @@ public class Main extends Application {
 	public static final String EDIT_APPOINTMENT_ANCHOR_PANE = "../operations/EditAppointmentAnchorPane.fxml";
 	public static final String SELECT_APPOINTMENT_ANCHOR_PANE =  "../operations/SelectAppointmentAnchorPane.fxml";
 	public static final String ROUTINE_CHECKOUT_ANCHOR_PANE = "../operations/RoutineCheckUpAnchorPane.fxml";
+	public static final String ALL_APPOINTMENTS_ANCHOR_PANE = "../operations/AllAppointmentsAnchorPane.fxml";
+
 
 	@Override
 	public void start(Stage primaryStage) {

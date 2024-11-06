@@ -34,6 +34,15 @@
                         <String fx:value="select-border" />
                      </styleClass>
                      <children>
+                        <VBox alignment="CENTER" prefHeight="38.0" prefWidth="69.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="104.0" style="-fx-text-fill: #000000;" text="Username:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
                         <Label fx:id="usernameLabel" text="Username" textFill="#c99da3">
                            <font>
                               <Font name="Modern No. 20" size="25.0" />
@@ -47,7 +56,16 @@
                         <String fx:value="select-border" />
                      </styleClass>
                      <children>
-                        <Label fx:id="fullNameLabel" text="Full Name" textFill="#c99da3">
+                        <VBox alignment="CENTER" prefHeight="31.0" prefWidth="46.0">
+                           <children>
+                              <Label style="-fx-text-fill: #000000;" text="Name:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <Label fx:id="fullNameLabel" prefHeight="20.0" prefWidth="132.0" text="Full Name" textFill="#c99da3">
                            <font>
                               <Font name="Modern No. 20" size="18.0" />
                            </font>

@@ -213,5 +213,39 @@ public class AppointmentDAL {
 
 		return result;
 	}
+	
+	/**
+	 * Gets the all appointments for patient.
+	 *
+	 * @param patient the patient
+	 * @return the all appointments for patient
+	 * @throws SQLException the SQL exception
+	 */
+	public List<Appointment> getAllAppointmentsForPatient(Patient patient) throws SQLException {
+		var result = new ArrayList<Appointment>();
+		String query = "SELECT * FROM cs3230f24b.appointment WHERE patient_id = ?";
+
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, patient.getId());
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				var id = rs.getString("id");
+				var currPatient = this.patientDAL.getPatientUsingId(rs.getString("patient_id"));
+				var currDoctor = this.doctorDAL.getDoctorUsingId(rs.getString("doctor_id"));
+				var dateArray = rs.getString("date").split(" ");
+				var date = LocalDate.parse(dateArray[0]);
+				var time = dateArray[1];
+				var reason = rs.getString("reason");
+				var status = rs.getString("status");
+				var appointment = new Appointment(id, currPatient, currDoctor, date, reason, status, time);
+				result.add(appointment);
+
+			}
+		}
+
+		return result;
+	}
 
 };

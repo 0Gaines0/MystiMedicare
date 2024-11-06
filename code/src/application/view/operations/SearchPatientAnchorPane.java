@@ -45,11 +45,15 @@ public class SearchPatientAnchorPane {
 	private Button searchButton;
 
 	@FXML
+	private Button allAppointmentsBtn;
+
+	@FXML
 	private Button selectPatientButton;
 	private static Patient selectedPatient;
 
 	private SearchPatientAnchorPageViewModel viewModel;
 	private EditAppointmentAnchorPane editApptCodeBehind;
+	private AllAppointmentsAnchorPane allApptCodeBehind;
 
 	/**
 	 * the search patient anchor pane
@@ -57,6 +61,7 @@ public class SearchPatientAnchorPane {
 	public SearchPatientAnchorPane() {
 		this.viewModel = new SearchPatientAnchorPageViewModel();
 		this.editApptCodeBehind = new EditAppointmentAnchorPane();
+		this.allApptCodeBehind = new AllAppointmentsAnchorPane();
 	}
 
 	/**
@@ -99,6 +104,16 @@ public class SearchPatientAnchorPane {
 			}
 
 		});
+
+		this.allAppointmentsBtn.setOnAction(((event) -> {
+			if (this.patientListview.getSelectionModel().getSelectedItem() != null) {
+				selectedPatient = this.patientListview.getSelectionModel().getSelectedItem();
+				this.allApptCodeBehind.openAnchorPane((BorderPane) this.searchAnchorPane.getParent(),
+						Main.ALL_APPOINTMENTS_ANCHOR_PANE);
+			} else {
+				this.popUpError("Patient must be selected");
+			}
+		}));
 	}
 
 	private void bindToViewModel() {

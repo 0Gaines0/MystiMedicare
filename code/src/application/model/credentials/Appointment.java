@@ -152,7 +152,7 @@ public class Appointment {
 	 * @param dateOfAppointment the new date of appointment
 	 */
 	public void setDateOfAppointment(LocalDate dateOfAppointment) {
-		if (dateOfAppointment == null || dateOfAppointment.isBefore(LocalDate.now())) {
+		if (dateOfAppointment == null) {
 			throw new IllegalArgumentException("Date of appointment must be today or a future date");
 		}
 		this.dateOfAppointment = dateOfAppointment;
