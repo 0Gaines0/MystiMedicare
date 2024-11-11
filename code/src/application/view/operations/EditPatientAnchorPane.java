@@ -2,12 +2,11 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import application.Main;
 import application.DAL.PatientDAL;
 import application.model.credentials.Patient;
 import application.viewModel.operations.EditPatientAnchorPaneViewModel;
@@ -30,6 +29,9 @@ public class EditPatientAnchorPane {
 
 	@FXML
 	private URL location;
+	
+    @FXML
+    private AnchorPane editPatientAnchorPane;
 
 	@FXML
 	private Button cancelBtn;
@@ -78,10 +80,9 @@ public class EditPatientAnchorPane {
 		this.validateFXMLComponents();
 		this.setUpGenderComboBox();
 		this.setUpStateComboBox();
-		this.setUpPatientComboBox();
-		this.setUpEditBtn();
-		this.setUpSelectBtn();
+		this.setupButtons();
 		this.bindToViewModel();
+		this.loadPatientInformation();
 	}
 
 	/**
@@ -97,16 +98,6 @@ public class EditPatientAnchorPane {
 		this.genderComboBox.getItems().add("Female");
 	}
 
-	private void setUpPatientComboBox() {
-		try {
-			this.patientListView.getItems().clear();
-			List<Patient> patients = this.patientDAL.getAllPatients();
-			this.patientListView.getItems().addAll(patients);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private void setUpStateComboBox() {
 		String[] stateAbbreviations = { "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL",
 			"IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
@@ -115,37 +106,20 @@ public class EditPatientAnchorPane {
 		this.stateComboBox.getItems().addAll(stateAbbreviations);
 	}
 
-	private void setUpEditBtn() {
+	private void setupButtons() {
 		this.editBtn.setOnAction(((event) -> {
-			var patient = this.patientListView.getSelectionModel().getSelectedItem();
-			if (patient != null) {
-				var currentPatientId = patient.getId();
+			var selectedPatient = SearchPatientAnchorPane.getSelectedPatient();
+			if (selectedPatient != null) {
 				if (this.validateTextFields()) {
-					this.editPatientViewModel.updatePatient(currentPatientId);
-					this.setUpPatientComboBox();
+					this.editPatientViewModel.updatePatient(selectedPatient.getId());
+					this.openAnchorPane((BorderPane) this.editPatientAnchorPane.getParent(), Main.SEARCH_PATIENT_ANCHOR_PANE);
 					this.popUpConformation("The patient was edited");
 				}				
 			}
-
 		}));
-	}
-
-	private void setUpSelectBtn() {
-		this.selectBtn.setOnAction(((event) -> {
-			var patient = this.patientListView.getSelectionModel().getSelectedItem();
-			if (patient != null) {
-				this.patientFirstNameTextField.textProperty().set(patient.getFirstName());
-				this.patientLastNameTextField.textProperty().set(patient.getLastName());
-				LocalDate date = patient.getDob();
-				this.genderComboBox.setValue(patient.getGender());
-				this.patientDateOfBirthPicker.setValue(date);
-				this.patientMobileNumberTextField.textProperty().set(patient.getPhone());
-				this.patientStreetTextField.textProperty().set(patient.getAddress().getStreet());
-				this.stateComboBox.setValue(patient.getAddress().getState());
-				this.cityTextField.textProperty().setValue(patient.getAddress().getCity());
-				this.zipCodeTextField.textProperty().setValue(patient.getAddress().getZipCode());
-			}
-		}));
+		this.cancelBtn.setOnAction((event) -> {
+			this.openAnchorPane((BorderPane) this.editPatientAnchorPane.getParent(), Main.SEARCH_PATIENT_ANCHOR_PANE);
+		});
 	}
 
 	private boolean validateTextFields() {
@@ -240,6 +214,19 @@ public class EditPatientAnchorPane {
 		errorPopUp.setContentText(confirm);
 		errorPopUp.showAndWait();
 	}
+	
+	private void loadPatientInformation() {
+		var selectedPatient = SearchPatientAnchorPane.getSelectedPatient();
+	    this.editPatientViewModel.getPatientFirstNameTextProperty().set(selectedPatient.getFirstName());
+	    this.editPatientViewModel.getPatientLastNameTextProperty().set(selectedPatient.getLastName());
+	    this.editPatientViewModel.getPatientDateOfBirthTextProperty().setValue(selectedPatient.getDob());
+	    this.editPatientViewModel.getCityTextProperty().set(selectedPatient.getAddress().getCity());
+	    this.editPatientViewModel.getPatientMobileNumberTextProperty().set(selectedPatient.getPhone());
+	    this.editPatientViewModel.getPatientStreetTextProperty().set(selectedPatient.getAddress().getStreet());
+	    this.editPatientViewModel.getPatientZipCodeTextProperty().set(selectedPatient.getAddress().getZipCode());
+	    this.editPatientViewModel.getSelectedGenderProperty().set(selectedPatient.getGender());
+	    this.editPatientViewModel.getSelectedStateProperty().set(selectedPatient.getAddress().getState());
+	}
 
 	private void bindToViewModel() {
 		this.cityTextField.textProperty().bindBidirectional(this.editPatientViewModel.getCityTextProperty());
@@ -279,7 +266,9 @@ public class EditPatientAnchorPane {
 	private void validateFXMLComponents() {
 		assert this.cancelBtn != null
 				: "fx:id=\"cancelBtn\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";
-		assert this.cityTextField != null
+        assert this.editPatientAnchorPane != null 
+        		: "fx:id=\"editPatientAnchorPane\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";
+        assert this.cityTextField != null
 				: "fx:id=\"cityTextField\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";
 		assert this.editBtn != null
 				: "fx:id=\"editBtn\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";

@@ -46,12 +46,16 @@ public class SearchPatientAnchorPane {
 
 	@FXML
 	private Button allAppointmentsBtn;
+	
+	@FXML 
+	private Button editPatientButton;
 
 	@FXML
 	private Button selectPatientButton;
 	private static Patient selectedPatient;
 
 	private SearchPatientAnchorPageViewModel viewModel;
+	private EditPatientAnchorPane editPatientCodeBehind;
 	private EditAppointmentAnchorPane editApptCodeBehind;
 	private AllAppointmentsAnchorPane allApptCodeBehind;
 
@@ -59,9 +63,11 @@ public class SearchPatientAnchorPane {
 	 * the search patient anchor pane
 	 */
 	public SearchPatientAnchorPane() {
+		selectedPatient = null;
 		this.viewModel = new SearchPatientAnchorPageViewModel();
 		this.editApptCodeBehind = new EditAppointmentAnchorPane();
 		this.allApptCodeBehind = new AllAppointmentsAnchorPane();
+		this.editPatientCodeBehind = new EditPatientAnchorPane();
 	}
 
 	/**
@@ -114,6 +120,15 @@ public class SearchPatientAnchorPane {
 				this.popUpError("Patient must be selected");
 			}
 		}));
+		this.editPatientButton.setOnAction((event) -> {
+			if (this.patientListview.getSelectionModel().getSelectedItem() != null) {
+				selectedPatient = this.patientListview.getSelectionModel().getSelectedItem();
+				this.editPatientCodeBehind.openAnchorPane((BorderPane) this.searchAnchorPane.getParent(), 
+						Main.EDIT_PATIENT_ANCHOR_PANE);
+			} else {
+				this.popUpError("Patient must be selected");
+			}
+		});
 	}
 
 	private void bindToViewModel() {
@@ -129,6 +144,8 @@ public class SearchPatientAnchorPane {
 	}
 
 	private void validateFXML() {
+        assert this.editPatientButton != null 
+        		: "fx:id=\"editPatientButton\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
 		assert this.dobPicker != null
 				: "fx:id=\"dobPicker\" was not injected: check your FXML file 'SearchPatientAnchorPane.fxml'.";
 		assert this.fnameField != null

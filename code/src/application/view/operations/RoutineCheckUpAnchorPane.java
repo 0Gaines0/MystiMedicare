@@ -2,13 +2,20 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import application.DAL.DoctorDAL;
+import application.model.credentials.Doctor;
+import application.model.credentials.Patient;
 import application.viewModel.operations.RoutineCheckUpAnchorPaneViewModel;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +28,12 @@ public class RoutineCheckUpAnchorPane {
 
     @FXML
     private URL location;
+    
+    @FXML
+    private ComboBox<Doctor> doctorComboBox;
+
+    @FXML
+    private ComboBox<Patient> patientComboBox;
 
     @FXML
     private TextField diastolicBloodPressureTextField;
@@ -53,7 +66,8 @@ public class RoutineCheckUpAnchorPane {
         this.validateFXMLComponents();
         this.bindToViewModel();
         this.setUpUploadResultsBtn();
-
+        this.setUpPatientComboBox(SelectAppointmentAnchorPane.getSelectedAppointment().getPatient());
+        this.setUpDoctorsComboBox(SelectAppointmentAnchorPane.getSelectedAppointment().getDoctor());
     }
     
     /**
@@ -111,49 +125,51 @@ public class RoutineCheckUpAnchorPane {
     
     private String validateAllFields() {
         var result = "";
-
         if (this.systolicPressureTextField.getText() == null || this.systolicPressureTextField.getText().isBlank()) {
             result += "Systolic pressure must be inputted and valid." + System.lineSeparator();
         } else if (!this.isInteger(this.systolicPressureTextField.getText())) {
             result += "Systolic pressure must be an integer." + System.lineSeparator();
         }
-
         if (this.diastolicBloodPressureTextField.getText() == null || this.diastolicBloodPressureTextField.getText().isBlank()) {
             result += "Diastolic pressure must be inputted and valid." + System.lineSeparator();
         } else if (!this.isInteger(this.diastolicBloodPressureTextField.getText())) {
             result += "Diastolic pressure must be an integer." + System.lineSeparator();
         }
-
         if (this.pulseTextField.getText() == null || this.pulseTextField.getText().isBlank()) {
             result += "Pulse must be inputted and valid." + System.lineSeparator();
         } else if (!this.isInteger(this.pulseTextField.getText())) {
             result += "Pulse must be an integer." + System.lineSeparator();
         }
-
         if (this.weightTextField.getText() == null || this.weightTextField.getText().isBlank()) {
             result += "Weight must be inputted and valid." + System.lineSeparator();
         } else if (!this.isDecimal(this.weightTextField.getText())) {
             result += "Weight must be a decimal number." + System.lineSeparator();
         }
-
         if (this.heightTextField.getText() == null || this.heightTextField.getText().isBlank()) {
             result += "Height must be inputted and valid." + System.lineSeparator();
         } else if (!this.isDecimal(this.heightTextField.getText())) {
             result += "Height must be a decimal number." + System.lineSeparator();
         }
-        
         if (this.symptomsTextField.getText() == null || this.symptomsTextField.getText().isBlank()) {
         	result += "Symptoms must not be empty" + System.lineSeparator();
         }
-        
         if (this.tempTextField.getText() == null || this.tempTextField.getText().isBlank()) {
             result += "Temp must be inputted and valid." + System.lineSeparator();
         } else if (!this.isDecimal(this.tempTextField.getText())) {
             result += "Temp must be a decimal number." + System.lineSeparator();
         }
-
         return result;
     }
+    
+	private void setUpPatientComboBox(Patient patient) {
+		this.patientComboBox.getItems().clear();
+		this.patientComboBox.getItems().add(patient);
+		this.patientComboBox.setValue(patient);
+	}
+
+	private void setUpDoctorsComboBox(Doctor doctor) {
+		this.doctorComboBox.setValue(doctor);
+	}
     
     private void bindToViewModel() {
         this.systolicPressureTextField.textProperty().bindBidirectional(this.routineViewModel.getSystolicPressureProperty());
@@ -188,6 +204,8 @@ public class RoutineCheckUpAnchorPane {
 		assert this.diastolicBloodPressureTextField != null : "fx:id=\"diastolicBloodPressureTextField\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
         assert this.heightTextField != null : "fx:id=\"heightTextField\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
         assert this.pulseTextField != null : "fx:id=\"pulseTextField\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
+        assert this.doctorComboBox != null : "fx:id=\"doctorComboBox\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
+        assert this.patientComboBox != null : "fx:id=\"patientComboBox\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
         assert this.systolicPressureTextField != null : "fx:id=\"systolicPressureTextField\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
         assert this.uploadResultBtn != null : "fx:id=\"uploadResultBtn\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";
         assert this.weightTextField != null : "fx:id=\"weightTextField\" was not injected: check your FXML file 'RoutineCheckUpAnchorPane.fxml'.";

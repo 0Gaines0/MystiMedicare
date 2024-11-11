@@ -58,16 +58,15 @@ public class SelectAppointmentAnchorPane {
 	}
 
 	private void setUpSelectBtn() {
-		if (this.appointmentListView.getSelectionModel().getSelectedItem() != null) {
-			this.selectAppointmentBtn.setOnAction(((event) -> {
+		this.selectAppointmentBtn.setOnAction(((event) -> {
+			if (this.appointmentListView.getSelectionModel().getSelectedItem() != null) {
 				this.popUpConformation("Appointment selected!");
 				selectedAppointment = this.appointmentListView.getSelectionModel().getSelectedItem();
 				this.routineCheckUpCodeBehind.openAnchorPane((BorderPane) this.baseAnchorPane.getParent(), Main.ROUTINE_CHECKOUT_ANCHOR_PANE);
-			}));
-		} else {
-			this.popUpError("Appointment must be selected");
-		}
-
+			} else {
+				this.popUpError("Appointment must be selected");
+			}
+		}));
 	}
 	
 	private void popUpError(String reasonForError) {
