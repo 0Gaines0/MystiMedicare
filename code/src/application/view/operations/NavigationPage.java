@@ -39,9 +39,6 @@ public class NavigationPage {
     private HBox logoutHBox;
 
 	@FXML
-	private HBox editPatientHBox;
-
-	@FXML
 	private HBox registerPatientHBox;
 
 	@FXML
@@ -134,7 +131,6 @@ public class NavigationPage {
 
 	private void setUpSideBarButtons() {
 		this.setUpRegisterPatientHBox();
-		this.setUpEditPatientHBox();
 		this.setUpSearchPatientHBox();
 		this.setUpCreateAppointmentHBox();
 		this.setUpBeginAppointmentHBox();
@@ -179,12 +175,6 @@ public class NavigationPage {
 		}));
 	}
 
-	private void setUpEditPatientHBox() {
-		this.editPatientHBox.setOnMouseClicked(((event) -> {
-			this.editPatientCodeBehind.openAnchorPane(this.parentBorderPane, Main.EDIT_PATIENT_ANCHOR_PANE);
-		}));
-	}
-
 	private void setUpRegisterPatientHBox() {
 		this.registerPatientHBox.setOnMouseClicked(((event) -> {
 			this.registerPatientCodeBehind.openAnchorPane(this.parentBorderPane, Main.REGISTER_PATIENT_ANCHOR_PANE);
@@ -200,7 +190,6 @@ public class NavigationPage {
 	private void validateFXMLComponents() {
 		assert this.baseAnchorPane != null : "fx:id=\"baseAnchorPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.createAppointmentHBox != null : "fx:id=\"createAppointmentHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
-        assert this.editPatientHBox != null : "fx:id=\"editPatientHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.fullNameLabel != null : "fx:id=\"fullNameLabel\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.logoutHBox != null : "fx:id=\"logoutHBox\" was not injected: check your FXML file 'NavigationPage.fxml'.";
         assert this.parentBorderPane != null : "fx:id=\"parentBorderPane\" was not injected: check your FXML file 'NavigationPage.fxml'.";
