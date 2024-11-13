@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.Main;
 import application.DAL.DoctorDAL;
 import application.model.credentials.Doctor;
 import application.model.credentials.Patient;
@@ -29,6 +30,9 @@ public class RoutineCheckUpAnchorPane {
 
     @FXML
     private URL location;
+    
+    @FXML
+    private AnchorPane baseAnchorPane;
     
     @FXML
     private ComboBox<Doctor> doctorComboBox;
@@ -63,22 +67,37 @@ public class RoutineCheckUpAnchorPane {
     @FXML
     private TextField tempTextField;
     
+    @FXML
+    private Button orderTestsBtn;
+    
     private RoutineCheckUpAnchorPaneViewModel routineViewModel;
+    private OrderTestsAnchorPane orderTestCodeBehind;
+    
+    
 
     @FXML
     void initialize() {
         this.validateFXMLComponents();
         this.bindToViewModel();
         this.setUpUploadResultsBtn();
+        this.setUpOrderTestBtn();
         this.setUpPatientComboBox(SelectAppointmentAnchorPane.getSelectedAppointment().getPatient());
         this.setUpDoctorsComboBox(SelectAppointmentAnchorPane.getSelectedAppointment().getDoctor());
     }
     
-    /**
+    private void setUpOrderTestBtn() {
+    	this.orderTestsBtn.setDisable(true);
+    	this.orderTestsBtn.setOnAction(((event)-> {
+    		this.orderTestCodeBehind.openAnchorPane((BorderPane) this.baseAnchorPane.getParent(), Main.ORDER_TEST_ANCHOR_PANE);
+    	}));
+	}
+
+	/**
      * Instantiates a new routine check up anchor pane.
      */
     public RoutineCheckUpAnchorPane() {
     	this.routineViewModel = new RoutineCheckUpAnchorPaneViewModel();
+    	this.orderTestCodeBehind = new OrderTestsAnchorPane();
     }
     
     /**
@@ -108,6 +127,7 @@ public class RoutineCheckUpAnchorPane {
     			var uploaded = this.routineViewModel.uploadRoutineCheckUp();
     			if (uploaded) {
     				this.popUpConformation("Visit data uploaded");
+    				this.orderTestsBtn.setDisable(false);
     			} else {
     				this.popUpError("Visit data was not uploaded, try again");
     			}
@@ -162,8 +182,10 @@ public class RoutineCheckUpAnchorPane {
         } else if (!this.isDecimal(this.tempTextField.getText())) {
             result += "Temp must be a decimal number." + System.lineSeparator();
         }
-        if (!this.initialDiagnosisTextArea.getText().matches("[a-zA-Z\\s]*") && !this.initialDiagnosisTextArea.getText().isBlank()) {
-            result += "Inital Diagnosis must be text." + System.lineSeparator();
+        if (this.initialDiagnosisTextArea.getText() != null) {
+        	if (!this.initialDiagnosisTextArea.getText().matches("[a-zA-Z\\s]*") && !this.initialDiagnosisTextArea.getText().isBlank()) {
+                result += "Inital Diagnosis must be text." + System.lineSeparator();
+            }
         }
         return result;
     }

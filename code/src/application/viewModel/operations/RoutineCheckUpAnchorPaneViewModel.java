@@ -83,7 +83,7 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		try {
 			this.visitDAL.addRoutineCheckUpVisit(appointment.getId(), nurseID, doctorID, patientID, date, sysBP, diastoBP, temp, pulse, height, weight, symptoms);
 			var initalDiagnosis = this.getInitalDiagnosis().get();
-			if (!initalDiagnosis.isBlank()) {
+			if (initalDiagnosis != null && !initalDiagnosis.isBlank()) {
 				var visitId = this.visitDAL.getVisitId(appointment.getId());
 				this.diagnosisDAL.insertADiagnosis(visitId, initalDiagnosis, null);
 			}

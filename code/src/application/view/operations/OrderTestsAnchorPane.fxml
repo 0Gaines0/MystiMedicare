@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.OrderTestsAnchorPane">
+   <children>
+      <Label layoutX="24.0" layoutY="24.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Order Tests">
+         <font>
+            <Font name="Modern No. 20" size="36.0" />
+         </font>
+      </Label>
+      <ListView fx:id="testToOrderListView" layoutX="34.0" layoutY="116.0" prefHeight="280.0" prefWidth="333.0" />
+      <Label layoutX="34.0" layoutY="82.0" prefHeight="34.0" prefWidth="147.0" style="-fx-text-fill: #000000;" text="Select Tests to Order" textFill="#c99da3">
+         <font>
+            <Font name="Modern No. 20" size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="selectTestsBtn" layoutX="262.0" layoutY="404.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="105.0" style="-fx-background-color: #5C946E;" text="Select Test" textFill="WHITE" />
+      <ListView fx:id="testsBeingOrderedListView" layoutX="410.0" layoutY="116.0" prefHeight="280.0" prefWidth="333.0" />
+      <Label layoutX="410.0" layoutY="82.0" prefHeight="34.0" prefWidth="147.0" style="-fx-text-fill: #000000;" text="Tests to Order" textFill="#c99da3">
+         <font>
+            <Font name="Modern No. 20" size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="removeSelectedBtn" layoutX="628.0" layoutY="404.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: #5C946E;" text="Remove Selected" textFill="WHITE" />
+      <Button fx:id="beginTestsBtn" layoutX="628.0" layoutY="500.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: #5C946E;" text="Begin Tests" textFill="WHITE" />
+   </children>
+</AnchorPane>
