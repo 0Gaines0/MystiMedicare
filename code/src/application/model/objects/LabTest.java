@@ -117,7 +117,7 @@ public class LabTest {
 	 * @param highValue the new high value
 	 */
 	public void setHighValue(double highValue) {
-		if (highValue <= this.lowValue) {
+		if (highValue < this.lowValue) {
 			throw new IllegalArgumentException("High value must be greater than low value.");
 		}
 		this.highValue = highValue;

@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.OrderTestsAnchorPane">
    <children>
-      <Label layoutX="24.0" layoutY="24.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Order Tests">
+      <Label layoutX="24.0" layoutY="24.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Select Tests">
          <font>
             <Font name="Modern No. 20" size="36.0" />
          </font>
