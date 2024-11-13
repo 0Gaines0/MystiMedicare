@@ -2,6 +2,7 @@ package application.viewModel.operations;
 
 import java.sql.SQLException;
 
+import application.DAL.DiagnosisDAL;
 import application.DAL.VisitDAL;
 import application.model.credentials.ActiveUser;
 import application.view.operations.SelectAppointmentAnchorPane;
@@ -36,8 +37,12 @@ public class RoutineCheckUpAnchorPaneViewModel {
 	/** The temp property. */
 	private StringProperty tempProperty;
 	
+	private StringProperty initalDiagnosisProperty;
+	
 	/** The visit DAL. */
 	private VisitDAL visitDAL;
+	
+	private DiagnosisDAL diagnosisDAL;
 	
 	/**
 	 * Instantiates a new routine check up anchor pane view model.
@@ -51,6 +56,8 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		this.symptomsProperty = new SimpleStringProperty();
 		this.tempProperty = new SimpleStringProperty();
 		this.visitDAL = new VisitDAL();
+		this.diagnosisDAL = new DiagnosisDAL();
+		this.initalDiagnosisProperty = new SimpleStringProperty();
 	}
 	
 
@@ -75,11 +82,25 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		
 		try {
 			this.visitDAL.addRoutineCheckUpVisit(appointment.getId(), nurseID, doctorID, patientID, date, sysBP, diastoBP, temp, pulse, height, weight, symptoms);
+			var initalDiagnosis = this.getInitalDiagnosis().get();
+			if (!initalDiagnosis.isBlank()) {
+				var visitId = this.visitDAL.getVisitId(appointment.getId());
+				this.diagnosisDAL.insertADiagnosis(visitId, initalDiagnosis, null);
+			}
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	/**
+	 * Gets the inital diagnosis.
+	 *
+	 * @return the inital diagnosis
+	 */
+	public StringProperty getInitalDiagnosis() {
+		return this.initalDiagnosisProperty;
 	}
 
 	/**

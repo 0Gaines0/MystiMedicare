@@ -6,28 +6,32 @@ package application.DAL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
+import application.model.credentials.Appointment;
 
 public class VisitDAL {
 
 	private static final String INSERT_TO_VISIT = "INSERT INTO visit (appointment_id, nurse_id, doctor_id, patient_id, date, systolic_bp, diastolic_bp, temp, pulse, height, weight, symptoms, is_editable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String QUERY_FOR_VISIT_ID = "call GetVisitByAppointmentId(?)";
 
-	
 	/**
 	 * Adds the routine check up visit.
 	 *
 	 * @param appointment_id the appointment id
-	 * @param nurse_id the nurse id
-	 * @param doctor_id the doctor id
-	 * @param patient_id the patient id
-	 * @param date the date
-	 * @param systolic_bp the systolic bp
-	 * @param diastolic_bp the diastolic bp
-	 * @param temp the temp
-	 * @param pulse the pulse
-	 * @param height the height
-	 * @param weight the weight
-	 * @param symptoms the symptoms
+	 * @param nurse_id       the nurse id
+	 * @param doctor_id      the doctor id
+	 * @param patient_id     the patient id
+	 * @param date           the date
+	 * @param systolic_bp    the systolic bp
+	 * @param diastolic_bp   the diastolic bp
+	 * @param temp           the temp
+	 * @param pulse          the pulse
+	 * @param height         the height
+	 * @param weight         the weight
+	 * @param symptoms       the symptoms
 	 * @throws SQLException the SQL exception
 	 */
 	public void addRoutineCheckUpVisit(String appointment_id, String nurse_id, String doctor_id, String patient_id,
@@ -55,4 +59,26 @@ public class VisitDAL {
 		}
 	}
 
+	/**
+	 * Gets the visit id.
+	 *
+	 * @param appointmentId the appointment id
+	 * @return the visit id
+	 * @throws SQLException the SQL exception
+	 */
+	public String getVisitId(String appointmentId) throws SQLException {
+		var id = "";
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(QUERY_FOR_VISIT_ID)) {
+
+			stmt.setString(1, appointmentId);
+
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				id = rs.getString("id");
+			}
+
+		}
+		return id;
+	}
 }

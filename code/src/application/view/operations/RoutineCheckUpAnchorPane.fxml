@@ -4,12 +4,13 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.RoutineCheckUpAnchorPane">
+<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.RoutineCheckUpAnchorPane">
    <children>
       <Label layoutX="14.0" layoutY="14.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Routine Checkup">
          <font>
@@ -62,7 +63,7 @@
          </children>
       </VBox>
       <Button fx:id="uploadResultBtn" layoutX="633.0" layoutY="543.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="105.0" style="-fx-background-color: #5C946E;" text="Upload Results" textFill="WHITE" />
-      <VBox layoutX="404.0" layoutY="423.0" prefHeight="80.0" prefWidth="315.0">
+      <VBox layoutX="404.0" layoutY="300.0" prefHeight="80.0" prefWidth="315.0">
          <children>
             <Label prefHeight="33.0" prefWidth="175.0" style="-fx-text-fill: #000000;" text="Temp" textFill="#c99da3">
                <font>
@@ -72,7 +73,7 @@
             <TextField fx:id="tempTextField" prefHeight="38.0" prefWidth="373.0" promptText="Enter Temp" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
          </children>
       </VBox>
-      <VBox layoutX="404.0" layoutY="347.0" prefHeight="80.0" prefWidth="315.0">
+      <VBox layoutX="404.0" layoutY="230.0" prefHeight="80.0" prefWidth="315.0">
          <children>
             <Label prefHeight="33.0" prefWidth="175.0" style="-fx-text-fill: #000000;" text="Pulse" textFill="#c99da3">
                <font>
@@ -110,6 +111,16 @@
                </font>
             </Label>
             <ComboBox fx:id="doctorComboBox" disable="true" prefHeight="25.0" prefWidth="312.0" promptText="Doctor List" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
+         </children>
+      </VBox>
+      <VBox layoutX="404.0" layoutY="380.0" prefHeight="112.0" prefWidth="315.0">
+         <children>
+            <Label prefHeight="23.0" prefWidth="202.0" style="-fx-text-fill: #000000;" text="Initial Diagnosis (optional)" textFill="#c99da3">
+               <font>
+                  <Font name="Modern No. 20" size="17.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="initialDiagnosisTextArea" prefHeight="99.0" prefWidth="315.0" style="-fx-background-color: #C99DA3;" />
          </children>
       </VBox>
    </children>

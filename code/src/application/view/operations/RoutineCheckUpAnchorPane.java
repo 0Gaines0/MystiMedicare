@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -52,6 +53,9 @@ public class RoutineCheckUpAnchorPane {
 
     @FXML
     private TextField weightTextField;
+    
+    @FXML
+    private TextArea initialDiagnosisTextArea;
     
     @FXML
     private TextField symptomsTextField;
@@ -158,6 +162,9 @@ public class RoutineCheckUpAnchorPane {
         } else if (!this.isDecimal(this.tempTextField.getText())) {
             result += "Temp must be a decimal number." + System.lineSeparator();
         }
+        if (!this.initialDiagnosisTextArea.getText().matches("[a-zA-Z\\s]*") && !this.initialDiagnosisTextArea.getText().isBlank()) {
+            result += "Inital Diagnosis must be text." + System.lineSeparator();
+        }
         return result;
     }
     
@@ -179,6 +186,7 @@ public class RoutineCheckUpAnchorPane {
         this.weightTextField.textProperty().bindBidirectional(this.routineViewModel.getWeightProperty());
         this.symptomsTextField.textProperty().bindBidirectional(this.routineViewModel.getSymptomsProperty());
         this.tempTextField.textProperty().bindBidirectional(this.routineViewModel.getTempProperty());
+        this.initialDiagnosisTextArea.textProperty().bindBidirectional(this.routineViewModel.getInitalDiagnosis());
     }
 
 
