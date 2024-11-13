@@ -6,13 +6,16 @@ import java.util.ResourceBundle;
 
 import application.Main;
 import application.model.objects.LabTest;
+import application.viewModel.operations.LabTestModalViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -51,6 +54,8 @@ public class LabTestModal {
     @FXML
     private Label labTestName;
     
+    private LabTestModalViewModel viewModel;
+    
   
 
     /**
@@ -59,16 +64,85 @@ public class LabTestModal {
     @FXML
     void initialize() {
         this.validateFXMLComponents();
+        this.bindToViewModel();
         this.setUpName(OrderTestsAnchorPane.getCurrentLabTest());
+        this.setUpSubmitTestBtn();
+    }
+    
+    private void bindToViewModel() {
+    	this.lowValue.textProperty().bindBidirectional(this.viewModel.getLowValueProperty());
+    	this.highValue.textProperty().bindBidirectional(this.viewModel.getHighValueProperty());
     }
     
     /**
      * Instantiates a new lab test modal.
      */
     public LabTestModal() {
-    	
+    	this.viewModel = new LabTestModalViewModel();
     }
     
+    private void setUpSubmitTestBtn() {
+    	this.submitTestBtn.setOnAction(((event) -> {
+    		var result = this.validateFields();
+    		if (result.isBlank()) {
+    	    	this.viewModel.setTestName(this.labTestName.getText());
+    			this.viewModel.submitTestData();
+    			this.popUpConformation("Test Submitted");
+    			var stage = (Stage) this.submitTestBtn.getScene().getWindow();
+    			stage.close();
+    		} else {
+    			this.popUpError(result);
+    		}
+    	}));
+    }
+    
+	private String validateFields() {
+		var result = "";
+
+	    if (this.lowValue.getText() == null || this.lowValue.getText().isBlank()) {
+	        result += "Low value must be inputted and valid." + System.lineSeparator();
+	    } else if (!this.isDecimal(this.lowValue.getText())) {
+	        result += "Low value must be a decimal number." + System.lineSeparator();
+	    }
+
+	    if (this.highValue.getText() == null || this.highValue.getText().isBlank()) {
+	        result += "High value must be inputted and valid." + System.lineSeparator();
+	    } else if (!this.isDecimal(this.highValue.getText())) {
+	        result += "High value must be a decimal number." + System.lineSeparator();
+	    }
+
+	    if (this.lowValue.getText() != null && this.highValue.getText() != null && this.isDecimal(this.lowValue.getText()) && this.isDecimal(this.highValue.getText())) {
+	        double low = Double.parseDouble(this.lowValue.getText());
+	        double high = Double.parseDouble(this.highValue.getText());
+	        if (low >= high) {
+	            result += "Low value must be less than high value." + System.lineSeparator();
+	        }
+	    }
+
+	    return result;
+	}
+	
+	private boolean isDecimal(String text) {
+	    try {
+	        Double.parseDouble(text);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
+	}
+	
+	private void popUpError(String reasonForError) {
+		var errorPopUp = new Alert(AlertType.ERROR);
+		errorPopUp.setContentText(reasonForError);
+		errorPopUp.showAndWait();
+	}
+
+	private void popUpConformation(String reasonForConfirm) {
+		var errorPopUp = new Alert(AlertType.CONFIRMATION);
+		errorPopUp.setContentText(reasonForConfirm);
+		errorPopUp.showAndWait();
+	}
+
 	/**
 	 * Validate FXML components.
 	 */

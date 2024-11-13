@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.LabTestModal">
+<AnchorPane prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.LabTestModal">
    <children>
       <Label fx:id="labTestName" layoutX="13.0" layoutY="7.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Lab Test">
          <font>
-            <Font name="Modern No. 20" size="29.0" />
+            <Font name="Modern No. 20" size="14.0" />
          </font>
       </Label>
       <TextField fx:id="lowValue" layoutX="13.0" layoutY="92.0" prefHeight="38.0" prefWidth="218.0" promptText="Enter Low Value" style="-fx-background-color: #C99DA3; -fx-prompt-text-fill: #FFFFFF;" />
