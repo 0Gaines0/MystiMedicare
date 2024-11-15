@@ -89,6 +89,7 @@ public class LabTestDAL {
 		LabTest test = null;
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, labCode);
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
@@ -138,7 +139,7 @@ public class LabTestDAL {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				var test = this.selectLabTestFromLabCode(rs.getString("labe_code"));
+				var test = this.selectLabTestFromLabCode(rs.getString("lab_code"));
 				tests.add(test);
 			}
 		}

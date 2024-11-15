@@ -19,11 +19,11 @@
          </font>
       </Label>
       <TextArea fx:id="finalDiagnosisTextArea" layoutX="34.0" layoutY="154.0" prefHeight="168.0" prefWidth="315.0" style="-fx-background-color: #C99DA3;" wrapText="true" />
-      <Label layoutX="410.0" layoutY="16.0" prefHeight="34.0" prefWidth="147.0" style="-fx-text-fill: #000000;" text="Tests from visit:" textFill="#c99da3">
+      <Label layoutX="410.0" layoutY="16.0" prefHeight="34.0" prefWidth="160.0" style="-fx-text-fill: #000000;" text="Select Test to Finalize " textFill="#c99da3">
          <font>
             <Font name="Modern No. 20" size="17.0" />
          </font>
       </Label>
-      <ListView fx:id="testBeingDone" layoutX="410.0" layoutY="42.0" prefHeight="168.0" prefWidth="206.0" />
+      <ListView fx:id="testBeingDone" layoutX="410.0" layoutY="42.0" prefHeight="168.0" prefWidth="181.0" />
    </children>
 </AnchorPane>
