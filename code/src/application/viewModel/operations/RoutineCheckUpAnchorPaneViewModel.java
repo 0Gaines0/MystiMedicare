@@ -9,7 +9,6 @@ import application.view.operations.SelectAppointmentAnchorPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RoutineCheckUpAnchorPaneViewModel.
  * @author Jeffrey Gaines
@@ -43,6 +42,8 @@ public class RoutineCheckUpAnchorPaneViewModel {
 	private VisitDAL visitDAL;
 	
 	private DiagnosisDAL diagnosisDAL;
+	
+	private static String currentVisitId;
 	
 	/**
 	 * Instantiates a new routine check up anchor pane view model.
@@ -83,10 +84,11 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		try {
 			this.visitDAL.addRoutineCheckUpVisit(appointment.getId(), nurseID, doctorID, patientID, date, sysBP, diastoBP, temp, pulse, height, weight, symptoms);
 			var initalDiagnosis = this.getInitalDiagnosis().get();
+			var visitId = this.visitDAL.getVisitId(appointment.getId());
 			if (initalDiagnosis != null && !initalDiagnosis.isBlank()) {
-				var visitId = this.visitDAL.getVisitId(appointment.getId());
 				this.diagnosisDAL.insertADiagnosis(visitId, initalDiagnosis, null);
 			}
+			currentVisitId = visitId;
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -164,6 +166,16 @@ public class RoutineCheckUpAnchorPaneViewModel {
 	 */
 	public StringProperty getTempProperty() {
 		return this.tempProperty;
+	}
+
+
+	/**
+	 * Gets the current visit id.
+	 *
+	 * @return the current visit id
+	 */
+	public static String getCurrentVisitId() {
+		return currentVisitId;
 	}
 
 }

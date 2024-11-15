@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.OrderTestsAnchorPane">
+<AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.OrderTestsAnchorPane">
    <children>
       <Label layoutX="24.0" layoutY="24.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Select Tests">
          <font>
@@ -27,6 +27,7 @@
          </font>
       </Label>
       <Button fx:id="removeSelectedBtn" layoutX="628.0" layoutY="404.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: #5C946E;" text="Remove Selected" textFill="WHITE" />
-      <Button fx:id="beginTestsBtn" layoutX="628.0" layoutY="500.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: #5C946E;" text="Begin Tests" textFill="WHITE" />
+      <Button fx:id="beginTestsBtn" layoutX="628.0" layoutY="455.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: #5C946E;" text="Begin Tests" textFill="WHITE" />
+      <Button fx:id="finishAppointment" layoutX="628.0" layoutY="518.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" style="-fx-background-color: #5C946E;" text="Finish Appt" textFill="WHITE" />
    </children>
 </AnchorPane>

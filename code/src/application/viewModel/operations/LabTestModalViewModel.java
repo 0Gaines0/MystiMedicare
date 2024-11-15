@@ -3,6 +3,7 @@ package application.viewModel.operations;
 import java.sql.SQLException;
 
 import application.DAL.LabTestDAL;
+import application.model.objects.LabTest;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -35,16 +36,20 @@ public class LabTestModalViewModel {
 	
 	/**
 	 * Submit test data.
+	 *
+	 * @return the lab test
 	 */
-	public void submitTestData() {
+	public LabTest submitTestData() {
+		LabTest test = null;
 		try {
 			var name = this.getTestName();
 			var lowValue = Double.parseDouble(this.getLowValueProperty().getValue());
 			var highValue = Double.parseDouble(this.getHighValueProperty().getValue());
-			this.labTestDAL.addLabTest(name, "mIU/L", lowValue, highValue);
+			test = this.labTestDAL.addLabTest(name, "mIU/L", lowValue, highValue);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return test;
 	}
 
 	/**

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package application.view.operations;
 
 import java.io.IOException;
@@ -56,6 +59,7 @@ public class LabTestModal {
     
     private LabTestModalViewModel viewModel;
     
+    private LabTest currentTest;
   
 
     /**
@@ -86,7 +90,8 @@ public class LabTestModal {
     		var result = this.validateFields();
     		if (result.isBlank()) {
     	    	this.viewModel.setTestName(this.labTestName.getText());
-    			this.viewModel.submitTestData();
+    			var test = this.viewModel.submitTestData();
+    			this.setCurrentTest(test);
     			this.popUpConformation("Test Submitted");
     			var stage = (Stage) this.submitTestBtn.getScene().getWindow();
     			stage.close();
@@ -183,6 +188,24 @@ public class LabTestModal {
 
 	private void setUpName(LabTest test) {
 		this.labTestName.setText(test.getName());
+	}
+
+	/**
+	 * Gets the current test.
+	 *
+	 * @return the current test
+	 */
+	public LabTest getCurrentTest() {
+		return this.currentTest;
+	}
+
+	/**
+	 * Sets the current test.
+	 *
+	 * @param currentTest the new current test
+	 */
+	public void setCurrentTest(LabTest currentTest) {
+		this.currentTest = currentTest;
 	}
 
 }

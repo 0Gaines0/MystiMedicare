@@ -22,6 +22,9 @@ public class OrderTestsAnchorPane {
 
     @FXML
     private ResourceBundle resources;
+    
+    @FXML
+    private AnchorPane baseAnchorPane;
 
     @FXML
     private URL location;
@@ -42,7 +45,12 @@ public class OrderTestsAnchorPane {
     private ListView<LabTest> testsBeingOrderedListView;
     
     private static LabTest currentLab;
-
+    
+    @FXML
+    private Button finishAppointment;
+    
+    private FinalDiagnosisAnchorPane finalDiagnosisAnchorPane;
+    
     @FXML
     void initialize() {
         this.validateFXMLComponents();
@@ -50,6 +58,8 @@ public class OrderTestsAnchorPane {
         this.setUpSelectTest();
         this.setUpRemoveSelectedTest();
         this.setUpBeginTest();
+        this.setUpFinishAppointmentBtn();
+        this.finishAppointment.setDisable(true);
 
     }
     
@@ -57,7 +67,7 @@ public class OrderTestsAnchorPane {
      * Instantiates a new order tests anchor pane.
      */
     public OrderTestsAnchorPane() {
-    	
+    	this.finalDiagnosisAnchorPane = new FinalDiagnosisAnchorPane();
     }
     
     /**
@@ -77,7 +87,14 @@ public class OrderTestsAnchorPane {
     				var testModal = new LabTestModal();
     				testModal.openAnchorPane(Main.LAB_TEST_MODAL);
     			}
+    			this.finishAppointment.setDisable(false);
     		}
+    	}));
+    }
+    
+    private void setUpFinishAppointmentBtn() {
+    	this.finishAppointment.setOnAction(((event) -> {
+    		this.finalDiagnosisAnchorPane.openAnchorPane((BorderPane) this.baseAnchorPane.getParent(), Main.FINAL_DIAGNOSIS_ANCHOR_PANE);
     	}));
     }
     
