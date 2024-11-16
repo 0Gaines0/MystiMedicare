@@ -29,6 +29,9 @@ public class Main extends Application {
 	public static final String SELECT_APPOINTMENT_ANCHOR_PANE =  "../operations/SelectAppointmentAnchorPane.fxml";
 	public static final String ROUTINE_CHECKOUT_ANCHOR_PANE = "../operations/RoutineCheckUpAnchorPane.fxml";
 	public static final String ALL_APPOINTMENTS_ANCHOR_PANE = "../operations/AllAppointmentsAnchorPane.fxml";
+	public static final String ORDER_TEST_ANCHOR_PANE = "../operations/OrderTestsAnchorPane.fxml";
+	public static final String LAB_TEST_MODAL = "../operations/LabTestModal.fxml";
+	public static final String FINAL_DIAGNOSIS_ANCHOR_PANE = "../operations/FinalDiagnosisAnchorPane.fxml";
 
 
 	@Override

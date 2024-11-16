@@ -2,13 +2,13 @@ package application.viewModel.operations;
 
 import java.sql.SQLException;
 
+import application.DAL.DiagnosisDAL;
 import application.DAL.VisitDAL;
 import application.model.credentials.ActiveUser;
 import application.view.operations.SelectAppointmentAnchorPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RoutineCheckUpAnchorPaneViewModel.
  * @author Jeffrey Gaines
@@ -36,8 +36,14 @@ public class RoutineCheckUpAnchorPaneViewModel {
 	/** The temp property. */
 	private StringProperty tempProperty;
 	
+	private StringProperty initalDiagnosisProperty;
+	
 	/** The visit DAL. */
 	private VisitDAL visitDAL;
+	
+	private DiagnosisDAL diagnosisDAL;
+	
+	private static String currentVisitId;
 	
 	/**
 	 * Instantiates a new routine check up anchor pane view model.
@@ -51,6 +57,8 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		this.symptomsProperty = new SimpleStringProperty();
 		this.tempProperty = new SimpleStringProperty();
 		this.visitDAL = new VisitDAL();
+		this.diagnosisDAL = new DiagnosisDAL();
+		this.initalDiagnosisProperty = new SimpleStringProperty();
 	}
 	
 
@@ -75,11 +83,26 @@ public class RoutineCheckUpAnchorPaneViewModel {
 		
 		try {
 			this.visitDAL.addRoutineCheckUpVisit(appointment.getId(), nurseID, doctorID, patientID, date, sysBP, diastoBP, temp, pulse, height, weight, symptoms);
+			var initalDiagnosis = this.getInitalDiagnosis().get();
+			var visitId = this.visitDAL.getVisitId(appointment.getId());
+			if (initalDiagnosis != null && !initalDiagnosis.isBlank()) {
+				this.diagnosisDAL.insertADiagnosis(visitId, initalDiagnosis, null);
+			}
+			currentVisitId = visitId;
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	/**
+	 * Gets the inital diagnosis.
+	 *
+	 * @return the inital diagnosis
+	 */
+	public StringProperty getInitalDiagnosis() {
+		return this.initalDiagnosisProperty;
 	}
 
 	/**
@@ -143,6 +166,16 @@ public class RoutineCheckUpAnchorPaneViewModel {
 	 */
 	public StringProperty getTempProperty() {
 		return this.tempProperty;
+	}
+
+
+	/**
+	 * Gets the current visit id.
+	 *
+	 * @return the current visit id
+	 */
+	public static String getCurrentVisitId() {
+		return currentVisitId;
 	}
 
 }

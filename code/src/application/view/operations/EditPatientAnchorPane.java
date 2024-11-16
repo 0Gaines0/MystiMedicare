@@ -73,8 +73,6 @@ public class EditPatientAnchorPane {
 	private TextField zipCodeTextField;
 
 	private EditPatientAnchorPaneViewModel editPatientViewModel;
-	private PatientDAL patientDAL;
-
 	@FXML
 	void initialize() {
 		this.validateFXMLComponents();
@@ -90,7 +88,7 @@ public class EditPatientAnchorPane {
 	 */
 	public EditPatientAnchorPane() {
 		this.editPatientViewModel = new EditPatientAnchorPaneViewModel();
-		this.patientDAL = new PatientDAL();
+		new PatientDAL();
 	}
 
 	private void setUpGenderComboBox() {
