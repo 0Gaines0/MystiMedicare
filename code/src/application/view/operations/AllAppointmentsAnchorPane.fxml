@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -31,5 +32,11 @@
             <ListView fx:id="appointmentsListView" prefHeight="374.0" prefWidth="358.0" />
          </children>
       </VBox>
+      <TextArea fx:id="informationTextArea" editable="false" layoutX="443.0" layoutY="212.0" prefHeight="374.0" prefWidth="356.0" />
+      <Label layoutX="443.0" layoutY="173.0" prefHeight="33.0" prefWidth="123.0" style="-fx-text-fill: #000000;" text="Information" textFill="#c99da3">
+         <font>
+            <Font name="Modern No. 20" size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -263,5 +263,58 @@ public class AppointmentDAL {
 
 		return result;
 	}
+	
+	/**
+	 * gets appt info
+	 * 
+	 * @param visitId
+	 * @return a string of appointment information
+	 * @throws SQLException
+	 */
+	public String getAppointmentInformation(String visitId) throws SQLException {
+		var information = new StringBuilder();
+		String query = "call cs3230f24b.GetVisitDetailsByAppointmentId(?)";
+		boolean isFirstRow = true;
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, visitId);
+			ResultSet rs = stmt.executeQuery();
+	        while (rs.next()) {
+	            if (isFirstRow) {
+	                String patientFullName = String.format("%-20s", rs.getString("patient_full_name"));
+	                String doctorFullName = String.format("%-20s", rs.getString("doctor_full_name"));
+	                String date = String.format("%-20s", rs.getTimestamp("date").toString());
+	                String height = String.format("%-20s", rs.getString("height"));
+	                String weight = String.format("%-20s", rs.getString("weight"));
+	                String pulse = String.format("%-20s", rs.getString("pulse"));
+	                String systolic_bp = String.format("%-20s", rs.getString("systolic_bp"));
+	                String diastolic_bp = String.format("%-20s", rs.getString("diastolic_bp"));
+	                String temp = String.format("%-20s", rs.getString("temp"));
+		            String symptoms = String.format("%-20s", rs.getString("symptoms"));
+		            String initDiag = String.format("%-20s", rs.getString("initial_diagnosis"));
+		            String finalDiag = String.format("%-20s", rs.getString("final_diagnosis"));
+	                information.append("Patient Name: ").append(patientFullName).append("\n")
+	                           .append("Doctor Name: ").append(doctorFullName).append("\n")
+	                           .append("Date: ").append(date).append("\n")
+	                           .append("Height (in): ").append(height).append("\n")
+	                           .append("Weight (lbs): ").append(weight).append("\n")
+	                           .append("Pulse (bpm): ").append(pulse).append("\n")
+	                           .append("Systolic BP (mmHg): ").append(systolic_bp).append("\n")
+	                           .append("Diastolic BP (mmHg): ").append(diastolic_bp).append("\n")
+	                           .append("Temperature (°F): ").append(temp).append("\n")
+	           	               .append("Symptoms: ").append(symptoms).append("\n")
+	           	               .append("Initial Diagnosis: ").append(initDiag).append("\n")
+	           	               .append("Final Diagnosis: ").append(finalDiag).append("\n");
+	           	         
+	                isFirstRow = false;
+	            }
+	            String testname = String.format("%-20s", rs.getString("name"));
+	            String result = String.format("%-20s", rs.getString("result"));
+	            information.append("Test: ").append(testname).append("\n")
+	            		   .append("Result: ").append(result).append("\n");
+	        }
+	    }
+	    return information.toString();
+	}
 
-};
+}

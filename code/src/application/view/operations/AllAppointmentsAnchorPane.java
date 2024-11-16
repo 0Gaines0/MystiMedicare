@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -25,6 +26,9 @@ public class AllAppointmentsAnchorPane {
 
     @FXML
     private URL location;
+    
+    @FXML
+    private TextArea informationTextArea;
 
     @FXML
     private ListView<Appointment> appointmentsListView;
@@ -40,7 +44,6 @@ public class AllAppointmentsAnchorPane {
         this.bindToViewModel();
         this.setUpPatientTextField();
         this.setUpAppointmentsListView();
-
     }
     
     /**
@@ -70,6 +73,7 @@ public class AllAppointmentsAnchorPane {
     
     private void bindToViewModel() {
     	this.allAppointmentsViewModel.getPatientAppointments().bindBidirectional(this.appointmentsListView.itemsProperty());
+    	this.informationTextArea.textProperty().bindBidirectional(this.allAppointmentsViewModel.getInformationProperty());
     }
     
     private void setUpPatientTextField() {
@@ -82,10 +86,16 @@ public class AllAppointmentsAnchorPane {
     
     private void setUpAppointmentsListView() {
     	this.allAppointmentsViewModel.pullAllPatientsCurrentAppointments();
+        this.appointmentsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+            	this.allAppointmentsViewModel.getVisitInformation(newValue.getId());
+            }
+        });
     }
 
 	private void validateFXMLComponents() {
-		assert this.appointmentsListView != null : "fx:id=\"appointmentsListView\" was not injected: check your FXML file 'AllAppointmentsAnchorPane.fxml'.";
+        assert this.informationTextArea != null : "fx:id=\"informationTextArea\" was not injected: check your FXML file 'AllAppointmentsAnchorPane.fxml'.";
+        assert this.appointmentsListView != null : "fx:id=\"appointmentsListView\" was not injected: check your FXML file 'AllAppointmentsAnchorPane.fxml'.";
         assert this.patientComboBox != null : "fx:id=\"patientComboBox\" was not injected: check your FXML file 'AllAppointmentsAnchorPane.fxml'.";
 	}
 

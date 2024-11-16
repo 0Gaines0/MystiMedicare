@@ -1,8 +1,6 @@
 package application.view.operations;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import application.Main;
 import application.model.objects.LabTest;
