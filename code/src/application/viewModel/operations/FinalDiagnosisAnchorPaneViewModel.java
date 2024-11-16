@@ -2,8 +2,10 @@ package application.viewModel.operations;
 
 import java.sql.SQLException;
 
+import application.DAL.AppointmentDAL;
 import application.DAL.LabTestDAL;
 import application.model.objects.LabTest;
+import application.view.operations.SelectAppointmentAnchorPane;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -21,6 +23,7 @@ public class FinalDiagnosisAnchorPaneViewModel {
 	private ListProperty<LabTest> testBeingListProperty;
 	private ObjectProperty<LabTest> selectedTestProperty;
 	private LabTestDAL labTestDAL;
+	private AppointmentDAL appointmentDAL;
 	private BooleanProperty isAbnormalProperty;
 	
 	/**
@@ -33,6 +36,7 @@ public class FinalDiagnosisAnchorPaneViewModel {
 		this.selectedTestProperty = new SimpleObjectProperty<LabTest>();
 		this.isAbnormalProperty = new SimpleBooleanProperty();
 		this.finalResultTextProperty = new SimpleStringProperty();
+		this.appointmentDAL = new AppointmentDAL();
 	}
 	
 	/**
@@ -51,6 +55,18 @@ public class FinalDiagnosisAnchorPaneViewModel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	/**
+	 * Finish appointment.
+	 */
+	public void finishAppointment() {
+		var appointment = SelectAppointmentAnchorPane.getSelectedAppointment();
+		try {
+			this.appointmentDAL.setAppointmentToComplete(appointment.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	
