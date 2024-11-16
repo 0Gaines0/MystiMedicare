@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
@@ -19,11 +21,25 @@
          </font>
       </Label>
       <TextArea fx:id="finalDiagnosisTextArea" layoutX="34.0" layoutY="154.0" prefHeight="168.0" prefWidth="315.0" style="-fx-background-color: #C99DA3;" wrapText="true" />
-      <Label layoutX="410.0" layoutY="16.0" prefHeight="34.0" prefWidth="160.0" style="-fx-text-fill: #000000;" text="Select Test to Finalize " textFill="#c99da3">
+      <Label layoutX="410.0" layoutY="120.0" prefHeight="34.0" prefWidth="160.0" style="-fx-text-fill: #000000;" text="Select Test to Finalize " textFill="#c99da3">
          <font>
             <Font name="Modern No. 20" size="17.0" />
          </font>
       </Label>
-      <ListView fx:id="testBeingDone" layoutX="410.0" layoutY="42.0" prefHeight="168.0" prefWidth="181.0" />
+      <ListView fx:id="testBeingDone" layoutX="410.0" layoutY="154.0" prefHeight="168.0" prefWidth="181.0" />
+      <TextArea fx:id="finalResultTextArea" layoutX="607.0" layoutY="238.0" prefHeight="77.0" prefWidth="200.0" />
+      <Label layoutX="607.0" layoutY="204.0" prefHeight="34.0" prefWidth="160.0" style="-fx-text-fill: #000000;" text="Test Result" textFill="#c99da3">
+         <font>
+            <Font name="Modern No. 20" size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="submitResultBtn" layoutX="702.0" layoutY="385.0" mnemonicParsing="false" text="Submit Result" />
+      <Label layoutX="607.0" layoutY="315.0" prefHeight="34.0" prefWidth="128.0" style="-fx-text-fill: #000000;" text="Is Test Abnormal:" textFill="#c99da3">
+         <font>
+            <Font name="Modern No. 20" size="17.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="isAbnormalCheckBox" layoutX="738.0" layoutY="324.0" mnemonicParsing="false" />
+      <Button fx:id="submitFinalDiagnosis" layoutX="262.0" layoutY="337.0" mnemonicParsing="false" text="Submit Final" />
    </children>
 </AnchorPane>

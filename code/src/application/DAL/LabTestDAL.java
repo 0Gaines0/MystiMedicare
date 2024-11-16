@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import application.model.credentials.Address;
 import application.model.objects.LabTest;
 import application.viewModel.operations.RoutineCheckUpAnchorPaneViewModel;
 
@@ -100,6 +98,60 @@ public class LabTestDAL {
 		}
 		return test;
 	}
+	
+	/**
+	 * Insert diagnosis from final page.
+	 *
+	 * @param visitId the visit id
+	 * @param initDiagnosis the init diagnosis
+	 * @param finalDiagnosis the final diagnosis
+	 * @throws SQLException 
+	 */
+	public void insertDiagnosisFromFinalPage(String visitId, String initDiagnosis, String finalDiagnosis) throws SQLException {
+		if (this.getDiagnosisFromVisitId(visitId)) {
+			var updateQuery = "UPDATE cs3230f24b.diagnosis SET initial_diagnosis = ?, final_diagnosis = ? WHERE visit_id = ?";
+			try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+					PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+				stmt.setString(1, initDiagnosis);
+				stmt.setString(2, finalDiagnosis);
+				stmt.setString(3, visitId);
+				stmt.executeUpdate();
+
+			}
+		} else {
+			var insertQuery = "INSERT INTO cs3230f24b.diagnosis (visit_id, initial_diagnosis, final_diagnosis) VALUES (?, ?, ?);";
+			try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+					PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
+				stmt.setString(1, visitId);
+				stmt.setString(2, initDiagnosis);
+				stmt.setString(3, finalDiagnosis);
+				stmt.executeUpdate();
+
+			}
+		}
+	}
+	
+	/**
+	 * Gets the diagnosis from visit id.
+	 *
+	 * @param visitId the visit id
+	 * @return the diagnosis from visit id
+	 * @throws SQLException the SQL exception
+	 */
+	public boolean getDiagnosisFromVisitId(String visitId) throws SQLException {
+		String query = "SELECT * FROM cs3230f24b.diagnosis WHERE visit_id = ?";
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, visitId);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				return true;
+				
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Adds the init lab result.
@@ -122,6 +174,34 @@ public class LabTestDAL {
 
 		}
 	}
+	
+	/**
+	 * Insert final diagnosis and is abnormal.
+	 *
+	 * @param visitId the visit id
+	 * @param labCode the lab code
+	 * @param finalDiagnosis the final diagnosis
+	 * @param isAbnormal the is abnormal
+	 * @throws SQLException 
+	 */
+	public void insertFinalDiagnosisAndIsAbnormal(String visitId, String labCode, String finalDiagnosis, Boolean isAbnormal) throws SQLException {
+		var abnormal = 0;
+		if (isAbnormal) {
+			abnormal = 1;
+		}
+		String sql = "UPDATE cs3230f24b.test_result SET result = ?, is_abnormal = ? WHERE visit_id = ? AND lab_code = ?";
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setString(1, finalDiagnosis);
+			stmt.setInt(2, abnormal);
+			stmt.setString(3, visitId);
+			stmt.setString(4, labCode);
+			stmt.executeUpdate();
+		
+		}
+		
+	}
+	
 
 	/**
 	 * Gets the all lab test from visit.
