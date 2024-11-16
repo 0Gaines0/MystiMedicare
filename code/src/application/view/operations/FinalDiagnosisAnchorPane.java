@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.Main;
 import application.model.objects.LabTest;
 import application.viewModel.operations.FinalDiagnosisAnchorPaneViewModel;
 import javafx.fxml.FXML;
@@ -20,6 +21,9 @@ import javafx.scene.layout.BorderPane;
 public class FinalDiagnosisAnchorPane {
 
 	@FXML
+	private AnchorPane baseAnchorPane;
+
+	@FXML
 	private TextArea finalDiagnosisTextArea;
 
 	@FXML
@@ -32,6 +36,9 @@ public class FinalDiagnosisAnchorPane {
 	private Button submitResultBtn;
 
 	@FXML
+	private Button finishAppointmentBtn;
+
+	@FXML
 	private ListView<LabTest> testBeingDone;
 
 	@FXML
@@ -39,13 +46,18 @@ public class FinalDiagnosisAnchorPane {
 
 	private FinalDiagnosisAnchorPaneViewModel viewModel;
 
+	private SelectAppointmentAnchorPane selectAppointmentPage;
+
 	@FXML
 	void initialize() {
 		this.validateFXMLComponents();
 		this.bindToViewModel();
 		this.setUpFinalResultsBtn();
 		this.setUpFinalDiagnosis();
+		this.setUpFinishAppointment();
+		this.finishAppointmentBtn.setDisable(true);
 		this.viewModel.populateTestList();
+		this.selectAppointmentPage = new SelectAppointmentAnchorPane();
 
 	}
 
@@ -53,6 +65,7 @@ public class FinalDiagnosisAnchorPane {
 		this.submitResultBtn.setOnAction(((event) -> {
 			if (this.testBeingDone.getSelectionModel().getSelectedItem() != null) {
 				if (this.viewModel.insertFinalResultWithTest()) {
+					this.testBeingDone.getItems().remove(this.testBeingDone.getSelectionModel().getSelectedItem());
 					this.popUpConformation("Test results added!");
 				} else {
 					this.popUpError("Test results not added, please try again");
@@ -67,10 +80,20 @@ public class FinalDiagnosisAnchorPane {
 		this.submitFinalDiagnosis.setOnAction(((event) -> {
 			if (this.finalDiagnosisTextArea.getText() != null && !this.finalDiagnosisTextArea.getText().isBlank()) {
 				this.viewModel.insertFinalDiagnosis();
-				this.popUpError("Final Diagnosis Added");
+				this.popUpConformation("Final Diagnosis Added");
+				this.finishAppointmentBtn.setDisable(false);
 			} else {
 				this.popUpError("Please put data in the final diagnosis text area");
 			}
+		}));
+	}
+
+	private void setUpFinishAppointment() {
+		this.finishAppointmentBtn.setOnAction(((event) -> {
+			this.viewModel.finishAppointment();
+			this.popUpConformation("The appointment is finished!");
+			this.selectAppointmentPage.openAnchorPane((BorderPane) this.baseAnchorPane.getParent(),
+					Main.SELECT_APPOINTMENT_ANCHOR_PANE);
 		}));
 	}
 

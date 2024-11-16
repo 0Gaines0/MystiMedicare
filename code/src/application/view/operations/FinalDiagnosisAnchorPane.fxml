@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.FinalDiagnosisAnchorPane">
+<AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.FinalDiagnosisAnchorPane">
    <children>
       <Label layoutX="34.0" layoutY="33.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Finalize Visit">
          <font>
@@ -41,5 +41,6 @@
       </Label>
       <CheckBox fx:id="isAbnormalCheckBox" layoutX="738.0" layoutY="324.0" mnemonicParsing="false" />
       <Button fx:id="submitFinalDiagnosis" layoutX="262.0" layoutY="337.0" mnemonicParsing="false" text="Submit Final" />
+      <Button fx:id="finishAppointmentBtn" layoutX="643.0" layoutY="501.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="128.0" text="Finish Appointment" />
    </children>
 </AnchorPane>

@@ -25,7 +25,7 @@ public class AppointmentDAL {
 	private static final String QUERY_FOR_APPOINTMENT = "SELECT * FROM cs3230f24b.appointment WHERE date = ? AND doctor_id = ?";
 	private static final String UPDATE_FOR_APPOINTMENT = "UPDATE appointment" + " SET patient_id = ?,"
 			+ "doctor_id = ?," + "date = ?," + "reason = ?," + "status = ?" + " WHERE id = ?";
-	private static final String QUERY_APPOINTMENT_FOR_TODAY = "SELECT * FROM cs3230f24b.appointment WHERE DATE(date) = ?";
+	private static final String QUERY_APPOINTMENT_FOR_TODAY = "SELECT * FROM cs3230f24b.appointment WHERE DATE(date) = ? AND status = ?";
 
 	private PatientDAL patientDAL;
 	private DoctorDAL doctorDAL;
@@ -122,6 +122,7 @@ public class AppointmentDAL {
 				PreparedStatement stmt = conn.prepareStatement(QUERY_APPOINTMENT_FOR_TODAY)) {
 			
 			stmt.setString(1, date.toString());
+			stmt.setString(2, "scheduled");
 
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -142,6 +143,21 @@ public class AppointmentDAL {
 		}
 
 		return result;
+	}
+	
+	/**
+	 * Sets the appointment to complete.
+	 *
+	 * @param appointmentID the new appointment to complete
+	 * @throws SQLException 
+	 */
+	public void setAppointmentToComplete(String appointmentID) throws SQLException {
+		String query = "UPDATE cs3230f24b.appointment SET status = 'completed' WHERE id = ?";
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, appointmentID);
+			stmt.executeUpdate();
+		}
 	}
 
 	/**
