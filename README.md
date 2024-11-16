@@ -41,3 +41,17 @@ BEGIN
         v.appointment_id = appointmentId;
 END
 
+
+
+
+
+
+
+
+
+
+CREATE DEFINER=`jg00242`@`%` PROCEDURE `GetVisitByAppointmentId`(IN appointmentId INT)
+BEGIN
+    SELECT * FROM cs3230f24b.visit
+    WHERE appointment_id = appointmentId;
+END
