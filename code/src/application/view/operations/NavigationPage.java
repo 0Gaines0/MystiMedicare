@@ -66,7 +66,6 @@ public class NavigationPage {
     private HBox beginAppointmentHBox;
 
 	private RegisterPatientAnchorPane registerPatientCodeBehind;
-	private EditPatientAnchorPane editPatientCodeBehind;
 	private SearchPatientAnchorPane searchPatientCodeBehind;
 	private AppointmentAnchorPane createAppointmentCodeBehind;
 	private SelectAppointmentAnchorPane selectAppointmentCodeBehind;
@@ -79,14 +78,10 @@ public class NavigationPage {
 	 */
 	public NavigationPage() {
 		this.registerPatientCodeBehind = new RegisterPatientAnchorPane();
-		this.editPatientCodeBehind = new EditPatientAnchorPane();
 		this.searchPatientCodeBehind = new SearchPatientAnchorPane();
 		this.createAppointmentCodeBehind = new AppointmentAnchorPane();
-
 		this.selectAppointmentCodeBehind = new SelectAppointmentAnchorPane();
-
 		this.userDAL = new UserDAL();
-
 	}
 
 	@FXML
