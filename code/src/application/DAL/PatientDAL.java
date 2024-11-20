@@ -29,15 +29,20 @@ public class PatientDAL {
 	
 	private static final String QUERY_FOR_PATIENT_ID = "SELECT * FROM cs3230f24b.patient p WHERE p.id = ?";
 	
-	private static final String QUERY_FOR_PATIENT_SEARCH = "SELECT * FROM patient p " 
-			+  "LEFT JOIN address a ON p.address_id = a.address_id " 
-			+  "LEFT JOIN visit v ON p.id = v.patient_id " 
-			+  "LEFT JOIN diagnosis d ON v.diagnosis_id = d.id " 
-			+  "LEFT JOIN test_result tr ON v.testresults_id = tr.id " 
-			+  "LEFT JOIN lab_test lt ON tr.lab_code = lt.labe_code " 
-			+  "WHERE (p.first_name LIKE ? OR ? IS NULL) " 
-            +  "AND (p.last_name LIKE ? OR ? IS NULL) " 
-            +  "AND (p.dob = ? OR ? IS NULL)";
+	private static final String QUERY_FOR_PATIENT_SEARCH = "SELECT DISTINCT p.id, p.first_name, p.last_name, p.dob, \n"
+			+ "    a.address_id, a.street, a.city, a.state, a.zip_code, \n"
+			+ "    p.phone, p.status, p.gender\n"
+			+ "FROM patient p\n"
+			+ "LEFT JOIN address a ON p.address_id = a.address_id\n"
+			+ "LEFT JOIN visit v ON p.id = v.patient_id\n"
+			+ "LEFT JOIN diagnosis d ON v.diagnosis_id = d.id\n"
+			+ "LEFT JOIN test_result tr ON v.testresults_id = tr.id\n"
+			+ "LEFT JOIN lab_test lt ON tr.lab_code = lt.labe_code\n"
+			+ "WHERE (p.first_name LIKE ? OR ? IS NULL) \n"
+			+ "    AND (p.last_name LIKE ? OR ? IS NULL) \n"
+			+ "    AND (p.dob = ? OR ? IS NULL);\n"
+			+ "";
+
 	private AddressDAL addressDAL;
 	
 	/**
@@ -261,9 +266,9 @@ public class PatientDAL {
 	 * @param phone the phone
 	 * @throws SQLException the SQL exception
 	 */
-	public void updatePatient(String patientId, String lastName, String firstName, String dob, String gender, String newAddressId, String phone) throws SQLException {
+	public void updatePatient(String patientId, String lastName, String firstName, String dob, String gender, String newAddressId, String phone, String status) throws SQLException {
 		String query = "UPDATE patient SET last_name = ?, first_name = ?, dob = ?, gender = ?, "
-				+ "address_id = ?, phone = ? WHERE id = ?";
+				+ "address_id = ?, phone = ?, status = ? WHERE id = ?";
 
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -274,7 +279,8 @@ public class PatientDAL {
 			stmt.setString(4, gender);
 			stmt.setString(5, newAddressId);
 			stmt.setString(6, phone);
-			stmt.setString(7, patientId);
+			stmt.setString(7, status);
+			stmt.setString(8, patientId);
 			int rowsAffected = stmt.executeUpdate();
 
 			if (rowsAffected > 0) {

@@ -8,7 +8,9 @@ import application.DAL.PatientDAL;
 
 import application.model.credentials.Address;
 import application.model.credentials.Patient;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -24,6 +26,7 @@ public class EditPatientAnchorPaneViewModel {
 	private StringProperty patientMobileNumberTextProperty;
 	private StringProperty patientStreetTextProperty;
 	private StringProperty patientZipCodeTextProperty;
+	private BooleanProperty patientIsActive;
 	private PatientDAL patientDAL;
 	private AddressDAL addressDAL;
 
@@ -41,6 +44,7 @@ public class EditPatientAnchorPaneViewModel {
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
 		this.patientDateOfBirthProperty = new SimpleObjectProperty<LocalDate>();
+		this.patientIsActive = new SimpleBooleanProperty();
 		this.patientDAL = new PatientDAL();
 		this.addressDAL = new AddressDAL();
 	}
@@ -69,9 +73,11 @@ public class EditPatientAnchorPaneViewModel {
 		var dob = this.getPatientDateOfBirthTextProperty().get().toString();
 		var gender = this.getSelectedGenderProperty().get();
 		var phone = this.getPatientMobileNumberTextProperty().get();
+		var bool_status = this.getPatientIsActiveProperty().get();
+		String status = bool_status ? "active" : "inactive";
 
 		try {
-			this.patientDAL.updatePatient(patientId, lastName, firstName, dob, gender, addressId, phone);
+			this.patientDAL.updatePatient(patientId, lastName, firstName, dob, gender, addressId, phone, status);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -174,5 +180,14 @@ public class EditPatientAnchorPaneViewModel {
 	 */
 	public StringProperty getPatientZipCodeTextProperty() {
 		return this.patientZipCodeTextProperty;
+	}
+	
+	/**
+	 * gets patientisactive property
+	 * 
+	 * @return is active
+	 */
+	public BooleanProperty getPatientIsActiveProperty() {
+		return this.patientIsActive;
 	}
 }
