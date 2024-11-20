@@ -38,10 +38,10 @@ public class LabTestModalViewModel {
 	/**
 	 * Submit test data.
 	 *
+	 * @param test the test
 	 * @return the lab test
 	 */
-	public LabTest submitTestData() {
-		LabTest test = OrderTestsAnchorPane.getCurrentLabTest();
+	public LabTest submitTestData(LabTest test) {
 		this.labTestDAL.addLabTest(test.getLabCode());
 
 		return test;

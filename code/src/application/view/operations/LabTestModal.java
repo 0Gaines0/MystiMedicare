@@ -57,8 +57,11 @@ public class LabTestModal {
 	 */
 	@FXML
 	void initialize() {
+		this.currentTest = OrderTestsAnchorPane.getCurrentLabTest().get(OrderTestsAnchorPane.getCurrentIdx());
+		OrderTestsAnchorPane.setCurrentIdx(OrderTestsAnchorPane.getCurrentIdx() + 1);
+
 		this.validateFXMLComponents();
-		this.setUpName(OrderTestsAnchorPane.getCurrentLabTest());
+		this.setUpName(this.currentTest);
 		this.setUpSubmitTestBtn();
 	}
 
@@ -73,15 +76,15 @@ public class LabTestModal {
 		this.submitTestBtn.setOnAction(((event) -> {
 
 			this.viewModel.setTestName(this.labTestName.getText());
-			var test = this.viewModel.submitTestData();
-			this.setCurrentTest(test);
+			var test = OrderTestsAnchorPane.getCurrentLabTest()
+					.remove(OrderTestsAnchorPane.getCurrentLabTest().size() - 1);
+			this.viewModel.submitTestData(test);
 			this.popUpConformation("Test Submitted");
 			var stage = (Stage) this.submitTestBtn.getScene().getWindow();
 			stage.close();
 
 		}));
 	}
-
 
 	private void popUpConformation(String reasonForConfirm) {
 		var errorPopUp = new Alert(AlertType.CONFIRMATION);

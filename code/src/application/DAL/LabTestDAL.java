@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import application.model.objects.LabTest;
@@ -173,10 +176,15 @@ public class LabTestDAL {
 
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(insertResult)) {
+			LocalDateTime now = LocalDateTime.now();
+		        
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	        String formattedDateTime = now.format(formatter);
+
 			var visit = RoutineCheckUpAnchorPaneViewModel.getCurrentVisitId();
 			stmt.setString(1, visit);
 			stmt.setString(2, labCode);
-			stmt.setString(3, LocalDate.now().toString());
+			stmt.setString(3, formattedDateTime);
 			stmt.setInt(4, -1);
 			stmt.executeUpdate();
 
@@ -186,28 +194,54 @@ public class LabTestDAL {
 	/**
 	 * Insert final diagnosis and is abnormal.
 	 *
-	 * @param visitId        the visit id
-	 * @param labCode        the lab code
-	 * @param finalDiagnosis the final diagnosis
-	 * @param isAbnormal     the is abnormal
-	 * @throws SQLException
+	 * @param visitId     the visit id
+	 * @param labCode     the lab code
+	 * @param finalResult the final result
+	 * @throws SQLException the SQL exception
 	 */
-	public void insertFinalDiagnosisAndIsAbnormal(String visitId, String labCode, String finalDiagnosis,
-			Boolean isAbnormal) throws SQLException {
+	public void insertFinalResultAndIsAbnormal(String visitId, String labCode, String finalResult) throws SQLException {
+		var currentTest = this.getLabTestFromLabCode(labCode);
 		var abnormal = 0;
-		if (isAbnormal) {
+
+		var numericResult = Double.parseDouble(finalResult);
+		if (numericResult > currentTest.getHighValue() || numericResult < currentTest.getLowValue()) {
 			abnormal = 1;
 		}
+
 		String sql = "UPDATE cs3230f24b.test_result SET result = ?, is_abnormal = ? WHERE visit_id = ? AND lab_code = ?";
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setString(1, finalDiagnosis);
+			stmt.setString(1, finalResult);
 			stmt.setInt(2, abnormal);
 			stmt.setString(3, visitId);
 			stmt.setString(4, labCode);
 			stmt.executeUpdate();
 
 		}
+
+	}
+
+	/**
+	 * Gets the lab test from lab code.
+	 *
+	 * @param labCode the lab code
+	 * @return the lab test from lab code
+	 * @throws SQLException the SQL exception
+	 */
+	public LabTest getLabTestFromLabCode(String labCode) throws SQLException {
+		LabTest test = null;
+		String query = "SELECT * FROM cs3230f24b.lab_test WHERE labe_code = ?";
+		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+			stmt.setString(1, labCode);
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				test = new LabTest(rs.getString("labe_code"), rs.getString("name"),
+						Double.parseDouble(rs.getString("low_value")), Double.parseDouble(rs.getString("high_value")));
+			}
+		}
+		return test;
 
 	}
 

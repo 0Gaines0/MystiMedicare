@@ -48,9 +48,8 @@ public class FinalDiagnosisAnchorPaneViewModel {
 		var visitId = RoutineCheckUpAnchorPaneViewModel.getCurrentVisitId();
 		var labCode = this.getSelectedTestProperty().getValue().getLabCode();
 		var finalResult = this.getFinalResultTextProperty().getValue();
-		var isAbnormal = this.getIsAbnormalProperty().getValue();
 		try {
-			this.labTestDAL.insertFinalDiagnosisAndIsAbnormal(visitId, labCode, finalResult, isAbnormal);
+			this.labTestDAL.insertFinalResultAndIsAbnormal(visitId, labCode, finalResult);
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();

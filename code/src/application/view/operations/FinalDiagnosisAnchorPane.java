@@ -28,9 +28,6 @@ public class FinalDiagnosisAnchorPane {
 	private TextArea finalResultTextArea;
 
 	@FXML
-	private CheckBox isAbnormalCheckBox;
-
-	@FXML
 	private Button submitResultBtn;
 
 	@FXML
@@ -121,8 +118,6 @@ public class FinalDiagnosisAnchorPane {
 				: "fx:id=\"testBeingDone\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
 		assert this.finalResultTextArea != null
 				: "fx:id=\"finalResultTextArea\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
-		assert this.isAbnormalCheckBox != null
-				: "fx:id=\"isAbnormalCheckBox\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
 		assert this.submitResultBtn != null
 				: "fx:id=\"submitResultBtn\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
 
@@ -132,7 +127,6 @@ public class FinalDiagnosisAnchorPane {
 		this.finalDiagnosisTextArea.textProperty().bindBidirectional(this.viewModel.getFinalDiagnosisTextProperty());
 		this.viewModel.getTestBeingListProperty().bindBidirectional(this.testBeingDone.itemsProperty());
 		this.viewModel.getSelectedTestProperty().bind(this.testBeingDone.getSelectionModel().selectedItemProperty());
-		this.isAbnormalCheckBox.selectedProperty().bindBidirectional(this.viewModel.getIsAbnormalProperty());
 		this.finalResultTextArea.textProperty().bindBidirectional(this.viewModel.getFinalResultTextProperty());
 	}
 

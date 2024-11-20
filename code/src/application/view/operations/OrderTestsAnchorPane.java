@@ -46,13 +46,14 @@ public class OrderTestsAnchorPane {
     @FXML
     private ListView<LabTest> testsBeingOrderedListView;
     
-    private static LabTest currentLab;
+    private static ArrayList<LabTest> currentLab;
     
     @FXML
     private Button finishAppointment;
     
     private FinalDiagnosisAnchorPane finalDiagnosisAnchorPane;
     private LabTestDAL labTestDAL;
+    private static int currentTestIdx;
     
     @FXML
     void initialize() {
@@ -72,6 +73,8 @@ public class OrderTestsAnchorPane {
     public OrderTestsAnchorPane() {
     	this.finalDiagnosisAnchorPane = new FinalDiagnosisAnchorPane();
     	this.labTestDAL = new LabTestDAL();
+    	currentLab = new ArrayList<LabTest>();
+    	currentTestIdx = 0;
     }
     
     /**
@@ -79,15 +82,33 @@ public class OrderTestsAnchorPane {
      *
      * @return the current lab test
      */
-    public static LabTest getCurrentLabTest() {
+    public static ArrayList<LabTest> getCurrentLabTest() {
     	return currentLab;
+    }
+    
+    /**
+     * Gets the current idx.
+     *
+     * @return the current idx
+     */
+    public static int getCurrentIdx() {
+    	return currentTestIdx;
+    }
+    
+    /**
+     * Sets the current idx.
+     *
+     * @param idx the idx
+     */
+    public static void setCurrentIdx(int idx) {
+    	currentTestIdx = idx;
     }
     
     private void setUpBeginTest() {
     	this.beginTestsBtn.setOnAction(((event)-> {
     		if (this.testsBeingOrderedListView.getItems() != null && !this.testsBeingOrderedListView.getItems().isEmpty()) {
     			for (var test : this.testsBeingOrderedListView.getItems()) {
-    				currentLab = test;
+    				currentLab.add(test);
     				var testModal = new LabTestModal();
     				testModal.openAnchorPane(Main.LAB_TEST_MODAL);
     			}
