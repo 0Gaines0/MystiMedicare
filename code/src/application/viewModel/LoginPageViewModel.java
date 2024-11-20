@@ -36,8 +36,12 @@ public class LoginPageViewModel {
 		var userId = this.userIdProperty.getValue().trim();
 		var password = this.passwordProperty.getValue().trim();
 		if (this.userDAL.checkUserId(userId)) {
-			ActiveUser.setActiveUser(this.userDAL.loginUser(userId, password));
-			return true;
+			var user = this.userDAL.loginUser(userId, String.valueOf(password.hashCode()));
+			if (user != null) {
+				ActiveUser.setActiveUser(user);
+				return true;
+			}
+			return false;
 		} else {
 			return false;
 		}

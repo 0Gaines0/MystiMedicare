@@ -1,6 +1,8 @@
 package application.view.operations;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import application.Main;
 import application.model.objects.LabTest;
@@ -26,9 +28,6 @@ public class FinalDiagnosisAnchorPane {
 
 	@FXML
 	private TextArea finalResultTextArea;
-
-	@FXML
-	private CheckBox isAbnormalCheckBox;
 
 	@FXML
 	private Button submitResultBtn;
@@ -64,7 +63,11 @@ public class FinalDiagnosisAnchorPane {
 			if (this.testBeingDone.getSelectionModel().getSelectedItem() != null) {
 				if (this.viewModel.insertFinalResultWithTest()) {
 					this.testBeingDone.getItems().remove(this.testBeingDone.getSelectionModel().getSelectedItem());
-					this.popUpConformation("Test results added!");
+					LocalDateTime now = LocalDateTime.now();
+			        
+			        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			        String formattedDateTime = now.format(formatter);
+					this.popUpConformation("Time Submmitted: " + formattedDateTime + System.lineSeparator() + "Test results added!");
 				} else {
 					this.popUpError("Test results not added, please try again");
 				}
@@ -121,8 +124,6 @@ public class FinalDiagnosisAnchorPane {
 				: "fx:id=\"testBeingDone\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
 		assert this.finalResultTextArea != null
 				: "fx:id=\"finalResultTextArea\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
-		assert this.isAbnormalCheckBox != null
-				: "fx:id=\"isAbnormalCheckBox\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
 		assert this.submitResultBtn != null
 				: "fx:id=\"submitResultBtn\" was not injected: check your FXML file 'FinalDiagnosisAnchorPane.fxml'.";
 
@@ -132,7 +133,6 @@ public class FinalDiagnosisAnchorPane {
 		this.finalDiagnosisTextArea.textProperty().bindBidirectional(this.viewModel.getFinalDiagnosisTextProperty());
 		this.viewModel.getTestBeingListProperty().bindBidirectional(this.testBeingDone.itemsProperty());
 		this.viewModel.getSelectedTestProperty().bind(this.testBeingDone.getSelectionModel().selectedItemProperty());
-		this.isAbnormalCheckBox.selectedProperty().bindBidirectional(this.viewModel.getIsAbnormalProperty());
 		this.finalResultTextArea.textProperty().bindBidirectional(this.viewModel.getFinalResultTextProperty());
 	}
 

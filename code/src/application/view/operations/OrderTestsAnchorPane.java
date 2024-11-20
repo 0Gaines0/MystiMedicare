@@ -2,11 +2,13 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import application.DAL.LabTestDAL;
 import application.model.objects.LabTest;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -44,12 +46,14 @@ public class OrderTestsAnchorPane {
     @FXML
     private ListView<LabTest> testsBeingOrderedListView;
     
-    private static LabTest currentLab;
+    private static ArrayList<LabTest> currentLab;
     
     @FXML
     private Button finishAppointment;
     
     private FinalDiagnosisAnchorPane finalDiagnosisAnchorPane;
+    private LabTestDAL labTestDAL;
+    private static int currentTestIdx;
     
     @FXML
     void initialize() {
@@ -68,6 +72,9 @@ public class OrderTestsAnchorPane {
      */
     public OrderTestsAnchorPane() {
     	this.finalDiagnosisAnchorPane = new FinalDiagnosisAnchorPane();
+    	this.labTestDAL = new LabTestDAL();
+    	currentLab = new ArrayList<LabTest>();
+    	currentTestIdx = 0;
     }
     
     /**
@@ -75,15 +82,33 @@ public class OrderTestsAnchorPane {
      *
      * @return the current lab test
      */
-    public static LabTest getCurrentLabTest() {
+    public static ArrayList<LabTest> getCurrentLabTest() {
     	return currentLab;
+    }
+    
+    /**
+     * Gets the current idx.
+     *
+     * @return the current idx
+     */
+    public static int getCurrentIdx() {
+    	return currentTestIdx;
+    }
+    
+    /**
+     * Sets the current idx.
+     *
+     * @param idx the idx
+     */
+    public static void setCurrentIdx(int idx) {
+    	currentTestIdx = idx;
     }
     
     private void setUpBeginTest() {
     	this.beginTestsBtn.setOnAction(((event)-> {
     		if (this.testsBeingOrderedListView.getItems() != null && !this.testsBeingOrderedListView.getItems().isEmpty()) {
     			for (var test : this.testsBeingOrderedListView.getItems()) {
-    				currentLab = test;
+    				currentLab.add(test);
     				var testModal = new LabTestModal();
     				testModal.openAnchorPane(Main.LAB_TEST_MODAL);
     			}
@@ -160,13 +185,13 @@ public class OrderTestsAnchorPane {
     }
     
     private void addTestsToOrderListView() {
-    	List<LabTest> tests = new ArrayList<LabTest>();
+		try {
+			List<LabTest> tests = this.labTestDAL.getAllLabTests();
+			this.testToOrderListView.getItems().addAll(FXCollections.observableArrayList(tests));
 
-        tests.add(new LabTest("White Blood Cell (WBC)", 0.0, 0.0));
-        tests.add(new LabTest("Low Density Lipoproteins (LDL)", 0.0, 0.0));
-        tests.add(new LabTest("Hepatitis A", 0.0, 0.0));
-        tests.add(new LabTest("Hepatitis B", 0.0, 0.0));
-        this.testToOrderListView.getItems().addAll(FXCollections.observableArrayList(tests));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
 
 	private void validateFXMLComponents() {

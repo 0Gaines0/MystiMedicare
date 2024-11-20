@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.FinalDiagnosisAnchorPane">
+<AnchorPane fx:id="baseAnchorPane" prefHeight="600.0" prefWidth="820.0" style="-fx-background-color: #3B5249;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.operations.FinalDiagnosisAnchorPane">
    <children>
       <Label layoutX="34.0" layoutY="33.0" prefHeight="60.0" prefWidth="273.0" style="-fx-text-fill: #000000;" text="Finalize Visit">
          <font>
@@ -33,13 +32,7 @@
             <Font name="Modern No. 20" size="17.0" />
          </font>
       </Label>
-      <Button fx:id="submitResultBtn" layoutX="702.0" layoutY="385.0" mnemonicParsing="false" text="Submit Result" />
-      <Label layoutX="607.0" layoutY="315.0" prefHeight="34.0" prefWidth="128.0" style="-fx-text-fill: #000000;" text="Is Test Abnormal:" textFill="#c99da3">
-         <font>
-            <Font name="Modern No. 20" size="17.0" />
-         </font>
-      </Label>
-      <CheckBox fx:id="isAbnormalCheckBox" layoutX="738.0" layoutY="324.0" mnemonicParsing="false" />
+      <Button fx:id="submitResultBtn" layoutX="700.0" layoutY="337.0" mnemonicParsing="false" text="Submit Result" />
       <Button fx:id="submitFinalDiagnosis" layoutX="262.0" layoutY="337.0" mnemonicParsing="false" text="Submit Final" />
       <Button fx:id="finishAppointmentBtn" layoutX="643.0" layoutY="501.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="128.0" text="Finish Appointment" />
    </children>
