@@ -250,13 +250,9 @@ public class EditAppointmentAnchorPane {
 	private void bindToViewModel() {
 		this.doctorComboBox.valueProperty().bindBidirectional(this.viewmodel.getDoctorListProperty());
 		this.patientComboBox.valueProperty().bindBidirectional(this.viewmodel.getPatientListProperty());
-
 		this.appointmentDatePicker.valueProperty().bindBidirectional(this.viewmodel.getAppointmentDate());
-
 		this.timePickerComboBox.valueProperty().bindBidirectional(this.viewmodel.getSelectedTime());
-
 		this.reasonTextArea.textProperty().bindBidirectional(this.viewmodel.getReasonForAppointment());
-
 		this.patientStatusComboBox.valueProperty().bindBidirectional(this.viewmodel.getPatientStatus());
 		this.patientAppointments.valueProperty().bindBidirectional(this.viewmodel.getSelectedAppointmentProperty());
 	}

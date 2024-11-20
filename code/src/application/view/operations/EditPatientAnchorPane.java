@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.util.StringConverter;
 
 public class EditPatientAnchorPane {
 
@@ -71,6 +73,9 @@ public class EditPatientAnchorPane {
 
 	@FXML
 	private TextField zipCodeTextField;
+	
+	@FXML
+	private CheckBox isActiveCheck;
 
 	private EditPatientAnchorPaneViewModel editPatientViewModel;
 	@FXML
@@ -224,10 +229,12 @@ public class EditPatientAnchorPane {
 	    this.editPatientViewModel.getPatientZipCodeTextProperty().set(selectedPatient.getAddress().getZipCode());
 	    this.editPatientViewModel.getSelectedGenderProperty().set(selectedPatient.getGender());
 	    this.editPatientViewModel.getSelectedStateProperty().set(selectedPatient.getAddress().getState());
+	    this.editPatientViewModel.getPatientIsActiveProperty().set("active".equalsIgnoreCase(selectedPatient.getStatus()));
 	}
 
 	private void bindToViewModel() {
-		this.cityTextField.textProperty().bindBidirectional(this.editPatientViewModel.getCityTextProperty());
+		this.cityTextField.textProperty()
+				.bindBidirectional(this.editPatientViewModel.getCityTextProperty());
 		this.patientFirstNameTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientFirstNameTextProperty());
 		this.patientLastNameTextField.textProperty()
@@ -238,9 +245,14 @@ public class EditPatientAnchorPane {
 				.bindBidirectional(this.editPatientViewModel.getPatientStreetTextProperty());
 		this.zipCodeTextField.textProperty()
 				.bindBidirectional(this.editPatientViewModel.getPatientZipCodeTextProperty());
-		this.editPatientViewModel.getPatientDateOfBirthTextProperty().bindBidirectional(this.patientDateOfBirthPicker.valueProperty());
-		this.genderComboBox.valueProperty().bindBidirectional(this.editPatientViewModel.getSelectedGenderProperty());
-		this.stateComboBox.valueProperty().bindBidirectional(this.editPatientViewModel.getSelectedStateProperty());
+		this.editPatientViewModel.getPatientDateOfBirthTextProperty()
+				.bindBidirectional(this.patientDateOfBirthPicker.valueProperty());
+		this.genderComboBox.valueProperty()
+				.bindBidirectional(this.editPatientViewModel.getSelectedGenderProperty());
+		this.stateComboBox.valueProperty()
+				.bindBidirectional(this.editPatientViewModel.getSelectedStateProperty());
+		this.isActiveCheck.selectedProperty()
+				.bindBidirectional(this.editPatientViewModel.getPatientIsActiveProperty());
 	}
 
 	/**
@@ -268,6 +280,8 @@ public class EditPatientAnchorPane {
         		: "fx:id=\"editPatientAnchorPane\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";
         assert this.cityTextField != null
 				: "fx:id=\"cityTextField\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";
+        assert this.isActiveCheck != null 
+        		: "fx:id=\"isActiveCheck\" was not injected: check your FXML file 'RegisterPatientAnchorPane.fxml'.";
 		assert this.editBtn != null
 				: "fx:id=\"editBtn\" was not injected: check your FXML file 'EditPatientAnchorPane.fxml'.";
 		assert this.genderComboBox != null

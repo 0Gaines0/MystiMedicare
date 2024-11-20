@@ -26,6 +26,7 @@ public class RegisterPatientAnchorPaneViewModel {
 	private StringProperty patientMoblieNumberTextProperty;
 	private StringProperty patientStreetTextProperty;
 	private StringProperty patientZipCodeTextProperty;
+	private StringProperty patientIsActiveTextProperty;
 	private PatientDAL patientDAL;
 	private AddressDAL addressDAL;
 
@@ -45,6 +46,7 @@ public class RegisterPatientAnchorPaneViewModel {
 		this.patientMoblieNumberTextProperty = new SimpleStringProperty();
 		this.patientStreetTextProperty = new SimpleStringProperty();
 		this.patientZipCodeTextProperty = new SimpleStringProperty();
+		this.patientIsActiveTextProperty = new SimpleStringProperty();
 		this.patientDAL = new PatientDAL();
 		this.addressDAL = new AddressDAL();
 	}
@@ -202,6 +204,15 @@ public class RegisterPatientAnchorPaneViewModel {
 	 */
 	public StringProperty getPatientZipCodeTextProperty() {
 		return this.patientZipCodeTextProperty;
+	}
+	
+	/**
+	 * gets patientisactive property
+	 * 
+	 * @return is active
+	 */
+	public StringProperty getPatientIsActiveProperty() {
+		return this.patientIsActiveTextProperty;
 	}
 
 }
