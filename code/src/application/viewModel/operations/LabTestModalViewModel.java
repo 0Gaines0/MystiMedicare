@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import application.DAL.LabTestDAL;
 import application.model.objects.LabTest;
+import application.view.operations.OrderTestsAnchorPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -40,15 +41,9 @@ public class LabTestModalViewModel {
 	 * @return the lab test
 	 */
 	public LabTest submitTestData() {
-		LabTest test = null;
-		try {
-			var name = this.getTestName();
-			var lowValue = Double.parseDouble(this.getLowValueProperty().getValue());
-			var highValue = Double.parseDouble(this.getHighValueProperty().getValue());
-			test = this.labTestDAL.addLabTest(name, "mIU/L", lowValue, highValue);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		LabTest test = OrderTestsAnchorPane.getCurrentLabTest();
+		this.labTestDAL.addLabTest(test.getLabCode());
+
 		return test;
 	}
 

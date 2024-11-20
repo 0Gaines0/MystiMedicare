@@ -2,11 +2,13 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import application.DAL.LabTestDAL;
 import application.model.objects.LabTest;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -50,6 +52,7 @@ public class OrderTestsAnchorPane {
     private Button finishAppointment;
     
     private FinalDiagnosisAnchorPane finalDiagnosisAnchorPane;
+    private LabTestDAL labTestDAL;
     
     @FXML
     void initialize() {
@@ -68,6 +71,7 @@ public class OrderTestsAnchorPane {
      */
     public OrderTestsAnchorPane() {
     	this.finalDiagnosisAnchorPane = new FinalDiagnosisAnchorPane();
+    	this.labTestDAL = new LabTestDAL();
     }
     
     /**
@@ -160,13 +164,13 @@ public class OrderTestsAnchorPane {
     }
     
     private void addTestsToOrderListView() {
-    	List<LabTest> tests = new ArrayList<LabTest>();
+		try {
+			List<LabTest> tests = this.labTestDAL.getAllLabTests();
+			this.testToOrderListView.getItems().addAll(FXCollections.observableArrayList(tests));
 
-        tests.add(new LabTest("White Blood Cell (WBC)", 0.0, 0.0));
-        tests.add(new LabTest("Low Density Lipoproteins (LDL)", 0.0, 0.0));
-        tests.add(new LabTest("Hepatitis A", 0.0, 0.0));
-        tests.add(new LabTest("Hepatitis B", 0.0, 0.0));
-        this.testToOrderListView.getItems().addAll(FXCollections.observableArrayList(tests));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
 
 	private void validateFXMLComponents() {
