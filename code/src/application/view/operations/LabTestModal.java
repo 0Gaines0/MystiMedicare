@@ -5,6 +5,8 @@ package application.view.operations;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -79,7 +81,7 @@ public class LabTestModal {
 			var test = OrderTestsAnchorPane.getCurrentLabTest()
 					.remove(OrderTestsAnchorPane.getCurrentLabTest().size() - 1);
 			this.viewModel.submitTestData(test);
-			this.popUpConformation("Test Submitted");
+			this.popUpConformation("Test Ordered");
 			var stage = (Stage) this.submitTestBtn.getScene().getWindow();
 			stage.close();
 
