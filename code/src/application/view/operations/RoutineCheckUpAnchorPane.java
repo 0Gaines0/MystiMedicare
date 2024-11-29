@@ -145,16 +145,7 @@ public class RoutineCheckUpAnchorPane {
     
     private String validateAllFields() {
         var result = "";
-        if (this.systolicPressureTextField.getText() == null || this.systolicPressureTextField.getText().isBlank()) {
-            result += "Systolic pressure must be inputted and valid." + System.lineSeparator();
-        } else if (!this.isInteger(this.systolicPressureTextField.getText())) {
-            result += "Systolic pressure must be an integer." + System.lineSeparator();
-        }
-        if (this.diastolicBloodPressureTextField.getText() == null || this.diastolicBloodPressureTextField.getText().isBlank()) {
-            result += "Diastolic pressure must be inputted and valid." + System.lineSeparator();
-        } else if (!this.isInteger(this.diastolicBloodPressureTextField.getText())) {
-            result += "Diastolic pressure must be an integer." + System.lineSeparator();
-        }
+        result = this.validatePressures(result);
         if (this.pulseTextField.getText() == null || this.pulseTextField.getText().isBlank()) {
             result += "Pulse must be inputted and valid." + System.lineSeparator();
         } else if (!this.isInteger(this.pulseTextField.getText())) {
@@ -185,6 +176,20 @@ public class RoutineCheckUpAnchorPane {
         }
         return result;
     }
+
+	private String validatePressures(String result) {
+		if (this.systolicPressureTextField.getText() == null || this.systolicPressureTextField.getText().isBlank()) {
+            result += "Systolic pressure must be inputted and valid." + System.lineSeparator();
+        } else if (!this.isInteger(this.systolicPressureTextField.getText())) {
+            result += "Systolic pressure must be an integer." + System.lineSeparator();
+        }
+        if (this.diastolicBloodPressureTextField.getText() == null || this.diastolicBloodPressureTextField.getText().isBlank()) {
+            result += "Diastolic pressure must be inputted and valid." + System.lineSeparator();
+        } else if (!this.isInteger(this.diastolicBloodPressureTextField.getText())) {
+            result += "Diastolic pressure must be an integer." + System.lineSeparator();
+        }
+		return result;
+	}
     
 	private void setUpPatientComboBox(Patient patient) {
 		this.patientComboBox.getItems().clear();

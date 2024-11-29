@@ -2,7 +2,6 @@ package application.viewModel.operations;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import application.DAL.AppointmentDAL;
 import application.model.credentials.Appointment;
@@ -12,8 +11,6 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 /**
  * The Class AllAppointmentsViewModel.

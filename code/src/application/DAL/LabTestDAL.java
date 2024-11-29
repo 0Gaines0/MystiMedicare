@@ -18,6 +18,8 @@ import application.viewModel.operations.RoutineCheckUpAnchorPaneViewModel;
  * @author Jeffrey Gaines
  */
 public class LabTestDAL {
+	
+	private static final String QUERY_FOR_LAB_TEST = "SELECT * FROM cs3230f24b.lab_test WHERE labe_code = ?";
 
 	/**
 	 * Instantiates a new lab test DAL.
@@ -67,7 +69,7 @@ public class LabTestDAL {
 	 * @throws SQLException the SQL exception
 	 */
 	public LabTest selectLabTestFromLabCode(String labCode) throws SQLException {
-		String query = "SELECT * FROM cs3230f24b.lab_test WHERE labe_code = ?";
+		String query = QUERY_FOR_LAB_TEST;
 		LabTest test = null;
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -228,7 +230,7 @@ public class LabTestDAL {
 	 */
 	public LabTest getLabTestFromLabCode(String labCode) throws SQLException {
 		LabTest test = null;
-		String query = "SELECT * FROM cs3230f24b.lab_test WHERE labe_code = ?";
+		String query = QUERY_FOR_LAB_TEST;
 		try (Connection conn = DriverManager.getConnection(ConnectionString.CONNECTION_STRING);
 				PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, labCode);

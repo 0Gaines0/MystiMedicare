@@ -264,6 +264,7 @@ public class PatientDAL {
 	 * @param gender the gender
 	 * @param newAddressId the new address id
 	 * @param phone the phone
+	 * @param status the status
 	 * @throws SQLException the SQL exception
 	 */
 	public void updatePatient(String patientId, String lastName, String firstName, String dob, String gender, String newAddressId, String phone, String status) throws SQLException {
