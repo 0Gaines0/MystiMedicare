@@ -96,7 +96,11 @@ public class AdminQueryAnchorPane {
         	if (this.startDatePicker.valueProperty().getValue() == null || this.endDatePicker.valueProperty().getValue() == null) {
         		this.popUpError("Both Dates must have a valid Selection");
         	} else {
-        		this.userDAL.generateReport(this.startDatePicker.valueProperty().getValue(), this.endDatePicker.valueProperty().getValue());
+                if (ActiveUser.getActiveUser().getRole() == UserRole.ADMIN) {
+                	this.userDAL.generateReport(this.startDatePicker.valueProperty().getValue(), this.endDatePicker.valueProperty().getValue());
+                } else {
+                    this.popUpError("Must be Admin to Run Reports");
+                }
         	}
         });
     }
