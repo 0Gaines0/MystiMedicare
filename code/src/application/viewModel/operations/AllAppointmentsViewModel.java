@@ -2,6 +2,7 @@ package application.viewModel.operations;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import application.DAL.AppointmentDAL;
 import application.model.credentials.Appointment;
@@ -20,7 +21,6 @@ import javafx.beans.property.StringProperty;
  */
 public class AllAppointmentsViewModel {
 
-	private StringProperty informationProperty;
 	private ObjectProperty<Patient> currentPatient;
 	private ListProperty<Appointment> patientAppointments;
 	private AppointmentDAL appointmentDAL;
@@ -29,31 +29,11 @@ public class AllAppointmentsViewModel {
 	 * Instantiates a new all appointments view model.
 	 */
 	public AllAppointmentsViewModel() {
-		this.informationProperty = new SimpleStringProperty();
 		this.currentPatient = new SimpleObjectProperty<Patient>();
 		this.patientAppointments = new SimpleListProperty<Appointment>();
 		this.appointmentDAL = new AppointmentDAL();
 	}
-	
-	/**
-	 * gets visit info
-	 * 
-	 * @param visitId
-	 */
-	public void getVisitInformation(String visitId) {
-		String information;
-		try {
-			information = this.appointmentDAL.getAppointmentInformation(visitId);
-			if (information.length() == 0) {
-			    this.informationProperty.setValue("The appointment hasn't been completed");
-			} else {
-			    this.informationProperty.setValue(information.toString());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	/**
 	 * Pull all patients current appointments.
 	 */
@@ -84,14 +64,5 @@ public class AllAppointmentsViewModel {
 	 */
 	public ListProperty<Appointment> getPatientAppointments() {
 		return this.patientAppointments;
-	}
-
-	/**
-	 * gets the information property
-	 * 
-	 * @return the information property
-	 */
-	public StringProperty getInformationProperty() {
-		return this.informationProperty;
 	}
 }

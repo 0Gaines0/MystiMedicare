@@ -1,10 +1,7 @@
 package application.viewModel.operations;
 
-import java.sql.SQLException;
-
 import application.DAL.LabTestDAL;
 import application.model.objects.LabTest;
-import application.view.operations.OrderTestsAnchorPane;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

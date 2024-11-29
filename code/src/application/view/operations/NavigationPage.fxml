@@ -160,6 +160,24 @@
                         <String fx:value="select-border" />
                      </styleClass>
                   </HBox>
+                  <HBox fx:id="adminHBox" alignment="CENTER" prefHeight="48.0" prefWidth="208.0" stylesheets="@assets/styles.css">
+                     <children>
+                        <ImageView fitHeight="54.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../assets/icons8-search-50.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="33.0" prefWidth="106.0" style="-fx-text-fill: #c99da3;" text="Query Page" textFill="#c99da3">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="selected" />
+                        <String fx:value="select-border" />
+                     </styleClass>
+                  </HBox>
                   <HBox fx:id="logoutHBox" alignment="CENTER" prefHeight="48.0" prefWidth="208.0" stylesheets="@assets/styles.css">
                      <children>
                         <Label prefHeight="33.0" prefWidth="54.0" style="-fx-text-fill: #c99da3;" text="Logout" textFill="#c99da3">
