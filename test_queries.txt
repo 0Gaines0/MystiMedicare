@@ -1,41 +1,43 @@
 SELECT 
     p.id AS patient_id, 
     CONCAT(p.first_name, ' ', p.last_name) AS patient_name, 
-    v.visit_date, 
-    v.blood_pressure, 
+    v.date AS visit_date, 
+    v.diastolic_bp, 
     CONCAT(n.first_name, ' ', n.last_name) AS nurse_name, 
     n.id AS nurse_id, 
     CONCAT(d.first_name, ' ', d.last_name) AS doctor_name, 
     d.id AS doctor_id, 
-    t.test_name, 
+    t.name AS test_name, 
     tr.result AS test_result, 
-    diag.diagnosis
+    diag.final_diagnosis
 FROM 
     Patient p
-    JOIN Visit v ON p.id = v.patient_id
-    LEFT JOIN Nurse n ON v.nurse_id = n.id
-    LEFT JOIN Doctor d ON v.doctor_id = d.id
-    LEFT JOIN Test t ON v.id = t.visit_id
-    LEFT JOIN TestResult tr ON t.id = tr.test_id
-    LEFT JOIN Diagnosis diag ON v.id = diag.visit_id
+    JOIN visit v ON p.id = v.patient_id
+    LEFT JOIN nurse n ON v.nurse_id = n.id
+    LEFT JOIN doctor d ON v.doctor_id = d.id
+    LEFT JOIN test_result tr ON v.id = tr.visit_id
+    LEFT JOIN lab_test t ON tr.lab_code = t.labe_code
+    LEFT JOIN diagnosis diag ON v.id = diag.visit_id
 WHERE 
     CONCAT(p.first_name, ' ', p.last_name) = 'John Johnson'
 ORDER BY 
-    v.visit_date;
+    v.date;
 
 
 SELECT 
     p.id AS patient_id, 
     CONCAT(p.first_name, ' ', p.last_name) AS patient_name, 
-    DATE(t.test_date) AS test_date, 
-    COUNT(t.id) AS total_tests
+    DATE(tr.date_performed) AS test_date, 
+    COUNT(tr.id) AS total_tests
 FROM 
     Patient p
-    JOIN Visit v ON p.id = v.patient_id
-    JOIN Test t ON v.id = t.visit_id
+    JOIN visit v ON p.id = v.patient_id
+    JOIN test_result tr ON v.id = tr.visit_id
+    JOIN lab_test t ON tr.lab_code = t.labe_code
 GROUP BY 
-    p.id, DATE(t.test_date)
+    p.id, DATE(tr.date_performed)
 HAVING 
-    COUNT(t.id) >= 2
+    COUNT(tr.id) >= 2
 ORDER BY 
     p.id, test_date;
+
