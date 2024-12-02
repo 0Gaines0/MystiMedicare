@@ -1,0 +1,41 @@
+SELECT 
+    p.id AS patient_id, 
+    CONCAT(p.first_name, ' ', p.last_name) AS patient_name, 
+    v.visit_date, 
+    v.blood_pressure, 
+    CONCAT(n.first_name, ' ', n.last_name) AS nurse_name, 
+    n.id AS nurse_id, 
+    CONCAT(d.first_name, ' ', d.last_name) AS doctor_name, 
+    d.id AS doctor_id, 
+    t.test_name, 
+    tr.result AS test_result, 
+    diag.diagnosis
+FROM 
+    Patient p
+    JOIN Visit v ON p.id = v.patient_id
+    LEFT JOIN Nurse n ON v.nurse_id = n.id
+    LEFT JOIN Doctor d ON v.doctor_id = d.id
+    LEFT JOIN Test t ON v.id = t.visit_id
+    LEFT JOIN TestResult tr ON t.id = tr.test_id
+    LEFT JOIN Diagnosis diag ON v.id = diag.visit_id
+WHERE 
+    CONCAT(p.first_name, ' ', p.last_name) = 'John Johnson'
+ORDER BY 
+    v.visit_date;
+
+
+SELECT 
+    p.id AS patient_id, 
+    CONCAT(p.first_name, ' ', p.last_name) AS patient_name, 
+    DATE(t.test_date) AS test_date, 
+    COUNT(t.id) AS total_tests
+FROM 
+    Patient p
+    JOIN Visit v ON p.id = v.patient_id
+    JOIN Test t ON v.id = t.visit_id
+GROUP BY 
+    p.id, DATE(t.test_date)
+HAVING 
+    COUNT(t.id) >= 2
+ORDER BY 
+    p.id, test_date;
